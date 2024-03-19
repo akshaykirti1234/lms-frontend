@@ -1,0 +1,161 @@
+<div class="wrapper overflow-x-auto">
+    <!-- Sidebar  -->
+    <nav id="sidebar">
+        <div class="sidebar-header text-center">
+            <span class="fs-5 d-none d-sm-inline"><img src="/assets/images/CSMLOGO.jpg" style="object-fit: cover"
+                    height="70px" class="card-img-top rounded rounded-pill" /></span>
+        </div>
+
+        <ul class="list-unstyled components" id="menu">
+            <li class="">
+                <a href="#submenu1" data-bs-toggle="collapse"
+                    class="nav-link dropdown align-middle dropdown-toggle sidebar-navlink">
+                    <span class="d-none d-sm-inline">Manage Module</span>
+                </a>
+                <ul class="collapse" id="submenu1" data-bs-parent="#menu">
+                    <li class="w-100">
+                        <a routerLink="module/addModule" class="nav-link">
+                            <span class="d-none d-sm-inline">Add Module</span></a>
+                    </li>
+                    <li>
+                        <a routerLink="module/viewModule" class="nav-link">
+                            <span class="d-none d-sm-inline">View Module</span></a>
+                    </li>
+                </ul>
+                <a href="#submenu2" data-bs-toggle="collapse"
+                    class="nav-link dropdown align-middle dropdown-toggle sidebar-navlink">
+                    <span class="ms-1 d-none d-sm-inline">Manage SubModule</span>
+                </a>
+                <ul class="collapse" id="submenu2" data-bs-parent="#menu">
+                    <li class="w-100">
+                        <a routerLink="subModule/addSubModule" class="nav-link">
+                            <span class="d-none d-sm-inline">Add SubModule</span></a>
+                    </li>
+                    <li>
+                        <a routerLink="subModule/viewSubModule" class="nav-link">
+                            <span class="d-none d-sm-inline">View SubModule</span></a>
+                    </li>
+                </ul>
+
+                <a href="#submenu3" data-bs-toggle="collapse"
+                    class="nav-link dropdown align-middle dropdown-toggle sidebar-navlink">
+                    <span class="ms-1 d-none d-sm-inline">Manage Technology</span>
+                </a>
+                <ul class="collapse" id="submenu3" data-bs-parent="#menu">
+                    <li>
+                        <a routerLink="technology/addTechnology" class="nav-link">
+                            <span class="d-none d-sm-inline">Add Technology</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a routerLink="technology/viewTechnology" class="nav-link">
+                            <span class="d-none d-sm-inline">View Technology</span>
+                        </a>
+                    </li>
+                </ul>
+                <a href="#submenu4" data-bs-toggle="collapse"
+                    class="nav-link dropdown align-middle dropdown-toggle sidebar-navlink">
+                    <span class="ms-1 d-none d-sm-inline">Manage Author</span>
+                </a>
+                <ul class="collapse" id="submenu4" data-bs-parent="#menu">
+                    <li>
+                        <a routerLink="author/addAuthor" class="nav-link">
+                            <span class="d-none d-sm-inline">Add Author</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a routerLink="author/viewAuthor" class="nav-link">
+                            <span class="d-none d-sm-inline">View Author</span>
+                        </a>
+                    </li>
+                </ul>
+                <a href="#submenu5" data-bs-toggle="collapse"
+                    class="nav-link dropdown align-middle dropdown-toggle sidebar-navlink">
+                    <span class="ms-1 d-none d-sm-inline">Schedule For</span>
+                </a>
+                <ul class="collapse" id="submenu5" data-bs-parent="#menu">
+                    <li>
+                        <a routerLink="schedule/addSchedule" class="nav-link">
+                            <span class="d-none d-sm-inline">Add Schedule</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a routerLink="schedule/viewSchedule" class="nav-link">
+                            <span class="d-none d-sm-inline">View Schedule</span>
+                        </a>
+                    </li>
+                </ul>
+                <a href="#submenu6" data-bs-toggle="collapse"
+                    class="nav-link dropdown align-middle dropdown-toggle sidebar-navlink">
+                    <span class="ms-1 d-none d-sm-inline">Manage Session</span>
+                </a>
+                <ul class="collapse" id="submenu6" data-bs-parent="#menu">
+                    <li>
+                        <a routerLink="session/addSession" class="nav-link">
+                            <span class="d-none d-sm-inline">Add Session</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a routerLink="session/viewSession" class="nav-link">
+                            <span class="d-none d-sm-inline">View Session</span>
+                        </a>
+                    </li>
+                </ul>
+                <a href="#submenu7" data-bs-toggle="collapse"
+                    class="nav-link dropdown align-middle dropdown-toggle sidebar-navlink">
+                    <span class="ms-1 d-none d-sm-inline">Manage Assessment</span>
+                </a>
+                <ul class="collapse" id="submenu7" data-bs-parent="#menu">
+                    <li>
+                        <a routerLink="assessment/addAssessment" class="nav-link">
+                            <span class="d-none d-sm-inline">Add Assessment</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a routerLink="assessment/viewAssessment" class="nav-link">
+                            <span class="d-none d-sm-inline">View Assessment</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Page Content  -->
+    <div id="content">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link  gap-5">
+                                <span class="h4 font-weight-bold" style="color: #108fbb">Learning Management
+                                    System</span>
+
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav ms-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link">
+                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkxPRMT2ZiDmW3aKQyLV_x-qYAwsNYY1XG2W0m5YE-2Q&s"
+                                    width="30" height="30" class="rounded-circle" />
+                                <span class="d-none d-sm-inline mx-1">
+                                    {{ userName }}
+                                </span>
+                            </a>
+                        </li>
+                        <li class="nav-item active">
+                            <button class="nav-link" (click)="logout()">
+                                <i class="fa-solid fa-right-from-bracket"></i>
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div>
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>

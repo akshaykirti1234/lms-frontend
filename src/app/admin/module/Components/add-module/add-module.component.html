@@ -1,0 +1,70 @@
+<div class="container mt-5">
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white text-center">
+            <h3 class="mb-0">Add Module</h3>
+        </div>
+        <div class="card-body">
+            <form (ngSubmit)="submit()" [formGroup]="moduleMasterForm">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="moduleName">Module Name</label>
+                                <span class="text-danger">*</span>
+                                <input type="text" class="form-control" id="moduleName" formControlName="moduleName">
+                                <div *ngIf="moduleMasterForm.get('moduleName').invalid && moduleMasterForm.get('moduleName').touched">
+                                <div class="text-danger" *ngIf="moduleMasterForm.get('moduleName').errors.required">
+                                    Module name is required
+                                </div>
+                                <div class="text-danger" *ngIf="moduleMasterForm.get('moduleName').errors.pattern">
+                                    Module name should contain only letters
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                     
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="moduleLogo">Module Logo</label>
+                                <span class="text-danger">*</span>
+                                <input type="file" id="logo" class="form-control-file" (change)="onFileSelected($event)" >
+                                <a target="_blank" href="{{viewModuleLogoUrl}}/{{moduleMasterForm.value.logo}}" class="btn btn-md btn-success"> <i
+                                        class="fa fa-download" aria-hidden="true"></i></a>
+                                <div class="text-danger" *ngIf="moduleMasterForm.get('logo').invalid && moduleMasterForm.get('logo').touched">
+                                     Module logo is required 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                    <div class="col-md-4 mt-5">
+                        <div class="form-group">
+                            <label for="moduleDescription">Module Description</label>
+                            <span class="text-danger">*</span>
+                            <textarea class="form-control" id="moduleDescription" formControlName="moduleDescription"></textarea>
+                                <div  class="text-danger" *ngIf="moduleMasterForm.get('moduleDescription').invalid && moduleMasterForm.get('moduleDescription').touched">
+                                 Module description is required
+                                </div>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="row mt-5">
+                        <div class="col-md-4">
+                            <!-- You can add more fields or customize layout as needed -->
+                        </div>
+                    </div>
+                    <div *ngIf="moduleId === 0"class="text-center mt-5">
+                        <button class="btn btn-primary mt-2" type="submit">Submit</button>&nbsp;
+                        <button class="btn btn-danger mt-2" type="Reset">Reset</button>
+                    </div>
+                    <div *ngIf="moduleId > 0" class="text-center mt-5">
+                        <button class="btn btn-success mt-2" type="submit">Update</button>&nbsp;
+                        <button class="btn btn-danger mt-2" type="button" (click)="cancel()">Cancel</button>
+                    </div>
+                </div>
+                
+            </form>
+           
+        </div>
+    </div>
+</div>

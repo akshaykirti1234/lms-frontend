@@ -1,0 +1,87 @@
+<div class="container mb-2">
+    <div class="card">
+        <div class="card-header text-center text-bg-primary">
+            <h3>Schedule Details</h3>
+        </div>
+        <div class="">
+            <div class="d-flex m-1 justify-content-end">
+                <input [(ngModel)]="searchFilter" type="text" class="form-control w-25 " placeholder="Search">
+            </div>
+            <div class="table-responsive p-1">
+                <table class="table table-striped table-bordered rounded">
+                    <thead class="table-primary align-middle">
+                        <tr>
+                            <th>Sl#</th>
+                            <th>Name</th>
+                            <th>Sub Module</th>
+                            <th>Author</th>
+                            <th>Technology</th>
+                            <th>No of Sessions</th>
+                            <th>No of Hours</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- <tr *ngFor="let schdule of scheduleList | scheduleFilter:searchFilter; let i = index"> -->
+                        <tr *ngFor="let schdule of scheduleList| scheduleFilter:searchFilter | paginate  :{
+                                itemsPerPage : tableSize,
+                                currentPage : page ,
+                                totalItems: count
+                                }; let i = index;">
+                            <td>{{ i + 1 }}</td>
+                            <td>{{schdule.scheduleForName}}</td>
+                            <td>{{schdule.subModule?.submoduleName}}</td>
+                            <td>{{schdule.author?.authName}}</td>
+                            <td>{{schdule.technology?.techName}}</td>
+                            <td>{{schdule.noOfSession}}</td>
+                            <td>{{schdule.noOfHours}}</td>
+                            <td>
+                                <div class="d-flex gap-4">
+                                    <!-- <button (click)="editSchedule(schdule.scheduleForId)" type="button"
+                                        class="btn btn-secondary">Edit</button>
+                                    <button (click)="deleteSchedule(schdule.scheduleForId)" type="button"
+                                        class="btn btn-danger">Delete</button> -->
+                                    <i (click)="editSchedule(schdule.scheduleForId)"
+                                        class="fa-solid fa-pen-to-square text-primary" style="cursor: pointer;"></i>
+                                    <i (click)="deleteSchedule(schdule.scheduleForId)"
+                                        class="fa-solid fa-trash text-danger" style="cursor: pointer;"></i>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- <ngx-datatable class="material" [rows]="scheduleList" [columnMode]="'force'" [headerHeight]="50"
+                [footerHeight]="50" [rowHeight]="'auto'" [limit]="5" [scrollbarH]="true">
+                <ngx-datatable-column name="Sl#" [width]="30">
+                    <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                        {{ rowIndex + 1 }}
+                    </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column name="Name" prop="scheduleForName"></ngx-datatable-column>
+                <ngx-datatable-column name="Sub Module" prop="subModule.submoduleName"></ngx-datatable-column>
+                <ngx-datatable-column name="Author" prop="author.authName"></ngx-datatable-column>
+                <ngx-datatable-column [width]="80" name="Technology" prop="technology.techName"></ngx-datatable-column>
+                <ngx-datatable-column [width]="80" name="No of Sessions" prop="noOfSession"></ngx-datatable-column>
+                <ngx-datatable-column [width]="80" name="No of Hours" prop="noOfHours"></ngx-datatable-column>
+
+                <ngx-datatable-column name="Action" [width]="120">
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                        <div class="d-flex gap-4">
+                            <i (click)="editSchedule(row.scheduleForId)"
+                                class="fa-solid fa-pen-to-square text-primary"></i>
+                            <i (click)="deleteSchedule(row.scheduleForId)" class="fa-solid fa-trash text-danger"></i>
+                            
+                        </div>
+                    </ng-template>
+                </ngx-datatable-column>
+            </ngx-datatable> -->
+        </div>
+        <div class="d-flex justify-content-end" id="pagination" *ngIf="scheduleList">
+            <pagination-controls previousLabel="Prev" nextLabel="Next"
+                (pageChange)="getTableDataChange($event)"></pagination-controls>
+        </div>
+    </div>
+</div>

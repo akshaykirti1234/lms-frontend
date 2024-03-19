@@ -1,0 +1,98 @@
+<div class="container mt-5">
+  <div class="card shadow">
+    <div class="card-header bg-primary text-white text-center">
+      <h3 class="mb-0">Add Session</h3>
+    </div>
+    <div class="card-body">
+      <form [formGroup]="sessionForm" enctype="multipart/form-data" (ngSubmit)="onSubmit()">
+        <div class="row m-5">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="ktType">Sub Module:</label>
+              <span class="text-danger">*</span>
+              <select id="subModuleId" formControlName="subModuleId" class="form-select" (change)="getSchList($event)">
+                <option value="">Select Sub Module</option>
+                <option *ngFor="let subModule of subModuleList" value="{{ subModule.submoduleId }}">
+                  {{ subModule.submoduleName }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="scheduleForId">Schedule For:</label>
+              <span class="text-danger">*</span>
+              <select id="scheduleForId" formControlName="scheduleForId" class="form-select"
+                (change)="checkIsLastSession($event)">
+                <option value="">Select Schedule For</option>
+                <option *ngFor="let schList of scheduleForList" value="{{ schList.SCHEDULEFORID }}">
+                  {{ schList.SCHEDULEFOR }}
+                </option>
+              </select>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" id="isLastSession" name="isLastSession"
+                [checked]="isConditionSatisfied" disabled>
+              <label for="radioButton">Is Last Session</label>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="ktName">Session Name:</label>
+              <span class="text-danger">*</span>
+              <input type="text" formControlName="sessionName" class="form-control" />
+            </div>
+          </div>
+        </div>
+
+        <div class="row m-5">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="video">Video :</label>
+              <span class="text-danger">*</span>
+              <input type="file" id="video" class="form-control" (change)="validateAndUploadFile($event)"
+                accept=".mp4" />
+              <div *ngIf="id > 0">
+                <a target="_blank" href="{{ viewFileUrl }}/{{ sessionForm.value.video }}"
+                  class="btn btn-md btn-success">
+                  <i class="bi bi-arrow-down-square-fill"></i></a>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="document">Document:</label>
+              <span class="text-danger">*</span>
+              <input type="file" id="document" class="form-control" (change)="uploadFile($event)" />
+              <div *ngIf="id > 0">
+                <a target="_blank" href="{{ viewFileUrl }}/{{ sessionForm.value.document }}"
+                  class="btn btn-md btn-success">
+                  <i class="bi bi-arrow-down-square-fill"></i></a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="ktName">Description:</label>
+              <span class="text-danger">*</span>
+              <input type="text" formControlName="description" class="form-control" />
+            </div>
+          </div>
+        </div>
+        <div *ngIf="id === 0" class="text-center mb-5">
+          <button type="submit" [disabled]="sessionForm.invalid" class="btn btn-primary">
+            Submit</button>&nbsp;
+          <button class="btn btn-danger" type="reset">Reset</button>
+        </div>
+
+        <div *ngIf="id > 0" class="text-center mb-5">
+          <button type="submit" [disabled]="sessionForm.invalid" class="btn btn-primary">
+            Update</button>&nbsp;
+          <button class="btn btn-danger" type="button" (click)="cancel()">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <!-- {{sessionForm.value | json}} -->
+</div>

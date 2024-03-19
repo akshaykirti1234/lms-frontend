@@ -1,0 +1,84 @@
+<div class="container">
+
+    <div class="card m-5 shadow">
+
+        <div class="card-header text-center text-bg-primary">
+
+            <h3>Add Author</h3>
+
+        </div>
+
+        <div class="card-body">
+
+            <form [formGroup]="authorForm" (ngSubmit)="saveForm()">
+
+                <div class="row">
+                    <input type="hidden" formControlName="authId" class="form-control">
+                    <div class="form-group col-md-4">
+                        <label>Author Name <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="authName" formControlName="authName">
+
+                        <div *ngIf="authorForm.get('authName').invalid && (authorForm.get('authName').dirty || authorForm.get('authName').touched)"
+                            class="text-danger">
+                            <div *ngIf="authorForm.get('authName').errors.required">
+                                Author name is required.
+                            </div>
+                            <div *ngIf="authorForm.get('authName').errors.pattern">
+                                Only characters are allowed in the author name.
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label>Email <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="email" formControlName="email">
+
+                        <div *ngIf="authorForm.get('email').invalid && (authorForm.get('email').dirty || authorForm.get('email').touched)"
+                            class="text-danger">
+                            <div *ngIf="authorForm.get('email').errors.required">
+                                Email is required.
+                            </div>
+                            <div *ngIf="authorForm.get('email').errors.email">
+                                Please enter a valid email address.
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label>Phone Number <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="phone" formControlName="phone">
+
+                        <div *ngIf="authorForm.get('phone').invalid && (authorForm.get('phone').dirty || authorForm.get('phone').touched)"
+                            class="text-danger">
+                            <div *ngIf="authorForm.get('phone').errors.required">
+                                Phone number is required.
+                            </div>
+                            <div *ngIf="authorForm.get('phone').errors.pattern">
+                                Phone number must be exactly 10 digits allowed and contain only digits.
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- <div class="d-flex gap-2 justify-content-center mt-2">
+                <button type="submit" class="btn btn-primary" >Submit</button>
+
+                <button type="reset" class="btn btn-danger">Reset</button>
+
+            </div> -->
+
+                <div class="d-flex gap-2 justify-content-center mt-5">
+                    <button type="submit" class="btn btn-primary"> {{ authorForm.get('authId').value ?
+                        'Update' : 'Save' }}</button>
+                    <button *ngIf="!authorForm.get('authId').value" type="reset" class="btn btn-danger">Reset</button>
+                    <button type="button" *ngIf="authorForm.get('authId').value" class="btn btn-danger"
+                        routerLink="/admin/author/viewAuthor">Cancel</button>
+                </div>
+            </form>
+
+        </div>
+
+    </div>
+
+</div>

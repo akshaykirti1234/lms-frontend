@@ -1,0 +1,131 @@
+<!-- <div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-4 col-lg-4 col-sm-4">
+            <div class="card shadow">
+                <div class="card-header">
+                    <h3 class="text-center">Login</h3>
+                </div>
+                <div class="card-body">
+                    <form [formGroup]="userForm" (ngSubmit)="onLoginSubmit()">
+                        <div class="d-flex flex-column gap-3">
+                            <div class="">
+                                <label for="username" class="form-label">Email ID</label>
+                                <input formControlName="emailId" type="text" class="form-control" id="username">
+                            </div>
+                            <div class="">
+                                <label for="password" class="form-label">Password</label>
+                                <input formControlName="password" type="password" class="form-control" id="password">
+                            </div>
+                            <div class="">
+                                <label for="captcha">Captcha</label>
+                                <div class="d-flex flex-row gap-4">
+                                    <input class="form-control" type="text" id="captcha" name="captcha"
+                                        formControlName="captchaInput">
+                                    <img [src]="captchaImageUrl" alt="CAPTCHA" class="rounded">
+                                    <span (click)="generateCaptcha()"><i class="fa-solid fa-rotate-right"></i></span>
+                                </div>
+                            </div>
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary">Login</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+
+
+
+<div class="login-page bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 offset-lg-1">
+              <h3 class="mb-3">Login Now</h3>
+                <div class="bg-white shadow rounded">
+                    <div class="row">
+                        <div class="col-md-7 pe-0">
+                            <div class="form-left h-100 py-5 px-5">
+                                <form [formGroup]="login_form" class="row g-4">
+                                        <div class="col-12">
+                                            <label>Email<span class="text-danger">*</span></label>
+                                            <div class="input-group">
+                                                <div class="input-group-text"><i class="bi bi-person-fill"></i></div>
+                                                <input formControlName="email" class="form-control" type="text"
+                      placeholder="Enter Email Id" maxlength="30" id="email">
+                      <small>
+                        <div *ngIf="login_form.get('email')?.invalid && login_form.get('email')?.touched"
+                          class="error-message">
+                          <div *ngIf="login_form.get('email')?.hasError('email')">Email Can't Blank .</div>
+                          <!-- <div *ngIf="login_form.get('email')?.hasError('pattern')">Invalid username Format
+                          </div> -->
+                        </div>
+                      </small>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12">
+                                            <label>Password<span class="text-danger">*</span></label>
+                                            <div class="input-group">
+                                                <div class="input-group-text"><i class="bi bi-lock-fill"></i></div>
+                                                <input formControlName="password" type="password" class="form-control password"
+                    placeholder="Enter Password" maxlength="24">
+                  <a class="passwordshowbtn" (click)="togglePasswordVisibility()">
+                    <img src='{{siteURL}}/assets/csm-logo/hide_password_img.png' height="40px" alt='hide'>
+                  </a>
+                  <small>
+                    <div *ngIf="login_form.get('password')?.invalid && login_form.get('password')?.touched"
+                      class="error-message">
+                      <div *ngIf="login_form.get('password')?.hasError('required')">Password Can't Blank .</div>
+                    </div>
+                  </small>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-10">
+                                            <span>{{ captcha.text }}</span>
+                  <input  formControlName="answer" class="form-control" type="text" placeholder="Enter Captcha">
+                  <div *ngIf="login_form.get('answer')?.invalid && login_form.get('answer')?.touched" class="error-message">
+                    Captcha can't be blank
+                  </div>
+                  <div *ngIf="login_form.get('answer')?.hasError('required')"></div>
+                  <div id="captcha-error" *ngIf="captchaError" class="error-message">
+                    {{ captchaError }}
+                  </div>
+                                          </div>
+                                          <div class="col-md-2">
+                                            <button type="button" class="btn btn-primary mt-4" (click)="generateCaptcha()"><i class="bi bi-arrow-clockwise"></i></button>
+                                          </div>
+
+                                        <!-- <div class="col-sm-6">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="inlineFormCheck">
+                                                <label class="form-check-label" for="inlineFormCheck">Remember me</label>
+                                            </div>
+                                        </div> -->
+
+                                        <!-- <div class="col-sm-6">
+                                            <a href="#" class="float-end text-primary">Forgot Password?</a>
+                                        </div> -->
+
+                                        <div class="col-12">
+                                            <button class="btn btn-primary mt-3" routerLink="/home">Return to Home</button>
+                                            <button type="button" class="btn btn-primary px-4 float-end mt-3" (click)="onLogin()">Login</button>
+                                        </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="col-md-5 ps-0 d-none d-md-block">
+                            <div class="form-right h-100 bg-primary text-white text-center pt-5">
+                                <img src="../../../assets/csm-logo/csm logo.jpg" width="360" height="250" alt="" srcset="">
+                                <h2 class="fs-1">Learning Management System</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+  

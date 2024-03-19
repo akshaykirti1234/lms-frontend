@@ -1,0 +1,54 @@
+<div class="container">
+
+    <div class="card m-5 shadow">
+
+        <div class="card-header text-center text-bg-primary">
+
+            <h3>Add Technology</h3>
+
+        </div>
+
+        <div class="card-body">
+
+            <form [formGroup]="technologyForm" (ngSubmit)="saveTechForm()">
+
+                <div class="row">
+                    <input type="hidden" formControlName="techId" class="form-control">
+                    <div class="form-group col-md-4">
+                        <label>Technology Name <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="techName" formControlName="techName">
+
+                        <!-- <div *ngIf="technologyForm.get('techName').invalid && (technologyForm.get('techName').dirty || technologyForm.get('techName').touched)"
+                             class="text-danger">
+                            <div *ngIf="technologyForm.get('techName').errors.required">
+                                Technology name is required.
+                            </div>
+                            <div *ngIf="technologyForm.get('techName').errors.pattern">
+                                Only characters are allowed in the technology name.
+                            </div>
+                        </div>  -->
+
+                    </div>
+                </div>
+
+                <!-- <div class="d-flex gap-2 justify-content-center mt-2">
+                <button type="submit" class="btn btn-primary" >Submit</button>
+
+                <button type="reset" class="btn btn-danger">Reset</button>
+
+            </div>  -->
+                <div class="d-flex gap-2 justify-content-center mt-5">
+                    <button type="submit" class="btn btn-primary"> {{ technologyForm.get('techId').value ?
+                        'Update' : 'Save' }}</button>
+                    <button *ngIf="!technologyForm.get('techId').value" type="reset"
+                        class="btn btn-danger">Reset</button>
+                    <button type="button" *ngIf="technologyForm.get('techId').value" class="btn btn-danger"
+                        routerLink="/admin/technology/viewTechnology">Cancel</button>
+                </div>
+            </form>
+
+        </div>
+
+    </div>
+
+</div>

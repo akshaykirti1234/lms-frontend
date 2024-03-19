@@ -1,0 +1,115 @@
+<h3>Sub-Module</h3>
+
+<form (ngSubmit)="submit()" [formGroup]="inductionForm">
+
+    <div class="row">
+
+        <div class="form-group col-4">
+
+            <label>Module Name</label>
+
+            <span class="text-danger">*</span>
+
+            <select class="form-control" formControlName="moduleId" id="moduleId">
+
+                <option value="">--select--</option>
+
+                <option *ngFor="let module of ModuleList" [value]="module['moduleId']">{{ module['moduleName'] }}
+                </option>
+
+            </select>
+
+            <div class="text-danger"
+                *ngIf="inductionForm.get('moduleId')?.invalid && (inductionForm.get('moduleId')?.touched ||  inductionForm.get('moduleId')?.dirty)">
+
+
+
+                <div *ngIf=" inductionForm.get('moduleId')?.hasError('required')">Please Enter Module Name</div>
+
+
+
+            </div>
+
+        </div>
+
+
+
+        <div class="form-group col-4">
+
+            <label>Sub-Module Name</label>
+
+            <span class="text-danger">*</span>
+
+            <input type="text" class="form-control" id="submoduleName" formControlName="submoduleName"
+                (keypress)="onKeyPress($event)">
+
+            <div *ngIf="inductionForm.controls['submoduleName'].errors?.['required']" class="text-danger"></div>
+
+            <div class="text-danger"
+                *ngIf="inductionForm.get('submoduleName')?.invalid && (inductionForm.get('submoduleName')?.touched ||  inductionForm.get('submoduleName')?.dirty)">
+
+
+
+                <div *ngIf=" inductionForm.get('submoduleName')?.hasError('required')">Please Enter Sub-Module Name
+                </div>
+
+                <div *ngIf=" inductionForm.get('submoduleName')?.hasError('pattern')">Invalid Name</div>
+
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- <div class="row">
+
+    <div class="form-group col-md-12 text-center">
+
+      <button class="btn btn-success mt-2" type="submit">Submit</button>
+
+      <button class="btn btn-danger mt-2" type="reset">Cancel</button>
+
+    </div>
+
+  </div> -->
+
+
+
+
+
+    <div *ngIf="submoduleId==0" class="form-group col-md-12 text-center">
+
+
+
+        <button class="btn btn-success mt-2" type="submit">submit</button>&nbsp;
+
+        <button class="btn btn-danger mt-2" type="reset">Reset</button>
+
+
+
+    </div>
+
+    <div *ngIf="submoduleId!=0" class="form-group col-md-12 text-center">
+
+        <button class="btn btn-success mt-2" type="submit">Update</button>&nbsp;
+
+        <button class="btn btn-danger mt-2" type="button" (click)="cancel()">Cancel</button>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</form>

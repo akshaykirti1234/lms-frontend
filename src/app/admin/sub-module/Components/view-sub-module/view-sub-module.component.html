@@ -1,0 +1,42 @@
+<h2 class="text-center">Sub-Module Details</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Sl.No</th>
+
+            <th>Module Name</th>
+
+            <th>Sub-Module Name</th>
+
+            <th>Action</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr *ngFor="let submodule of inductionList; let i = index">
+            <td>{{ i + 1 }}</td>
+
+            <td>{{ submodule.MODULENAME }}</td>
+
+            <td>{{ submodule.SUBMODULENAME }}</td>
+
+            <!-- <td>{{induction.SUP_SUB_MODULE_NAME}}</td>
+
+        <td>{{induction.INDUCTION_FORMAT}}</td>
+
+        <td><a routerLink="/dashboard/viewInduction">{{induction.INDUCTION_PATH}}</a></td> -->
+
+            <!-- <td><button class="btn btn-success" (click)="downloadFile(emp.file)"></button></td> -->
+
+            <td>
+                <button class="btn btn-success" (click)="edit(submodule.SUBMODULEID)">
+                    Edit</button>&nbsp;
+
+                <button class="btn btn-danger" (click)="deleteSubModule(submodule.SUBMODULEID)">
+                    Delete
+                </button>
+            </td>
+        </tr>
+    </tbody>
+</table>

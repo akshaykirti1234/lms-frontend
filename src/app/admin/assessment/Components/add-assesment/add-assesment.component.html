@@ -1,0 +1,122 @@
+<div class="container">
+    <div class="card m-5 shadow">
+        <div class="card-header text-center text-bg-primary">
+            <h3>Assessment Form</h3>
+        </div>
+        <div class="card-body">
+            <form [formGroup]="assessmentData" (ngSubmit)="saveForm()">
+                <input type="hidden" formControlName="assessmentId" class="form-control" />
+                <div class="d-flex gap-3 flex-wrap justify-content-around row-cols-lg-3 row-cols-md-2 row-cols-md-1">
+                    <div>
+                        <label class="form-label" for="">Schedule For <span class="text-danger">*</span></label>
+                        <select class="form-select" formControlName="scheduleForId" id="schedule">
+                            <option value="" selected disabled>-Select-</option>
+                            <option class="form-select" *ngFor="let schedule of schedulelist"
+                                [value]="schedule.scheduleForId">
+                                {{ schedule.scheduleForName }}
+                            </option>
+                        </select>
+                        <div class="text-danger"
+                            *ngIf="assessmentData.get('scheduleForId')?.invalid && (assessmentData.get('scheduleForId')?.touched ||  assessmentData.get('scheduleForId')?.dirty)">
+                            <div *ngIf=" assessmentData.get('scheduleForId')?.hasError('required')">Please Select
+                                Schedule Name.</div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="form-label" for="">Question <span class="text-danger">*</span></label>
+                        <textarea formControlName="question" class="form-control" id="question"></textarea>
+                        <div class="text-danger"
+                            *ngIf="assessmentData.get('question')?.invalid && (assessmentData.get('question')?.touched ||  assessmentData.get('question')?.dirty)">
+                            <div *ngIf=" assessmentData.get('question')?.hasError('required')">Please Enter
+                                The Question.</div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="form-label" for="">Option 1 <span class="text-danger">*</span></label>
+                        <input formControlName="option1" class="form-control" type="text" id="option1" />
+                        <div class="text-danger"
+                            *ngIf="assessmentData.get('option1')?.invalid && (assessmentData.get('option1')?.touched ||  assessmentData.get('option1')?.dirty)">
+                            <div *ngIf=" assessmentData.get('option1')?.hasError('required')">Please Enter
+                                option 1.</div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="form-label" for="">Option 2 <span class="text-danger">*</span></label>
+                        <input formControlName="option2" class="form-control" type="text" id="option2" />
+                        <div class="text-danger"
+                            *ngIf="assessmentData.get('option2')?.invalid && (assessmentData.get('option2')?.touched ||  assessmentData.get('option2')?.dirty)">
+                            <div *ngIf=" assessmentData.get('option2')?.hasError('required')">Please Enter
+                                option 2.</div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="form-label" for="">Option 3 <span class="text-danger">*</span></label>
+                        <input formControlName="option3" class="form-control" type="text" id="option3" />
+                        <div class="text-danger"
+                            *ngIf="assessmentData.get('option3')?.invalid && (assessmentData.get('option3')?.touched ||  assessmentData.get('option3')?.dirty)">
+                            <div *ngIf=" assessmentData.get('option3')?.hasError('required')">Please Enter
+                                option 3.</div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="form-label">Option 4 <span class="text-danger">*</span></label>
+                        <input formControlName="option4" class="form-control" type="text" id="option4" />
+                        <div class="text-danger"
+                            *ngIf="assessmentData.get('option4')?.invalid && (assessmentData.get('option4')?.touched ||  assessmentData.get('option4')?.dirty)">
+                            <div *ngIf=" assessmentData.get('option1')?.hasError('required')">Please Enter
+                                option 4.</div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="form-label">Answer <span class="text-danger">*</span></label>
+                        <!-- <input formControlName="answer" class="form-control" type="text" id="answer" /> -->
+                        <select id="" class="form-control" formControlName="answer">
+                            <option value="">-Select-</option>
+                            <option *ngIf="assessmentData.get('option1').value"
+                                [value]="assessmentData.get('option1').value">{{assessmentData.get('option1').value}}
+                            </option>
+                            <option *ngIf="assessmentData.get('option2').value"
+                                [value]="assessmentData.get('option2').value">{{assessmentData.get('option2').value}}
+                            </option>
+                            <option *ngIf="assessmentData.get('option3').value"
+                                [value]="assessmentData.get('option3').value">{{assessmentData.get('option3').value}}
+                            </option>
+                            <option *ngIf="assessmentData.get('option4').value"
+                                [value]="assessmentData.get('option4').value">{{assessmentData.get('option4').value}}
+                            </option>
+                        </select>
+                        <div class="text-danger"
+                            *ngIf="assessmentData.get('answer')?.invalid && (assessmentData.get('answer')?.touched ||  assessmentData.get('answer')?.dirty)">
+                            <div *ngIf=" assessmentData.get('answer')?.hasError('required')">Please Select
+                                the Answer.</div>
+                        </div>
+                    </div>
+                    <div></div>
+
+
+                </div>
+                <div class="d-flex gap-2 justify-content-center mt-5">
+
+                    <button type="submit" class="btn btn-primary">
+                        {{ assessmentData.get("assessmentId").value ? "Update" : "Save" }}
+                    </button>
+
+                    <button *ngIf="!assessmentData.get('assessmentId').value" type="reset" class="btn btn-danger">
+                        Reset
+                    </button>
+
+                    <button type="button" *ngIf="assessmentData.get('assessmentId').value" class="btn btn-danger"
+                        routerLink="/admin/assessment/viewAssessment">
+                        Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
