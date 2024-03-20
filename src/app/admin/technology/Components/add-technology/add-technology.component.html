@@ -18,15 +18,15 @@
                         <label>Technology Name <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" id="techName" formControlName="techName">
 
-                        <!-- <div *ngIf="technologyForm.get('techName').invalid && (technologyForm.get('techName').dirty || technologyForm.get('techName').touched)"
-                             class="text-danger">
+                        <div *ngIf="technologyForm.get('techName').invalid && (technologyForm.get('techName').dirty || technologyForm.get('techName').touched)"
+                            class="text-danger">
                             <div *ngIf="technologyForm.get('techName').errors.required">
                                 Technology name is required.
                             </div>
                             <div *ngIf="technologyForm.get('techName').errors.pattern">
                                 Only characters are allowed in the technology name.
                             </div>
-                        </div>  -->
+                        </div>
 
                     </div>
                 </div>

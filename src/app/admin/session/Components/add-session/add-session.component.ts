@@ -277,7 +277,6 @@ export class AddSessionComponent {
 
     if (errorFlag === 0) {
       this.sessionForm.value.sessionid = this.id;
-      alert(this.sessionForm.value.sessionid);
       Swal.fire({
         title: 'Save Data',
 
