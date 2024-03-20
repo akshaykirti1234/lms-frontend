@@ -10,7 +10,7 @@
             <li class="">
                 <a href="#submenu1" data-bs-toggle="collapse"
                     class="nav-link dropdown align-middle dropdown-toggle sidebar-navlink">
-                    <span class="d-none d-sm-inline">Manage Module</span>
+                    <span class="ms-1 d-none d-sm-inline">Manage Module</span>
                 </a>
                 <ul class="collapse" id="submenu1" data-bs-parent="#menu">
                     <li class="w-100">
@@ -117,38 +117,6 @@
                         </a>
                     </li>
                 </ul>
-                <a href="#submenu8" data-bs-toggle="collapse"
-                    class="nav-link dropdown align-middle dropdown-toggle sidebar-navlink">
-                    <span class="ms-1 d-none d-sm-inline">Manage User</span>
-                </a>
-                <ul class="collapse" id="submenu8" data-bs-parent="#menu">
-                    <li>
-                        <a routerLink="manageUser/addUser" class="nav-link">
-                            <span class="d-none d-sm-inline">Add User</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a routerLink="manageUser/viewUser" class="nav-link">
-                            <span class="d-none d-sm-inline">View User</span>
-                        </a>
-                    </li>
-                </ul>
-                <a href="#submenu9" data-bs-toggle="collapse"
-                    class="nav-link dropdown align-middle dropdown-toggle sidebar-navlink">
-                    <span class="ms-1 d-none d-sm-inline">Notify User</span>
-                </a>
-                <ul class="collapse" id="submenu9" data-bs-parent="#menu">
-                    <li>
-                        <a routerLink="notify/addNotify" class="nav-link">
-                            <span class="d-none d-sm-inline">Add Notify</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a routerLink="notify/viewNotify" class="nav-link">
-                            <span class="d-none d-sm-inline">View Notify</span>
-                        </a>
-                    </li>
-                </ul>
                 <a href="#submenu10" data-bs-toggle="collapse"
                     class="nav-link dropdown align-middle dropdown-toggle sidebar-navlink">
                     <span class="ms-1 d-none d-sm-inline">Manage Location</span>
@@ -165,6 +133,44 @@
                         </a>
                     </li>
                 </ul>
+                <a href="#submenu8" data-bs-toggle="collapse"
+                    class="nav-link dropdown align-middle dropdown-toggle sidebar-navlink">
+                    <span class="ms-1 d-none d-sm-inline">Manage User</span>
+                </a>
+                <ul class="collapse" id="submenu8" data-bs-parent="#menu">
+                    <li>
+                        <a routerLink="manageUser/addUser" class="nav-link">
+                            <span class="d-none d-sm-inline">Add User</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a routerLink="manageUser/viewUser" class="nav-link">
+                            <span class="d-none d-sm-inline">View User</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a routerLink="manageUser/notifyUser" class="nav-link">
+                            <span class="d-none d-sm-inline">Notify User</span>
+                        </a>
+                    </li>
+                </ul>
+                <!-- <a href="#submenu9" data-bs-toggle="collapse"
+                    class="nav-link dropdown align-middle dropdown-toggle sidebar-navlink">
+                    <span class="ms-1 d-none d-sm-inline">Manage Notify</span>
+                </a>
+                <ul class="collapse" id="submenu9" data-bs-parent="#menu">
+                    <li>
+                        <a routerLink="notify/addNotify" class="nav-link">
+                            <span class="d-none d-sm-inline">Add Notify</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a routerLink="notify/viewNotify" class="nav-link">
+                            <span class="d-none d-sm-inline">View Notify</span>
+                        </a>
+                    </li>
+                </ul> -->
+
             </li>
         </ul>
     </nav>
@@ -185,6 +191,11 @@
                     </ul>
                     <ul class="nav navbar-nav ms-auto">
                         <li class="nav-item active">
+                            <span class="nav-link">
+                                {{ currentTime | date : 'medium'}}
+                            </span>
+                        </li>
+                        <li class="nav-item active">
                             <a class="nav-link">
                                 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkxPRMT2ZiDmW3aKQyLV_x-qYAwsNYY1XG2W0m5YE-2Q&s"
                                     width="30" height="30" class="rounded-circle" />
@@ -193,6 +204,7 @@
                                 </span>
                             </a>
                         </li>
+
                         <li class="nav-item active">
                             <button class="nav-link" (click)="logout()">
                                 <i class="fa-solid fa-right-from-bracket"></i>

@@ -1,0 +1,42 @@
+<div class="container">
+    <div class="card m-5 shadow">
+        <div class="card-header text-center text-bg-primary">
+            <h3>Notify Form</h3>
+        </div>
+        <div class="card-body">
+            <form [formGroup]="notifyForm" (ngSubmit)="onFormSubmit()">
+                <div class="d-flex gap-3 flex-wrap justify-content-around row-cols-lg-3 row-cols-md-2 row-cols-md-1">
+                    <div>
+                        <label for="">Status</label> <span class="text-danger">*</span>
+                        <select class="form-select" formControlName="notifyStatus">
+                            <option value="">-Select-</option>
+                            <option value="info">Info</option>
+                            <option value="db">DB</option>
+                        </select>
+                    </div>
+
+                    <div class="d-flex flex-wrap gap-2">
+                        <div *ngFor="let user of userList">
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="{{user.emailId}}"
+                                    [formControl]="notifyForm.get('selectedEmails').get(user.emailId)">
+                                <label class="form-check-label" for="{{user.emailId}}">{{user.emailId}}</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div *ngIf="notifyForm.get('notifyStatus').value === 'info'">
+                        <label for="">Description</label>
+                        <textarea name="" id="" cols="30" rows="2" class="form-control"></textarea>
+                    </div>
+
+                </div>
+                <div class="d-flex gap-2 justify-content-center mt-5">
+                    <button type="submit" class="btn btn-primary">Send</button>
+                    <button type="reset" class="btn btn-danger">Reset</button>
+                </div>
+            </form>
+        </div>
+        {{notifyForm.value | json}}
+    </div>
+</div>

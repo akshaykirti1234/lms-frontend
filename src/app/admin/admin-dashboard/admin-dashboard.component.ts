@@ -1,6 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { waitForAsync } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 
@@ -14,11 +13,18 @@ export class AdminDashboardComponent implements OnInit {
 
   public userName = sessionStorage.getItem('fullName');
   public weatherData: any;
+  // Property to hold the current time
+  currentTime: any;
 
   constructor(private router: Router, private http: HttpClient) { }
 
   ngOnInit(): void {
+    setInterval(() => {
+      this.currentTime = new Date();
+    }, 1000);
   }
+
+
 
   public logout(): void {
     Swal.fire({

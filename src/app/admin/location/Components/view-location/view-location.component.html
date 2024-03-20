@@ -1,1 +1,45 @@
-<p>view-location works!</p>
+<div class="container mb-2">
+    <div class="card">
+        <div class="card-header text-center text-bg-primary">
+            <h3>Schedule Details</h3>
+        </div>
+        <div class="">
+
+            <div class="table-responsive p-1">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Sl.No</th>
+                            <th>Location Name</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let location of locationList
+                        | paginate : {
+           itemsPerPage: tableSize,
+           currentPage: page,
+           totalItems: count
+         }
+         ; 
+         let i = index;">
+                            <td>{{ i + 1 }}</td>
+                            <td>{{ location.LOCATIONNAME }}</td>
+                            <td>
+                                <button class="btn btn-success" (click)="editLoc(location.LOCATIONID)">
+                                    Edit</button>&nbsp;
+
+                                <button class="btn btn-danger" (click)="deleteLocation(location.LOCATIONID)">
+                                    Delete
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="d-flex justify-content-end" id="pagination" *ngIf="locationList">
+                <pagination-controls previousLabel="Prev" nextLabel="Next"
+                    (pageChange)="getTableDataChange($event)"></pagination-controls>
+            </div>
+        </div>
+    </div>

@@ -1,42 +1,63 @@
-<h2 class="text-center">Sub-Module Details</h2>
+<div class="container mb-2">
+    <div class="card">
+        <div class="card-header text-center text-bg-primary">
+            <h3>Sub-Module Details</h3>
+        </div>
+        <div class="">
 
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Sl.No</th>
+            <div class="table-responsive p-1">
 
-            <th>Module Name</th>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Sl.No</th>
 
-            <th>Sub-Module Name</th>
+                            <th>Module Name</th>
 
-            <th>Action</th>
-        </tr>
-    </thead>
+                            <th>Sub-Module Name</th>
 
-    <tbody>
-        <tr *ngFor="let submodule of inductionList; let i = index">
-            <td>{{ i + 1 }}</td>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
 
-            <td>{{ submodule.MODULENAME }}</td>
+                    <tbody>
+                        <tr *ngFor="let submodule of inductionList
+                        | paginate : {
+           itemsPerPage: tableSize,
+           currentPage: page,
+           totalItems: count
+         }
+         ; 
+         let i = index;">
+                            <td>{{ i + 1 }}</td>
 
-            <td>{{ submodule.SUBMODULENAME }}</td>
+                            <td>{{ submodule.MODULENAME }}</td>
 
-            <!-- <td>{{induction.SUP_SUB_MODULE_NAME}}</td>
+                            <td>{{ submodule.SUBMODULENAME }}</td>
+
+                            <!-- <td>{{induction.SUP_SUB_MODULE_NAME}}</td>
 
         <td>{{induction.INDUCTION_FORMAT}}</td>
 
         <td><a routerLink="/dashboard/viewInduction">{{induction.INDUCTION_PATH}}</a></td> -->
 
-            <!-- <td><button class="btn btn-success" (click)="downloadFile(emp.file)"></button></td> -->
+                            <!-- <td><button class="btn btn-success" (click)="downloadFile(emp.file)"></button></td> -->
 
-            <td>
-                <button class="btn btn-success" (click)="edit(submodule.SUBMODULEID)">
-                    Edit</button>&nbsp;
+                            <td>
+                                <button class="btn btn-success" (click)="edit(submodule.SUBMODULEID)">
+                                    Edit</button>&nbsp;
 
-                <button class="btn btn-danger" (click)="deleteSubModule(submodule.SUBMODULEID)">
-                    Delete
-                </button>
-            </td>
-        </tr>
-    </tbody>
-</table>
+                                <button class="btn btn-danger" (click)="deleteSubModule(submodule.SUBMODULEID)">
+                                    Delete
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="d-flex justify-content-end" id="pagination" *ngIf="inductionList">
+                <pagination-controls previousLabel="Prev" nextLabel="Next"
+                    (pageChange)="getTableDataChange($event)"></pagination-controls>
+            </div>
+        </div>
+    </div>
