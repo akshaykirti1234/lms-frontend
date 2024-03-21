@@ -11,7 +11,7 @@ import { Captcha } from 'src/app/captcha';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent{
+export class LoginComponent {
   captcha: Captcha = { id: '', text: '' };
   login_form: FormGroup;
   response: any; // Variable to hold the response data
@@ -27,8 +27,7 @@ export class LoginComponent{
     private formbuilder: FormBuilder,
     private route: Router,
     private servicelogin: LoginService
-  )
-  {
+  ) {
     this.login_form = this.formbuilder.group({
       email: ['', [Validators.required]],
       password: ['', [Validators.required]],
@@ -237,13 +236,13 @@ export class LoginComponent{
       passimg.innerHTML =
         "<img src='" +
         this.siteURL +
-        "/assets/csm-logo/view_password_img.png' height='40px' alt='view'>";
+        "assets/images/view_password_img.png' height='40px' alt='view'>";
       passwordinput.setAttribute('type', 'text');
     } else {
       passimg.innerHTML =
         "<img src='" +
         this.siteURL +
-        "/assets/csm-logo/hide_password_img.png' height='40px' alt='hide'>";
+        "assets/images/hide_password_img.png' height='40px' alt='hide'>";
 
       passwordinput.setAttribute('type', 'password');
     }

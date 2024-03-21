@@ -15,4 +15,8 @@ export class ManageUserService {
     return this.http.get(this.baseUrl + "getAllUsers", { observe: 'response' });
   }
 
+  public submitNotifyForm(payload: any): Observable<any> {
+    return this.http.post(this.baseUrl + "send", payload, { observe: 'response' });
+  }
+
 }
