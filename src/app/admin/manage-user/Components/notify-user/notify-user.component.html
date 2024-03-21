@@ -13,6 +13,10 @@
                             <option value="information">Information</option>
                             <option value="password">Credential</option>
                         </select>
+                        <div
+                            *ngIf="notifyForm.get('notifyStatus').invalid && (notifyForm.get('notifyStatus').dirty || notifyForm.get('notifyStatus').touched)">
+                            <div *ngIf="notifyForm.get('notifyStatus').errors.required">Status is required.</div>
+                        </div>
                     </div>
 
                     <mat-form-field class="example-chip-list">
@@ -33,12 +37,24 @@
                                 {{ user }}
                             </mat-option>
                         </mat-autocomplete>
+                        <mat-error *ngIf="notifyForm.get('selectedEmails').hasError('required')">
+                            Emails are required.
+                        </mat-error>
+                        <mat-error *ngIf="notifyForm.get('selectedEmails').hasError('email')">
+                            Please enter a valid email address.
+                        </mat-error>
                     </mat-form-field>
+
 
                     <div *ngIf="notifyForm.get('notifyStatus').value === 'information'">
                         <label for="">Description</label>
                         <textarea formControlName="description" id="" cols="30" rows="2"
                             class="form-control"></textarea>
+                        <div *ngIf="notifyForm.get('description').invalid && notifyForm.get('description').touched">
+                            <span *ngIf="notifyForm.get('description').errors.requiredForInformation">Description is
+                                required for 'information' type.</span>
+                        </div>
+
                     </div>
                 </div>
                 <div class="d-flex gap-2 justify-content-center mt-5">
@@ -48,4 +64,5 @@
             </form>
         </div>
     </div>
+    <!-- {{notifyForm.value | json}} -->
 </div>

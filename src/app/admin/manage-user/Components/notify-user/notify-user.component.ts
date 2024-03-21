@@ -1,6 +1,6 @@
 import { COMMA, ENTER, TAB } from '@angular/cdk/keycodes';
 import { Component, ElementRef, ViewChild, inject } from '@angular/core';
-import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { Observable } from 'rxjs';
@@ -24,9 +24,23 @@ export class NotifyUserComponent {
   constructor(private fb: FormBuilder, private manageUserService: ManageUserService) {
     this.notifyForm = fb.group({
       notifyStatus: ['', [Validators.required]],
-      selectedEmails: [[]],
-      description: []
+      selectedEmails: [[], [Validators.required, Validators.email]],
+      description: ['']
     });
+
+    // Subscribe to changes in notifyStatus to update description validity
+    this.notifyForm.get('notifyStatus').valueChanges.subscribe((value: any) => {
+      const descriptionControl = this.notifyForm.get('description');
+      if (value === 'information') {
+        descriptionControl.setValidators(Validators.required);
+      } else {
+        descriptionControl.clearValidators();
+      }
+      // Reset the value and validity of description control
+      descriptionControl.setValue('');
+      descriptionControl.updateValueAndValidity();
+    });
+
 
     this.notifyForm.get('selectedEmails')?.valueChanges.subscribe((users: any) => {
       // Update the users array whenever selectedEmails changes
