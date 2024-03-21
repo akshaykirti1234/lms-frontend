@@ -24,7 +24,7 @@ export class NotifyUserComponent {
   constructor(private fb: FormBuilder, private manageUserService: ManageUserService) {
     this.notifyForm = fb.group({
       notifyStatus: ['', [Validators.required]],
-      selectedEmails: [[], [Validators.required]],
+      selectedEmails: [[]],
       description: []
     });
 
