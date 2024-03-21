@@ -205,75 +205,44 @@ export class AddSessionComponent {
   onSubmit() {
     let errorFlag = 0;
 
-    // const empName = this.ktForm.get('empName');
+    const subModuleId = this.sessionForm.get('subModuleId');
+    const scheduleForId = this.sessionForm.get('scheduleForId');
+    const sessionName = this.sessionForm.get('sessionName');
+    const video = this.sessionForm.get('video');
+    const documentId = this.sessionForm.get('document');
+    const description = this.sessionForm.get('description');
+    if (subModuleId?.invalid && errorFlag === 0) {
+      errorFlag = 1;
+      console.log('error happened');
+      subModuleId.markAsTouched();
+    }
+    if (scheduleForId?.invalid && errorFlag === 0) {
+      errorFlag = 1;
+      console.log('error happened');
+      scheduleForId.markAsTouched();
+    }
+    if (sessionName?.invalid && errorFlag === 0) {
+      errorFlag = 1;
+      console.log('error happened');
+      sessionName.markAsTouched();
+    }
+    if (video?.invalid && errorFlag === 0) {
+      errorFlag = 1;
+      console.log('error happened');
+      video.markAsTouched();
+    }
+    if (documentId?.invalid && errorFlag === 0) {
+      errorFlag = 1;
+      console.log('error happened');
+      documentId.markAsTouched();
+    }
+    if (description?.invalid && errorFlag === 0) {
+      errorFlag = 1;
+      console.log('error happened');
+      description.markAsTouched();
+    }
 
-    // const empMobileNo = this.ktForm.get('empMobileNo');
-
-    // const empJoiningDate = this.ktForm.get('empJoiningDate');
-
-    // const empSalary = this.ktForm.get('empSalary');
-
-    // const deptId = this.ktForm.get('deptId');
-
-    // const stateId = this.ktForm.get('stateId');
-
-    // const cityId = this.ktForm.get('cityId');
-
-    // if (empName?.invalid && errorFlag === 0) {
-
-    //   errorFlag = 1;
-
-    //   empName.markAsTouched();
-
-    // }
-
-    // if (empMobileNo?.invalid && errorFlag === 0) {
-
-    //   errorFlag = 1;
-
-    //   empMobileNo.markAsTouched();
-
-    // }
-
-    // if (empJoiningDate?.invalid && errorFlag === 0) {
-
-    //   errorFlag = 1;
-
-    //   empJoiningDate.markAsTouched();
-
-    // }
-
-    // if (empSalary?.invalid && errorFlag === 0) {
-
-    //   errorFlag = 1;
-
-    //   empSalary.markAsTouched();
-
-    // }
-
-    // if (deptId?.invalid && errorFlag === 0) {
-
-    //   errorFlag = 1;
-
-    //   deptId.markAsTouched();
-
-    // }
-
-    // if (stateId?.invalid && errorFlag === 0) {
-
-    //   errorFlag = 1;
-
-    //   stateId.markAsTouched();
-
-    // }
-
-    // if (cityId?.invalid && errorFlag === 0) {
-
-    //   errorFlag = 1;
-
-    //   cityId.markAsTouched();
-
-    // }
+    
 
     if (errorFlag === 0) {
       this.sessionForm.value.sessionid = this.id;

@@ -8,7 +8,7 @@
         <div class="row m-5">
           <div class="col-md-4">
             <div class="form-group">
-              <label for="ktType">Sub Module:</label>
+              <label for="subModuleId">Sub Module:</label>
               <span class="text-danger">*</span>
               <select id="subModuleId" formControlName="subModuleId" class="form-select" (change)="getSchList($event)">
                 <option value="">Select Sub Module</option>
@@ -16,6 +16,9 @@
                   {{ subModule.submoduleName }}
                 </option>
               </select>
+              <div *ngIf="sessionForm.get('subModuleId')?.invalid && sessionForm.get('subModuleId')?.touched">
+                  <p class="text-danger">Please select Sub Module</p>
+              </div>
             </div>
           </div>
           <div class="col-md-4">
@@ -29,18 +32,24 @@
                   {{ schList.SCHEDULEFOR }}
                 </option>
               </select>
+              <div *ngIf="sessionForm.get('scheduleForId')?.invalid && sessionForm.get('scheduleForId')?.touched">
+                <p class="text-danger">Please select schedule</p>
+            </div>
             </div>
             <div class="form-check">
               <input class="form-check-input" type="radio" id="isLastSession" name="isLastSession"
-                [checked]="isConditionSatisfied" disabled>
+                [checked]="isConditionSatisfied" disabled />
               <label for="radioButton">Is Last Session</label>
             </div>
           </div>
           <div class="col-md-4">
             <div class="form-group">
-              <label for="ktName">Session Name:</label>
+              <label for="sessionName">Session Name:</label>
               <span class="text-danger">*</span>
               <input type="text" formControlName="sessionName" class="form-control" />
+              <div *ngIf="sessionForm.get('sessionName')?.invalid && sessionForm.get('sessionName')?.touched">
+                <p class="text-danger">Please Enter Session Name</p>
+            </div>
             </div>
           </div>
         </div>
@@ -52,6 +61,9 @@
               <span class="text-danger">*</span>
               <input type="file" id="video" class="form-control" (change)="validateAndUploadFile($event)"
                 accept=".mp4" />
+                <div *ngIf="sessionForm.get('video')?.invalid && sessionForm.get('video')?.touched">
+                  <p class="text-danger">Please Select Video</p>
+              </div>
               <div *ngIf="id > 0">
                 <a target="_blank" href="{{ viewFileUrl }}/{{ sessionForm.value.video }}"
                   class="btn btn-md btn-success">
@@ -64,6 +76,9 @@
               <label for="document">Document:</label>
               <span class="text-danger">*</span>
               <input type="file" id="document" class="form-control" (change)="uploadFile($event)" />
+              <div *ngIf="sessionForm.get('document')?.invalid && sessionForm.get('document')?.touched">
+                <p class="text-danger">Please Select Document</p>
+            </div>
               <div *ngIf="id > 0">
                 <a target="_blank" href="{{ viewFileUrl }}/{{ sessionForm.value.document }}"
                   class="btn btn-md btn-success">
@@ -74,14 +89,17 @@
 
           <div class="col-md-4">
             <div class="form-group">
-              <label for="ktName">Description:</label>
+              <label for="description">Description:</label>
               <span class="text-danger">*</span>
               <input type="text" formControlName="description" class="form-control" />
+              <div *ngIf="sessionForm.get('description')?.invalid && sessionForm.get('description')?.touched">
+                <p class="text-danger">Please Enter Description</p>
+            </div>
             </div>
           </div>
         </div>
         <div *ngIf="id === 0" class="text-center mb-5">
-          <button type="submit" [disabled]="sessionForm.invalid" class="btn btn-primary">
+          <button type="submit" class="btn btn-primary">
             Submit</button>&nbsp;
           <button class="btn btn-danger" type="reset">Reset</button>
         </div>
@@ -89,7 +107,9 @@
         <div *ngIf="id > 0" class="text-center mb-5">
           <button type="submit" [disabled]="sessionForm.invalid" class="btn btn-primary">
             Update</button>&nbsp;
-          <button class="btn btn-danger" type="button" (click)="cancel()">Cancel</button>
+          <button class="btn btn-danger" type="button" (click)="cancel()">
+            Cancel
+          </button>
         </div>
       </form>
     </div>
