@@ -143,14 +143,17 @@ export class NotifyUserComponent {
             icon: 'success',
             title: 'Sent Successfully'
           });
+          // this.notifyForm.reset();
         },
         error: (error) => {
           Swal.fire({
             icon: 'error',
             title: 'Something went wrong'
           });
+          // this.notifyForm.reset();
         }
-      });
+      }
+      );
     } else {
       Swal.fire({
         icon: 'error',
