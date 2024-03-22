@@ -8,7 +8,7 @@ const routes: Routes = [
   { path: '', redirectTo: 'viewUser', pathMatch: 'full' },
   { path: 'viewUser', component: ViewUserComponent },
   { path: 'addUser', component: AddUserComponent },
-  { path: 'editUser/:id', component: AddUserComponent },
+  { path: 'editUser/:userId', component: AddUserComponent },
   { path: 'notifyUser', component: NotifyUserComponent },
 ];
 

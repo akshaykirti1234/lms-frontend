@@ -27,10 +27,10 @@ import { NgxUiLoaderHttpModule, NgxUiLoaderModule } from 'ngx-ui-loader';
     HttpClientModule,
     NgxPaginationModule,
     BrowserAnimationsModule,
-    NgxUiLoaderModule,
-    NgxUiLoaderHttpModule.forRoot({
-      showForeground : true,
-    }),
+    // NgxUiLoaderModule,
+    // NgxUiLoaderHttpModule.forRoot({
+    //   showForeground : true,
+    // }),
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: MyInterceptor, multi: true }],
   bootstrap: [AppComponent]

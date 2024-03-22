@@ -3,7 +3,6 @@ import { CommonModule, NgFor } from '@angular/common';
 
 import { ManageUserRoutingModule } from './manage-user-routing.module';
 import { AddUserComponent } from './Components/add-user/add-user.component';
-import { ViewUserComponent } from './Components/view-user/view-user.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { NotifyUserComponent } from './Components/notify-user/notify-user.component';
@@ -15,6 +14,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
+import { ViewUserComponent } from './Components/view-user/view-user.component';
 
 
 
