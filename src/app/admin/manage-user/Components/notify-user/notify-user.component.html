@@ -13,14 +13,14 @@
                             <option value="information">Information</option>
                             <option value="password">Credential</option>
                         </select>
-                        <div
+                        <div class="text-danger"
                             *ngIf="notifyForm.get('notifyStatus').invalid && (notifyForm.get('notifyStatus').dirty || notifyForm.get('notifyStatus').touched)">
                             <div *ngIf="notifyForm.get('notifyStatus').errors.required">Status is required.</div>
                         </div>
                     </div>
 
-                    <mat-form-field class="example-chip-list">
-                        <mat-label>Enter Emails</mat-label>
+                    <mat-form-field class="example-chip-list mt-2" appearance="outline">
+                        <mat-label class="fw-bold">Enter Emails</mat-label>
                         <mat-chip-grid #chipGrid aria-label="User selection">
                             <mat-chip-row *ngFor="let user of users" (removed)="remove(user)">
                                 {{ user }}

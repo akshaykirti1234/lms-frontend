@@ -59,6 +59,13 @@ export class LoginComponent {
   onLogin() {
     let errFlag = 0;
 
+    if (this.login_form.invalid) {
+      Swal.fire({
+        icon: 'error',
+        title: "Please Fill Form Correctly"
+      });
+    }
+
     //-----------------Mobile No --------------------
     const mobilenocheck = this.login_form.get('email');
     if (errFlag == 0 && mobilenocheck && mobilenocheck.invalid) {
@@ -129,7 +136,6 @@ export class LoginComponent {
       sessionStorage.setItem('isLoggedIn', '1');
 
       if (this.response.userType == 'Admin') {
-        alert('Login Successfull , Admin');
         this.route.navigateByUrl('/admin');
       } else if (this.response.userType == '2') {
         alert('Login Successfull , User');
