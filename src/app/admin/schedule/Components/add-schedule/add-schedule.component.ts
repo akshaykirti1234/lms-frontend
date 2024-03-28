@@ -20,35 +20,38 @@ export class AddScheduleComponent implements OnInit {
   public technologyList: any;
 
   // Inject necessary services and dependencies
-  constructor(private fb: FormBuilder, private scheduleService: ScheduleService, private activatedRoute: ActivatedRoute, private router: Router) {
-    // Initialize the form using the form builder
-    this.scheduleForm = fb.group({
-      scheduleForId: fb.control(''),
-      scheduleForName: fb.control('', [Validators.required]),
-      subModule: fb.group({
-        submoduleId: fb.control('', [Validators.required]),
-        submoduleName: fb.control('')
+  constructor(private fb: FormBuilder, private scheduleService: ScheduleService, private activatedRoute: ActivatedRoute, private router: Router) { }
+
+  // Initialize the component and fetch necessary data
+  ngOnInit(): void {
+    this.initScheduleForm();
+    this.getAllAutohors();
+    this.getAllSubModules();
+    this.getAllTechnologies();
+    this.editSheduleFor();
+  }
+
+  // Initialize the form using the form builder
+  public initScheduleForm() {
+    this.scheduleForm = this.fb.group({
+      scheduleForId: this.fb.control(''),
+      scheduleForName: this.fb.control('', [Validators.required]),
+      subModule: this.fb.group({
+        submoduleId: this.fb.control('', [Validators.required]),
+        submoduleName: this.fb.control('')
       }),
-      author: fb.group({
-        authId: fb.control('', [Validators.required]),
-        authName: fb.control('')
+      author: this.fb.group({
+        authId: this.fb.control('', [Validators.required]),
+        authName: this.fb.control('')
       }),
-      technology: fb.group({
-        techId: fb.control(''),
-        techName: fb.control('')
+      technology: this.fb.group({
+        techId: this.fb.control(''),
+        techName: this.fb.control('')
       }),
       noOfSession: ['', [Validators.required, Validators.pattern('^[1-9][0-9]*$')]],
       noOfHours: ['', [Validators.required, Validators.pattern('^[1-9][0-9]*$')]]
       // isAssessmentPrepared: fb.control('')
     });
-  }
-
-  // Initialize the component and fetch necessary data
-  ngOnInit(): void {
-    this.getAllAutohors();
-    this.getAllSubModules();
-    this.getAllTechnologies();
-    this.editSheduleFor();
   }
 
   // Method to fetch the list of all submodules
