@@ -47,10 +47,10 @@
                                 </td>
                                 <td>{{ session.sessiondescription }}</td>
                                 <td>
-                                    <button type="submit" (click)="editSession(session.sessionid)"
-                                        class="btn btn-primary">Edit</button>&nbsp;
-                                    <button type="submit" (click)="deleteSession(session.sessionid)"
-                                        class="btn btn-danger">Delete</button>
+                                    <div class="d-flex gap-2"><i class="fa-solid fa-pen-to-square text-primary"
+                                        (click)="editSession(session.sessionid)"></i>&nbsp;
+                                    <i class="fa-solid fa-trash text-danger"
+                                        (click)="deleteSession(session.sessionid)"></i></div>
                                 </td>
                             </tr>
                         </tbody>
