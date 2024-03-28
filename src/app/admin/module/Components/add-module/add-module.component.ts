@@ -12,7 +12,7 @@ import { ModuleserviceService } from '../../Services/moduleservice.service';
 export class AddModuleComponent {
   moduleMasterForm: any;
   moduleId: any;
-  viewModuleLogoUrl: string = 'http://localhost:8080/viewLogo';
+  viewModuleLogoUrl: string = 'http://localhost:8085/viewLogo';
 
   constructor(
     private fb: FormBuilder,
