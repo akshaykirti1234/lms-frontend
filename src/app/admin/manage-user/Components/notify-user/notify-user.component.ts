@@ -22,12 +22,20 @@ export class NotifyUserComponent {
   public userList: any;
 
   constructor(private fb: FormBuilder, private manageUserService: ManageUserService) {
-    this.notifyForm = fb.group({
+
+  }
+
+  public initNotifyForm() {
+    this.notifyForm = this.fb.group({
       notifyStatus: ['', [Validators.required]],
       selectedEmails: [[], [Validators.required, Validators.email]],
       description: ['']
     });
+  }
 
+  ngOnInit(): void {
+    this.getAllUsers();
+    this.initNotifyForm();
     // Subscribe to changes in notifyStatus to update description validity
     this.notifyForm.get('notifyStatus').valueChanges.subscribe((value: any) => {
       const descriptionControl = this.notifyForm.get('description');
@@ -41,15 +49,10 @@ export class NotifyUserComponent {
       descriptionControl.updateValueAndValidity();
     });
 
-
     this.notifyForm.get('selectedEmails')?.valueChanges.subscribe((users: any) => {
       // Update the users array whenever selectedEmails changes
       this.users = users;
     });
-  }
-
-  ngOnInit(): void {
-    this.getAllUsers();
   }
 
 
@@ -143,7 +146,8 @@ export class NotifyUserComponent {
             icon: 'success',
             title: 'Sent Successfully'
           });
-          // this.notifyForm.reset();
+          // this.initNotifyForm();
+          this.ngOnInit();
         },
         error: (error) => {
           Swal.fire({
