@@ -75,7 +75,7 @@
             <div class="form-group">
               <label for="document">Document:</label>
               <span class="text-danger">*</span>
-              <input type="file" id="document" class="form-control" (change)="uploadFile($event)" />
+              <input type="file" id="document" class="form-control" (change)="validateAndUploadDoc($event)" />
               <div *ngIf="sessionForm.get('document')?.invalid && sessionForm.get('document')?.touched">
                 <p class="text-danger">Please Select Document</p>
             </div>
