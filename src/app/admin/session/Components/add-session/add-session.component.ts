@@ -163,6 +163,29 @@ export class AddSessionComponent {
     }
   }
 
+  validateAndUploadDoc(event: any) {
+    if (this.validateDoc(event)) {
+      this.uploadFile(event);
+    }
+  }
+
+  validateDoc(event: any): boolean {
+    let file = event.target.files[0];
+    const allowedFormats = ['pdf', 'odt', 'pptx' , 'ppt' , 'doc' , 'docx' , 'txt'];
+    const fileExt = file.name.split('.').pop().toLowerCase();
+
+    if (!allowedFormats.includes(fileExt)) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Invalid Document format',
+        text: 'Only PDF , DOC , PPT formats are allowed.',
+      });
+      return false;
+    }
+
+    return true;
+  }
+
   validateFile(event: any): boolean {
     let file = event.target.files[0];
     const allowedFormats = ['mp4', 'avi', 'mov'];
