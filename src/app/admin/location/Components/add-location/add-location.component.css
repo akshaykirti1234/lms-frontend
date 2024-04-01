@@ -1,0 +1,17 @@
+label{
+    font-weight: bold;
+}
+
+span{
+  font-weight: bold;
+}
+
+/* input.ng-invalid.ng-touched,select.ng-invalid.ng-touched{
+    border-color: red;
+} */
+
+input.ng-valid.ng-touched,select.ng-valid.ng-touched{
+    border-color: green;
+}
+
+  
