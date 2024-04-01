@@ -15,18 +15,49 @@
                         </select>
                     </div>
 
+                    <div class="accordion" id="accordionCheckboxes">
+                        <div class="accordion-item" *ngFor="let subModule of subModuleList">
+                            <h2 class="accordion-header" id="heading{{subModule.submoduleId}}">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    [attr.data-bs-target]="'#collapse' + subModule.submoduleId" aria-expanded="false"
+                                    [attr.aria-controls]="'collapse' + subModule.submoduleId">
+                                    <input type="checkbox" class="form-check-input"
+                                        id="checkbox{{subModule.submoduleId}}" value="{{subModule.submoduleId}}">
+                                    <label class="form-check-label"
+                                        for="checkbox{{subModule.submoduleId}}">{{subModule.submoduleName}}</label>
+                                </button>
+                            </h2>
+                            <div id="collapse{{subModule.submoduleId}}" class="accordion-collapse collapse"
+                                [attr.aria-labelledby]="'heading' + subModule.submoduleId"
+                                data-bs-parent="#accordionCheckboxes">
+                                <div class="accordion-body">
+                                    <ul>
+                                        <li *ngFor="let schedule of scheduleList">
+                                            <input type="checkbox" class="form-check-input"
+                                                id="schedule{{schedule.scheduleId}}" value="{{schedule.scheduleId}}">
+                                            <label class="form-check-label" for="schedule{{schedule.scheduleId}}">
+                                                {{schedule.scheduleForName}}
+                                            </label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
 
 
 
 
+
+                    <!-- 
                     <div class="d-flex gap-2 justify-content-center mt-5">
                         <button type="submit" class="btn btn-primary"> {{ assignForm.get('').value ?
                             'Update' : 'Save' }}</button>
                         <button *ngIf="!assignForm.get('').value" type="reset" class="btn btn-danger">Reset</button>
                         <button type="button" *ngIf="assignForm.get('').value" class="btn btn-danger"
                             routerLink="/admin/schedule/viewSchedule">Cancel</button>
-                    </div>
+                    </div> -->
 
                 </div>
             </form>

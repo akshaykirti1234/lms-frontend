@@ -137,9 +137,9 @@ export class LoginComponent {
 
       if (this.response.userType == 'Admin') {
         this.route.navigateByUrl('/admin');
-      } else if (this.response.userType == '2') {
+      } else if (this.response.userType == 'User') {
         alert('Login Successfull , User');
-        // this.route.navigateByUrl('/officer/officer-dashboard');
+        this.route.navigateByUrl('/user');
       }
 
       // else if (this.response.userType == 'A') {
