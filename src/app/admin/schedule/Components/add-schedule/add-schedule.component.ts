@@ -123,12 +123,12 @@ export class AddScheduleComponent implements OnInit {
         }
       });
     } else {
-      // Swal.fire({
-      //   icon: 'error',
-      //   title: 'Please fill the fields correctly!',
-      //   text: ''
-      // });
-      this.scheduleForm.markAllAsTouched();
+      Swal.fire({
+        icon: 'error',
+        title: 'Please fill the fields correctly!',
+        text: ''
+      });
+      // this.scheduleForm.markAllAsTouched();
     }
   }
 

@@ -16,6 +16,7 @@ const routes: Routes = [
       { path: 'manageUser', loadChildren: () => import('./manage-user/manage-user.module').then(m => m.ManageUserModule) },
       { path: 'notify', loadChildren: () => import('./notify/notify.module').then(m => m.NotifyModule) },
       { path: 'location', loadChildren: () => import('./location/location.module').then(m => m.LocationModule) },
+      { path: 'assign', loadChildren: () => import('./assign/assign.module').then(m => m.AssignModule) },
     ]
   }
 ];
