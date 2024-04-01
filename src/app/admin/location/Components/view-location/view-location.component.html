@@ -6,7 +6,7 @@
         <div class="">
 
             <div class="table-responsive p-1">
-                <table class="table table-striped table-bordered">
+                <table class="table table-hover table-bordered">
                     <thead class="table-primary">
                         <tr>
                             <th>Sl.No</th>
@@ -26,12 +26,12 @@
                             <td>{{ i + 1 }}</td>
                             <td>{{ location.LOCATIONNAME }}</td>
                             <td>
-                                <button class="btn btn-success" (click)="editLoc(location.LOCATIONID)">
-                                    Edit</button>&nbsp;
-
-                                <button class="btn btn-danger" (click)="deleteLocation(location.LOCATIONID)">
-                                    Delete
-                                </button>
+                                <div class="d-flex gap-3">
+                                    <i (click)="editLoc(location.LOCATIONID)"
+                                        class="fa-solid fa-pen-to-square text-primary" style="cursor: pointer;"></i>
+                                    <i (click)="deleteLocation(location.LOCATIONID)"
+                                        class="fa-solid fa-trash text-danger" style="cursor: pointer;"></i>
+                                </div>
                             </td>
                         </tr>
                     </tbody>

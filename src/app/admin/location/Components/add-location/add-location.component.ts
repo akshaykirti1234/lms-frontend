@@ -124,7 +124,7 @@ export class AddLocationComponent {
   }
 
   cancel() {
-    this.router.navigate(['/dashboard/viewLocation']);
+    this.router.navigate(['/admin/location/viewLocation']);
   }
 
   onKeyPress(event: KeyboardEvent) {

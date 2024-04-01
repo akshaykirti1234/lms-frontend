@@ -4,11 +4,9 @@
             <h3>Sub-Module Details</h3>
         </div>
         <div class="">
-
             <div class="table-responsive p-1">
-
-                <table class="table table-striped">
-                    <thead>
+                <table class="table table-bordered table-hover">
+                    <thead class="table-primary">
                         <tr>
                             <th>Sl.No</th>
 
@@ -21,14 +19,16 @@
                     </thead>
 
                     <tbody>
-                        <tr *ngFor="let submodule of inductionList
-                        | paginate : {
-           itemsPerPage: tableSize,
-           currentPage: page,
-           totalItems: count
-         }
-         ; 
-         let i = index;">
+                        <tr *ngFor="
+                let submodule of inductionList
+                  | paginate
+                    : {
+                        itemsPerPage: tableSize,
+                        currentPage: page,
+                        totalItems: count
+                      };
+                let i = index
+              ">
                             <td>{{ i + 1 }}</td>
 
                             <td>{{ submodule.MODULENAME }}</td>
@@ -44,12 +44,12 @@
                             <!-- <td><button class="btn btn-success" (click)="downloadFile(emp.file)"></button></td> -->
 
                             <td>
-                                <button class="btn btn-success" (click)="edit(submodule.SUBMODULEID)">
-                                    Edit</button>&nbsp;
-
-                                <button class="btn btn-danger" (click)="deleteSubModule(submodule.SUBMODULEID)">
-                                    Delete
-                                </button>
+                                <div class="d-flex gap-3">
+                                    <i (click)="edit(submodule.SUBMODULEID)"
+                                        class="fa-solid fa-pen-to-square text-primary" style="cursor: pointer"></i>
+                                    <i (click)="deleteSubModule(submodule.SUBMODULEID)"
+                                        class="fa-solid fa-trash text-danger" style="cursor: pointer"></i>
+                                </div>
                             </td>
                         </tr>
                     </tbody>
@@ -61,3 +61,4 @@
             </div>
         </div>
     </div>
+</div>
