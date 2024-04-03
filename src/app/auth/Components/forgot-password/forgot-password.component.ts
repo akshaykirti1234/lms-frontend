@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { LoginService } from '../../Services/login.service';
 import { map, Observable } from 'rxjs';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-forgot-password',
@@ -30,15 +31,19 @@ export class ForgotPasswordComponent {
       return;
     }
     this.loading = true;
-    console.log(this.resetForm.value);
+    
     
     setTimeout(() => {
-      this.loading = false;
       this.loginService.checkEmail(this.resetForm.value.email).subscribe((data)=>{
         if(data == true){
           this.router.navigate(['/auth/otp/' , this.resetForm.value.email]);
         }
+        else if(data == false){
+          this.loading = false;
+        }
       },(error)=>{
+          Swal.fire('Internal Server Error' , 'Please try again later!' , 'error');
+          this.loading = false;
           console.log(error);
       })
     }, 7000);
