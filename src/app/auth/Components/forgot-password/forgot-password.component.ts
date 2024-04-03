@@ -41,7 +41,7 @@ export class ForgotPasswordComponent {
       },(error)=>{
           console.log(error);
       })
-    }, 2000);
+    }, 7000);
   }
 
   
