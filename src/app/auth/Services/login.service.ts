@@ -7,6 +7,7 @@ import { Captcha } from 'src/app/captcha';
   providedIn: 'root'
 })
 export class LoginService {
+  
 
   //private baseUrl = "http://localhost:8085/api/login/"
 
@@ -108,6 +109,18 @@ export class LoginService {
   //   const headersWithToken = this.getAuthorizedHeaders(); // Use this function to get headers with token
   //   return this.httpclient.get<any>(url, { headers: headersWithToken });
   // }
+
+  checkEmail(email : any){
+    return this.httpclient.get('http://localhost:8085/auth/checkEmail/'+email);
+  }
+
+  verifyOtp(formData :any) {
+    return this.httpclient.post('http://localhost:8085/auth/verify-otp' , formData);
+  }
+
+  changePassword(formData :any){
+    return this.httpclient.post('http://localhost:8085/auth/change-password' , formData);
+  }
 
 
 }
