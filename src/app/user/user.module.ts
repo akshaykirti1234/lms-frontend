@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { UserRoutingModule } from './user-routing.module';
 import { UserDashboardComponent } from './user-dashboard/user-dashboard.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -11,7 +12,9 @@ import { UserDashboardComponent } from './user-dashboard/user-dashboard.componen
   ],
   imports: [
     CommonModule,
-    UserRoutingModule
+    UserRoutingModule,
+    ReactiveFormsModule,
+    FormsModule
   ]
 })
 export class UserModule { }

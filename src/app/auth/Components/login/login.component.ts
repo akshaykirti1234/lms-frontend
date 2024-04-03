@@ -133,12 +133,12 @@ export class LoginComponent {
       sessionStorage.setItem('userType', this.response.userType);
       sessionStorage.setItem('emailId', this.response.emailId);
       sessionStorage.setItem('mobileNo', this.response.mobileNo);
+      sessionStorage.setItem('normalPassword', this.response.normalPassword);
       sessionStorage.setItem('isLoggedIn', '1');
 
       if (this.response.userType == 'Admin') {
         this.route.navigateByUrl('/admin');
       } else if (this.response.userType == 'User') {
-        alert('Login Successfull , User');
         this.route.navigateByUrl('/user');
       }
 

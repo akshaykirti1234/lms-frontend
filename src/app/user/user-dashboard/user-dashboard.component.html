@@ -195,15 +195,26 @@
                                 {{ currentTime | date : 'medium'}}
                             </span>
                         </li>
-                        <li class="nav-item active">
-                            <a class="nav-link">
+                        <li class="nav-item dropdown active">
+                            <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" data-bs-toggle="dropdown"
+                                aria-expanded="false">
                                 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkxPRMT2ZiDmW3aKQyLV_x-qYAwsNYY1XG2W0m5YE-2Q&s"
-                                    width="30" height="30" class="rounded-circle" />
-                                <span class="d-none d-sm-inline mx-1">
-                                    {{ userName }}
-                                </span>
+                                    width="30" height="30" class="rounded-circle" alt="Profile Picture" />
+                                <span class="d-none d-sm-inline mx-1 glow"
+                                    [ngClass]="{'glow': userName === 'Akshaykirti Muduli'}"
+                                    style="padding-right: 20px; max-width: 100px; overflow: hidden; text-overflow: ellipsis;">{{
+                                    userName }}</span>
                             </a>
+                            <ul class="dropdown-menu" aria-labelledby="profileDropdown">
+                                <li><button class="dropdown-item profile-anchor">My
+                                        Profile</button>
+                                </li>
+                                <li><button class="dropdown-item profile-anchor" data-bs-toggle="modal"
+                                        data-bs-target="#exampleModal">Change
+                                        Password</button></li>
+                            </ul>
                         </li>
+
 
                         <li class="nav-item active">
                             <button class="nav-link" (click)="logout()">
@@ -219,3 +230,66 @@
         </div>
     </div>
 </div>
+
+
+
+
+<!-- ================================================== -->
+<!-- Modal -->
+<form [formGroup]="updatePasswordForm" (ngSubmit)="submitForm()">
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header text-danger  text-center">
+                    <h3 class="modal-title" id="exampleModalLabel">Change Password</h3>
+                    <button type="reset" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="currentPassword" class="form-label fw-bold">Current Password</label>
+                        <input type="password" class="form-control" formControlName="currentPassword" required>
+                        <div class="text-danger"
+                            *ngIf="updatePasswordForm.get('currentPassword').invalid && (updatePasswordForm.get('currentPassword').dirty || updatePasswordForm.get('currentPassword').touched)">
+                            <div *ngIf="updatePasswordForm.get('currentPassword').errors.required">Current password is
+                                required
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="newPassword" class="form-label fw-bold">New Password</label>
+                        <input type="password" class="form-control" formControlName="newPassword" required>
+                        <div class="text-danger"
+                            *ngIf="updatePasswordForm.get('newPassword').invalid && (updatePasswordForm.get('newPassword').dirty || updatePasswordForm.get('newPassword').touched)">
+                            <div *ngIf="updatePasswordForm.get('newPassword').errors.required">New password is required
+                            </div>
+                            <div *ngIf="updatePasswordForm.get('newPassword').errors.minlength">New password must be at
+                                least 8 characters long</div>
+                            <div *ngIf="updatePasswordForm.get('newPassword').errors.pattern">New password must contain
+                                at least one lowercase letter, one uppercase letter, and one digit</div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="confirmPassword" class="form-label fw-bold">Confirm New Password</label>
+                        <input type="text" class="form-control" formControlName="confirmPassword" required>
+                        <div class="text-danger"
+                            *ngIf="updatePasswordForm.get('confirmPassword').invalid && (updatePasswordForm.get('confirmPassword').dirty || updatePasswordForm.get('confirmPassword').touched)">
+                            <div *ngIf="updatePasswordForm.get('confirmPassword').errors.required">Confirm Password is
+                                required
+                            </div>
+                            <div *ngIf="updatePasswordForm.get('confirmPassword').errors.passwordMismatch">Passwords do
+                                not
+                                match.
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" [disabled]="updatePasswordForm.invalid">Save
+                        changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

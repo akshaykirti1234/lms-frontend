@@ -8,7 +8,7 @@
                 <div class="d-flex gap-3 flex-wrap justify-content-around row-cols-lg-3 row-cols-md-2 row-cols-md-1">
 
                     <div>
-                        <label class="form-label" for="">Name</label><span class="text-danger">*</span>
+                        <label class="form-label" for="">Schedule Name</label><span class="text-danger">*</span>
                         <input formControlName="scheduleForName" class="form-control" type="text" id="" />
                         <div class="text-danger"
                             *ngIf="scheduleForm.get('scheduleForName')?.invalid && (scheduleForm.get('scheduleForName')?.touched ||  scheduleForm.get('scheduleForName')?.dirty)">
