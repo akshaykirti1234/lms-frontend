@@ -4,12 +4,12 @@
             <h6>Please enter the one time password <br> to verify your account</h6>
             <div> <span>A code has been sent to your registered mail </span> </div>
             <div id="otp" class="inputs d-flex flex-row justify-content-center mt-2">
-                <input #otpInput formControlName="first" class="m-2 text-center form-control rounded" maxlength="1" (input)="onInputChange(0, $event)">
-    <input #otpInput formControlName="second" class="m-2 text-center form-control rounded" maxlength="1" (input)="onInputChange(1, $event)">
-    <input #otpInput formControlName="third" class="m-2 text-center form-control rounded" maxlength="1" (input)="onInputChange(2, $event)">
-    <input #otpInput formControlName="fourth" class="m-2 text-center form-control rounded" maxlength="1" (input)="onInputChange(3, $event)">
-    <input #otpInput formControlName="fifth" class="m-2 text-center form-control rounded" maxlength="1" (input)="onInputChange(4, $event)">
-    <input #otpInput formControlName="sixth" class="m-2 text-center form-control rounded" maxlength="1" (input)="onInputChange(5, $event)">
+                <input #otpInput formControlName="first" pattern="[0-9]*" class="m-2 text-center form-control rounded" maxlength="1" (input)="onInputChange(0, $event)">
+    <input #otpInput formControlName="second" pattern="[0-9]*" class="m-2 text-center form-control rounded" maxlength="1" (input)="onInputChange(1, $event)">
+    <input #otpInput formControlName="third" pattern="[0-9]*" class="m-2 text-center form-control rounded" maxlength="1" (input)="onInputChange(2, $event)">
+    <input #otpInput formControlName="fourth" pattern="[0-9]*" class="m-2 text-center form-control rounded" maxlength="1" (input)="onInputChange(3, $event)">
+    <input #otpInput formControlName="fifth" pattern="[0-9]*" class="m-2 text-center form-control rounded" maxlength="1" (input)="onInputChange(4, $event)">
+    <input #otpInput formControlName="sixth" pattern="[0-9]*" class="m-2 text-center form-control rounded" maxlength="1" (input)="onInputChange(5, $event)">
             </div>
             
             <div class="mt-4"> <button class="btn btn-danger px-4 validate" [disabled]="otpForm.invalid" (click)="verifyOtp()">Validate</button> </div>
