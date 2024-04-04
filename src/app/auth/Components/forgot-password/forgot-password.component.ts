@@ -36,17 +36,29 @@ export class ForgotPasswordComponent {
     setTimeout(() => {
       this.loginService.checkEmail(this.resetForm.value.email).subscribe((data)=>{
         if(data == true){
+          this.submitted = false;
           this.router.navigate(['/auth/otp/' , this.resetForm.value.email]);
         }
         else if(data == false){
           this.loading = false;
         }
       },(error)=>{
-          Swal.fire('Internal Server Error' , 'Please try again later!' , 'error');
-          this.loading = false;
-          console.log(error);
+        Swal.fire({
+          title: 'Internal Server Error',
+          text: 'Please try again later!',
+          icon: 'error',
+          showCancelButton: false,
+          allowOutsideClick: false,
+          confirmButtonText: 'OK',
+        }).then((result) => {
+          if (result.isConfirmed) {
+            this.submitted = false;
+            this.loading = false;
+            console.log(error);
+          }
+        });
       })
-    }, 7000);
+    }, 5000);
   }
 
   
