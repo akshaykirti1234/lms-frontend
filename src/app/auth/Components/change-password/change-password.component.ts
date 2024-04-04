@@ -20,7 +20,7 @@ export class ChangePasswordComponent {
 
   ngOnInit(): void {
     this.changePasswordForm = this.formBuilder.group({
-      password: ['', [Validators.required, Validators.minLength(7), Validators.pattern('^(?=.*[a-z])(?=.*[0-9]).{7,}$')]],
+      password: ['', [Validators.required, Validators.minLength(7), Validators.pattern('^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[^A-Za-z0-9]).{7,}$')]],
       repeatPassword: ['', Validators.required]
     });
   }
@@ -28,10 +28,13 @@ export class ChangePasswordComponent {
   onSubmit(): void {
     if (this.changePasswordForm.valid) {
       if (this.changePasswordForm.value.password !== this.changePasswordForm.value.repeatPassword) {
-        alert('New password and repeat password must be the same.');
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'New password and repeat password must be the same.',
+      });
         return;
       }
-      // Handle form submission here
       else{
         this.changePasswordForm.value.email = this.actRoute.snapshot.paramMap.get('email');
         this.loginService.changePassword(this.changePasswordForm.value).subscribe((data)=>{
@@ -46,9 +49,11 @@ export class ChangePasswordComponent {
               this.router.navigateByUrl('/auth/login');
             }
           });
-        });
-        console.log('Form submitted successfully');
-
+        },
+        (error)=>{
+          console.log(error);
+        }
+        );
       }
       
     
