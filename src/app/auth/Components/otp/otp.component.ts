@@ -2,6 +2,7 @@ import { Component, ElementRef, QueryList, ViewChild, ViewChildren } from '@angu
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { LoginService } from '../../Services/login.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-otp',
@@ -34,6 +35,12 @@ export class OtpComponent {
   onInputChange(index: number, event: any) {
     const inputs = this.otpInputs.toArray();
 
+   // Remove non-numeric characters
+   let value = event.target.value.replace(/\D/g, '');
+
+   // Update the input value
+   event.target.value = value;
+
     if (event.target.value && event.target.value.length > 0) {
       if (index < inputs.length - 1) {
         inputs[index + 1].nativeElement.focus();
@@ -61,11 +68,34 @@ export class OtpComponent {
     
     this.loginService.verifyOtp(this.otpForm.value).subscribe(
       (response: any) => {
-        console.log(response);
-        this.router.navigate(['/auth/change-password/' , this.otpForm.value.email]);
+        if(response.isValid){
+          Swal.fire({
+            title: 'Success',
+            text: response.message,
+            icon: 'success',
+            confirmButtonText: 'OK',
+            allowOutsideClick: false,
+        }).then((result) => {
+            if (result.isConfirmed) {
+                this.router.navigate(['/auth/change-password/' , this.otpForm.value.email]);
+            }
+        });
+        }
+        else{
+          Swal.fire({
+            title: 'Error',
+            text: response.message,
+            icon: 'error',
+            confirmButtonText: 'OK',
+            allowOutsideClick: false,
+        }).then((result) => {
+            if (result.isConfirmed) {
+                this.otpForm.reset();
+            }
+        });
+        }
       },
       (error: any) => {
-        // Handle error response from backend
         console.error(error);
       }
     );
