@@ -10,7 +10,7 @@ span{
     border-color: red;
 } */
 
-input.ng-valid.ng-touched,select.ng-valid.ng-touched{
+input.ng-valid,select.ng-valid{
     border-color: green;
 }
 

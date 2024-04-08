@@ -8,8 +8,10 @@
                 <div class="d-flex gap-3 flex-wrap justify-content-around row-cols-lg-3 row-cols-md-2 row-cols-md-1">
 
                     <div>
-                        <label class="form-label" for="">Schedule Name</label><span class="text-danger">*</span>
-                        <input formControlName="scheduleForName" class="form-control" type="text" id="" />
+                        <label class="form-label" for="scheduleForName">Schedule Name</label><span
+                            class="text-danger">*</span>
+                        <input formControlName="scheduleForName" class="form-control" type="text"
+                            id="scheduleForName" />
                         <div class="text-danger"
                             *ngIf="scheduleForm.get('scheduleForName')?.invalid && (scheduleForm.get('scheduleForName')?.touched ||  scheduleForm.get('scheduleForName')?.dirty)">
                             <div *ngIf=" scheduleForm.get('scheduleForName')?.hasError('required')">Please Enter
@@ -18,8 +20,8 @@
                     </div>
 
                     <div formGroupName="subModule">
-                        <label class="form-label" for="">Sub Module</label><span class="text-danger">*</span>
-                        <select class="form-select" formControlName="submoduleId" id="">
+                        <label class="form-label" for="submoduleId">Sub Module</label><span class="text-danger">*</span>
+                        <select class="form-select" formControlName="submoduleId" id="submoduleId">
                             <option value="" selected disabled>-Select-</option>
                             <option class="form-select" *ngFor="let subModule of subModuleList"
                                 [value]="subModule.submoduleId">
@@ -35,8 +37,8 @@
                     </div>
 
                     <div formGroupName="author">
-                        <label class="form-label" for="">Author</label><span class="text-danger">*</span>
-                        <select class="form-select" formControlName="authId" id="">
+                        <label class="form-label" for="authId">Author</label><span class="text-danger">*</span>
+                        <select class="form-select" formControlName="authId" id="authId">
                             <option value="" selected disabled>-Select-</option>
                             <option class="form-select" *ngFor="let author of authorList" [value]="author.authId">
                                 {{author.authName}}
@@ -50,8 +52,8 @@
                     </div>
 
                     <div formGroupName="technology">
-                        <label class="form-label" for="">Technology</label>
-                        <select class="form-select" formControlName="techId" id="">
+                        <label class="form-label" for="techId">Technology</label>
+                        <select class="form-select" formControlName="techId" id="techId">
                             <option value="">-Select-</option>
                             <option class="form-select" *ngFor="let technology of technologyList"
                                 [value]="technology.techId">
@@ -67,8 +69,9 @@
                     </div>
 
                     <div>
-                        <label class="form-label" for="">No Of Session</label><span class="text-danger">*</span>
-                        <input formControlName="noOfSession" class="form-control" type="text" id="" />
+                        <label class="form-label" for="noOfSession">No Of Session</label><span
+                            class="text-danger">*</span>
+                        <input formControlName="noOfSession" class="form-control" type="text" id="noOfSession" />
                         <div class="text-danger"
                             *ngIf="scheduleForm.get('noOfSession')?.invalid && (scheduleForm.get('noOfSession')?.touched ||  scheduleForm.get('noOfSession')?.dirty)">
                             <div *ngIf=" scheduleForm.get('noOfSession')?.hasError('required')">Please Enter no of
@@ -80,8 +83,8 @@
                     </div>
 
                     <div>
-                        <label class="form-label" for="">No Of Hours</label><span class="text-danger">*</span>
-                        <input formControlName="noOfHours" class="form-control" type="text" id="" />
+                        <label class="form-label" for="noOfHours">No Of Hours</label><span class="text-danger">*</span>
+                        <input formControlName="noOfHours" class="form-control" type="text" id="noOfHours" />
                         <div class="text-danger"
                             *ngIf="scheduleForm.get('noOfHours')?.invalid && (scheduleForm.get('noOfHours')?.touched ||  scheduleForm.get('noOfHours')?.dirty)">
                             <div *ngIf=" scheduleForm.get('noOfHours')?.hasError('required')">Please Enter no of
