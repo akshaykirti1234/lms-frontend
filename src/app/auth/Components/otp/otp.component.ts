@@ -71,7 +71,7 @@ export class OtpComponent {
         if(response.isValid){
           Swal.fire({
             title: 'Success',
-            text: response.message,
+            text: 'OTP Verified Successfully.',
             icon: 'success',
             confirmButtonText: 'OK',
             allowOutsideClick: false,
@@ -84,7 +84,7 @@ export class OtpComponent {
         else{
           Swal.fire({
             title: 'Error',
-            text: response.message,
+            text: 'Invalid OTP',
             icon: 'error',
             confirmButtonText: 'OK',
             allowOutsideClick: false,
