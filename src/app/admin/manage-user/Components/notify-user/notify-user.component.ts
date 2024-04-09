@@ -28,7 +28,7 @@ export class NotifyUserComponent {
   public initNotifyForm() {
     this.notifyForm = this.fb.group({
       notifyStatus: ['', [Validators.required]],
-      selectedEmails: [[], [Validators.required, Validators.email]],
+      selectedEmails: [[], [Validators.required]],
       description: ['']
     });
   }
