@@ -171,7 +171,7 @@ export class AddSessionComponent {
 
   validateDoc(event: any): boolean {
     let file = event.target.files[0];
-    const allowedFormats = ['pdf', 'odt', 'pptx' , 'ppt' , 'doc' , 'docx' , 'txt'];
+    const allowedFormats = ['pdf', 'odt', 'pptx', 'ppt', 'doc', 'docx', 'txt'];
     const fileExt = file.name.split('.').pop().toLowerCase();
 
     if (!allowedFormats.includes(fileExt)) {
@@ -188,7 +188,7 @@ export class AddSessionComponent {
 
   validateFile(event: any): boolean {
     let file = event.target.files[0];
-    const allowedFormats = ['mp4', 'avi', 'mov'];
+    const allowedFormats = ['mp4', 'avi', 'mov', 'mkv'];
     const fileExt = file.name.split('.').pop().toLowerCase();
 
     if (!allowedFormats.includes(fileExt)) {
@@ -265,7 +265,7 @@ export class AddSessionComponent {
       description.markAsTouched();
     }
 
-    
+
 
     if (errorFlag === 0) {
       this.sessionForm.value.sessionid = this.id;
