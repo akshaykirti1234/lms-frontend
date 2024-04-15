@@ -28,8 +28,9 @@ export class NotifyUserComponent {
   public initNotifyForm() {
     this.notifyForm = this.fb.group({
       notifyStatus: ['', [Validators.required]],
-      selectedEmails: [[], [Validators.required, Validators.email]],
-      description: ['']
+      selectedEmails: [[], [Validators.required]],
+      description: [''],
+      selectAllUsersCtrl:['']
     });
   }
 
@@ -55,15 +56,11 @@ export class NotifyUserComponent {
     });
   }
 
-
   getAllUsers(): void {
     this.manageUserService.getAllUsers().subscribe({
       next: (response) => {
-        this.userList = response.body;
-        console.log(this.userList);
-
+        this.userList = response.body.filter((email: string) => email !== 'admin@csm.tech');
         this.filteredUsers = this.userCtrl.valueChanges.pipe(
-          // startWith(null),
           map((user: string | null) => (user ? this._filter(user) : this.userList.slice())),
         );
       }, error: (error) => {
@@ -71,6 +68,7 @@ export class NotifyUserComponent {
       }
     });
   }
+  
 
   separatorKeysCodes: number[] = [ENTER, TAB];
   userCtrl = new FormControl('');
@@ -132,7 +130,6 @@ export class NotifyUserComponent {
 
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
-
     return this.userList.filter((user: any) => user.toLowerCase().includes(filterValue));
   }
 
@@ -163,6 +160,15 @@ export class NotifyUserComponent {
         icon: 'error',
         title: 'Please Fill The Form Correctly'
       });
+    }
+  }
+
+  selectAllUsers(): void {
+    const selectAll = this.notifyForm.get('selectAllUsersCtrl').value;
+    if (selectAll) {
+      this.notifyForm.get('selectedEmails').setValue(this.userList);
+    } else {
+      this.notifyForm.get('selectedEmails').setValue([]);
     }
   }
 
