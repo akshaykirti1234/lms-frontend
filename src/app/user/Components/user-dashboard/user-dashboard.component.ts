@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
-import { DashboardService } from '../dashboard.service';
+import { DashboardService } from '../../Services/dashboard.service';
 import { Title } from '@angular/platform-browser';
 
 @Component({
@@ -12,9 +12,14 @@ import { Title } from '@angular/platform-browser';
   styleUrls: ['./user-dashboard.component.css']
 })
 export class UserDashboardComponent implements OnInit {
+
+
   public userName = sessionStorage.getItem('fullName');
   currentTime: any;
   public updatePasswordForm: any;
+
+  public moduleList: any;
+  public subModuleList: any;
 
   constructor(private router: Router, private http: HttpClient, private fb: FormBuilder, private dashboardService: DashboardService) { }
 
@@ -34,7 +39,13 @@ export class UserDashboardComponent implements OnInit {
       confirmPassword: ['', [Validators.required]]
     });
     this.updatePasswordForm.get('confirmPassword').setValidators([Validators.required, this.matchPasswords('newPassword')]);
+
+
+    //call getAllModules
+    this.getAllModules();
+
   }
+
 
   matchPasswords(passwordField: string) {
     return (control: AbstractControl): { [key: string]: boolean } | null => {
@@ -47,7 +58,7 @@ export class UserDashboardComponent implements OnInit {
     };
   }
 
-  //Submit Form
+  //Submit Update Password Form 
   public submitForm(): void {
     if (this.updatePasswordForm.valid) {
       this.updatePasswordForm.get('emailId').setValue(sessionStorage.getItem('emailId'));
@@ -110,6 +121,37 @@ export class UserDashboardComponent implements OnInit {
         this.router.navigate(['/home']);
       }
     });
+  }
+
+
+  //Get ModuleList
+  public getAllModules() {
+    this.dashboardService.getAllModules().subscribe({
+      next: (response) => {
+        this.moduleList = response.body;
+        console.log(this.moduleList);
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    });
+  }
+
+  //get subModuleByModuleId
+  public getSubModuleByModuleId(moduleId: any) {
+    this.dashboardService.getSubModuleByModuleId(moduleId).subscribe({
+      next: (response) => {
+        this.subModuleList = response.body;
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    });
+  }
+
+
+  onSubModuleClick(submoduleId: any) {
+    this.router.navigate(['/user/viewSchedule', submoduleId]);
   }
 
 }

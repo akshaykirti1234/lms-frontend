@@ -1,0 +1,11 @@
+<div class="m-5 d-flex flex-wrap gap-5 justify-content-center">
+    <div class="card w-25" *ngFor="let schedule of scheduleList">
+        <div class="card-body">
+            <!-- {{schedule |json}} -->
+
+            <span class="text-danger fw-bold">{{schedule.SCHEDULEFOR}}</span> By
+            {{schedule.AUTHNAME}}
+
+        </div>
+    </div>
+</div>

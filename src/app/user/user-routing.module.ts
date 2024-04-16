@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { UserDashboardComponent } from './user-dashboard/user-dashboard.component';
+import { UserDashboardComponent } from './Components/user-dashboard/user-dashboard.component';
+import { ViewScheduleComponent } from './Components/view-schedule/view-schedule.component';
 
 const routes: Routes = [
   {
     path: '', component: UserDashboardComponent, children: [
-      // { path: 'notify', loadChildren: () => import('./notify/notify.module').then(m => m.NotifyModule) },
-      // { path: 'assign', loadChildren: () => import('./assign/assign.module').then(m => m.AssignModule) },
+      { path: 'viewSchedule/:subModuleId', component: ViewScheduleComponent }
     ]
   }
 ];
