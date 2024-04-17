@@ -27,6 +27,7 @@ export class AddUserComponent {
 
   uploadValidationMessage: string = ''; // Validation message
 
+  userDetailsById: any;
 
 
   constructor(
@@ -111,15 +112,14 @@ export class AddUserComponent {
 
 
       if (this.userId > 0) {
-        this.userService.getUserById(this.userId).subscribe((data: any) => {
 
-          if (data.EMAILID !== email) {
-            const emailExists = this.emailList.some((item: any) => item.EMAILID === email);
+        if (this.userDetailsById.EMAILID !== email) {
+          const emailExists = this.emailList.some((item: any) => item.EMAILID === email);
 
-            console.log('emailExists:', emailExists);
-            resolve(emailExists ? { emailExists: true } : null);
-          }
-        })
+          console.log('emailExists:', emailExists);
+          resolve(emailExists ? { emailExists: true } : null);
+        }
+
       }
       else {
         const emailExists = this.emailList.some((item: any) => item.EMAILID === email);
@@ -256,6 +256,7 @@ export class AddUserComponent {
   editUser() {
     this.userService.getUserById(this.userId).subscribe((data: any) => {
       console.log(data);
+      this.userDetailsById = data;
 
       this.UserMasterForm.patchValue({
         fullName: data.FULLNAME,
