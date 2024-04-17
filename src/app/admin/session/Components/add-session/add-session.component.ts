@@ -171,14 +171,14 @@ export class AddSessionComponent {
 
   validateDoc(event: any): boolean {
     let file = event.target.files[0];
-    const allowedFormats = ['pdf', 'odt', 'pptx', 'ppt', 'doc', 'docx', 'txt'];
+    const allowedFormats = ['pdf'];
     const fileExt = file.name.split('.').pop().toLowerCase();
 
     if (!allowedFormats.includes(fileExt)) {
       Swal.fire({
         icon: 'error',
         title: 'Invalid Document format',
-        text: 'Only PDF , DOC , PPT formats are allowed.',
+        text: 'Only PDF format is allowed.',
       });
       return false;
     }

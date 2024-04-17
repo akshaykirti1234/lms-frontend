@@ -31,7 +31,6 @@ export class LoginService {
   fullName: any;
   userId: any;
   respones: any;
-
   //loginurl = environment.serviceURL;
 
   // headers = {
