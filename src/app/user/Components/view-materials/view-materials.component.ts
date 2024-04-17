@@ -25,6 +25,7 @@ export class ViewMaterialsComponent implements OnInit {
   constructor(private activatedRout: ActivatedRoute, private dashboardService: DashboardService, private cdr: ChangeDetectorRef,
     private elementRef: ElementRef) { }
 
+
   ngOnInit(): void {
     this.activatedRout.paramMap.subscribe(params => {
       const scheduleId = params.get('scheduleId');
@@ -36,6 +37,13 @@ export class ViewMaterialsComponent implements OnInit {
     this.dashboardService.getSessionByScheduleId(scheduleId).subscribe({
       next: (response) => {
         this.materialList = response.body;
+        // Check if materialList is not empty and contains videos
+        if (this.materialList) {
+          const firstVideo = this.materialList.find((item: any) => item.video);
+          if (firstVideo) {
+            this.showMaterial(firstVideo.video, firstVideo);
+          }
+        }
       },
       error: (error) => {
         console.log(error);
