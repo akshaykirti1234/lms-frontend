@@ -29,4 +29,10 @@ export class DashboardService {
   public getScheduleBySubModuleId(id: any) {
     return this.http.get('http://localhost:8085/submodule/' + id, { observe: 'response' });
   }
+
+  public getSessionByScheduleId(scheduleId: any) {
+    return this.http.get('http://localhost:8085/getSessionByScheduleId/' + scheduleId, { observe: 'response' });
+  }
+
+
 }

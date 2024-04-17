@@ -11,3 +11,7 @@ a {
 .form-right i {
     font-size: 100px;
 }
+
+label{
+    font-weight: bold;
+}

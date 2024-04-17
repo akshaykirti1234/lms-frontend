@@ -22,6 +22,7 @@
     "@angular/router": "^16.2.0",
     "@swimlane/ngx-datatable": "^20.1.0",
     "bootstrap-icons": "^1.11.3",
+    "ngx-extended-pdf-viewer": "^19.4.0-alpha.2",
     "ngx-pagination": "^6.0.3",
     "ngx-ui-loader": "^13.0.0",
     "rxjs": "~7.8.0",

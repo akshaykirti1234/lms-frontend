@@ -78,15 +78,14 @@
                                                 <img src='../../../../assets/images/hide_password_img.png' height="40px"
                                                     alt='hide'>
                                             </a>
-                                            <br>
-                                            <small class="text-danger">
-                                                <div *ngIf="login_form.get('password')?.invalid && login_form.get('password')?.touched"
-                                                    class="error-message">
-                                                    <div *ngIf="login_form.get('password')?.hasError('required')">
-                                                        Password Can't Blank .</div>
-                                                </div>
-                                            </small>
                                         </div>
+                                        <small class="text-danger">
+                                            <div *ngIf="login_form.get('password')?.invalid && login_form.get('password')?.touched"
+                                                class="error-message">
+                                                <div *ngIf="login_form.get('password')?.hasError('required')">
+                                                    Password Can't Blank .</div>
+                                            </div>
+                                        </small>
                                     </div>
                                     <div class="col-md-10">
                                         <span>{{ captcha.text }}</span>
