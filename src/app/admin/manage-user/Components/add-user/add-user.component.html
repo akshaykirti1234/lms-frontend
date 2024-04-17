@@ -98,6 +98,8 @@
                                     <option value="">--Select--</option>
                                     <option *ngFor="let location of locationList" [value]="location.LOCATIONID">
                                         {{ location.LOCATIONNAME }}
+                                        <div *ngIf="UserMasterForm.get('location').invalid && (UserMasterForm.get('location').dirty || UserMasterForm.get('location').touched)"
+                                            class="text-danger">Location is required</div>
                                     </option>
                                 </select>
                             </div>

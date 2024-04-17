@@ -146,7 +146,7 @@ export class AddUserComponent {
     const emailId = this.UserMasterForm.get('emailId');
     const department = this.UserMasterForm.get('department');
     const designation = this.UserMasterForm.get('designation');
-    const locationId = this.UserMasterForm.get('locationId');
+    const location = this.UserMasterForm.get('location');
 
     if (fullName?.invalid && errorFlag === 0) {
       Swal.fire({
@@ -209,7 +209,7 @@ export class AddUserComponent {
       errorFlag = 1;
       designation.markAsTouched();
     }
-    if (locationId?.invalid && errorFlag === 0) {
+    if (location?.invalid && errorFlag === 0) {
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
@@ -217,7 +217,7 @@ export class AddUserComponent {
       });
 
       errorFlag = 1;
-      locationId.markAsTouched();
+      location.markAsTouched();
     }
 
     if (errorFlag === 0) {

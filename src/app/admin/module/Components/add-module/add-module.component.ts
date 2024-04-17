@@ -13,7 +13,8 @@ export class AddModuleComponent {
   moduleMasterForm: any;
   moduleId: any;
   viewModuleLogoUrl: string = 'http://localhost:8085/viewLogo';
-
+  showUploadValidationMessage = false;
+  uploadValidationMessage: any;
   constructor(
     private fb: FormBuilder,
     private service: ModuleserviceService,
@@ -21,7 +22,7 @@ export class AddModuleComponent {
     private activatedRoute: ActivatedRoute
   ) {
     this.moduleMasterForm = this.fb.group({
-      moduleName: ['', [Validators.required, Validators.pattern('^[A-Za-z]+$')]],
+      moduleName: ['', [Validators.required, Validators.pattern('^[A-Za-z ]+$')]],
       moduleDescription: ['', Validators.required],
       logo: ['', Validators.required],
     });
@@ -128,26 +129,44 @@ export class AddModuleComponent {
     if (event.target != null) {
       let file = event.target.files[0];
       console.log(file);
+      if (!file.name.endsWith('.jpg') && !file.name.endsWith('.jpeg') && !file.name.endsWith('.png') && !file.name.endsWith('.gif') && !file.name.endsWith('.svg') && !file.name.endsWith('.webp') && !file.name.endsWith('.bmp') && !file.name.endsWith('.tiff')) {
+        // Invalid image file extension
+        this.showUploadValidationMessage = true; // Show validation message
 
-      let fileId = event.target.id;
-      const fileData = new FormData();
-      fileData.append('file', file);
+        this.uploadValidationMessage = 'Please select an only Excel file (.jpg,.jpeg,.png,.gif,.svg,.webp,.bmp,.tiff) only.';
 
-      this.service.setFilePath(fileData).subscribe(
-        (data: any) => {
+        const fileInput: HTMLInputElement | null = document.querySelector('#logo');
 
-          if (this.moduleMasterForm.controls[fileId]) {
-            this.moduleMasterForm.controls[fileId].setValue(data.fileName);
-          } else {
-            console.error(`Control with id '${fileId}' not found in form.`);
-          }
-        },
-        (error: any) => {
-          console.log(error);
+        console.log(fileInput);
+
+        if (fileInput) {
+          // Reset the file input by setting its value to an empty string
+          fileInput.value = '';
         }
-      );
+      } else {
+        this.showUploadValidationMessage = false; // Hide validation message
+
+        let fileId = event.target.id;
+        const fileData = new FormData();
+        fileData.append('file', file);
+
+        this.service.setFilePath(fileData).subscribe(
+          (data: any) => {
+
+            if (this.moduleMasterForm.controls[fileId]) {
+              this.moduleMasterForm.controls[fileId].setValue(data.fileName);
+            } else {
+              console.error(`Control with id '${fileId}' not found in form.`);
+            }
+          },
+          (error: any) => {
+            console.log(error);
+          }
+        );
+      }
     }
   }
+
 
   getModuleById(moduleId: any) {
     this.service.getModuleById(moduleId).subscribe(
