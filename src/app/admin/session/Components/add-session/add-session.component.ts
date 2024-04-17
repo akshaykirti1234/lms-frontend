@@ -207,8 +207,10 @@ export class AddSessionComponent {
     if (event.target != null) {
       let file = event.target.files[0];
       let fileId = event.target.id;
+      let sessionName = this.sessionForm.value.sessionName;
       const fileData = new FormData();
       fileData.append('file', file);
+      fileData.append('name', sessionName != null ? sessionName : 'video');
       this.sessionService.setTempFile(fileData).subscribe(
         (data: any) => {
           if (this.sessionForm.controls[fileId]) {
