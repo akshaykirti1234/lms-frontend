@@ -57,16 +57,17 @@
                                             <div class="input-group-text"><i class="bi bi-person-fill"></i></div>
                                             <input formControlName="email" class="form-control" type="text"
                                                 placeholder="Enter Email Id" maxlength="30" id="email">
-                                            <small>
-                                                <div *ngIf="login_form.get('email')?.invalid && login_form.get('email')?.touched"
-                                                    class="error-message">
-                                                    <div *ngIf="login_form.get('email')?.hasError('email')">Email Can't
-                                                        Blank .</div>
-                                                    <!-- <div *ngIf="login_form.get('email')?.hasError('pattern')">Invalid username Format
-                          </div> -->
-                                                </div>
-                                            </small>
                                         </div>
+                                        <small class="text-danger">
+                                            <div *ngIf="login_form.get('email')?.invalid && login_form.get('email')?.touched"
+                                                class="error-message">
+                                                <div *ngIf="login_form.get('email')?.hasError('required')">Email
+                                                    Can't
+                                                    Blank .</div>
+                                                <!-- <div *ngIf="login_form.get('email')?.hasError('pattern')">Invalid username Format
+                          </div> -->
+                                            </div>
+                                        </small>
                                     </div>
 
                                     <div class="col-12">
@@ -137,7 +138,7 @@
                         <div class="col-md-5 ps-0 d-none d-md-block">
                             <div class="form-right h-100 bg-primary rounded-end-2">
                                 <img src="https://blogimages.softwaresuggest.com/blog/wp-content/uploads/2021/03/20142019/Top-Benefits-of-Using-LMS-in-Schools-for-Education.png"
-                                    class="w-100 rounded-end-2" alt="" style="object-fit: cover; height: 500px;">
+                                    class="w-100 rounded-end-2" alt="" style="object-fit: cover; height: 550px;">
                                 <!-- <h2 class="fs-1">Learning Management System</h2> -->
                             </div>
                         </div>
