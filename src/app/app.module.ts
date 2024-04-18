@@ -6,7 +6,6 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { ErrorPageComponent } from './error-page/error-page.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { MyInterceptor } from './my-interceptor';
