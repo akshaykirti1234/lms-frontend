@@ -70,7 +70,7 @@
 
                 <div class="d-flex gap-2 justify-content-center mt-5">
                     <button type="submit" class="btn btn-primary"> {{ authorForm.get('authId').value ?
-                        'Update' : 'Save' }}</button>
+                        'Update' : 'Submit' }}</button>
                     <button *ngIf="!authorForm.get('authId').value" type="reset" class="btn btn-danger">Reset</button>
                     <button type="button" *ngIf="authorForm.get('authId').value" class="btn btn-danger"
                         (click)="cancel()">Cancel</button>

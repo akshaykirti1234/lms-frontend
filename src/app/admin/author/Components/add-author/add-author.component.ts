@@ -74,7 +74,7 @@ export class AddAuthorComponent {
 
       Swal.fire({
 
-        title: this.authorForm.get('authId').value === '' ? 'Do you want to save ?' : 'Do you want to Update ?',
+        title: this.authorForm.get('authId').value === '' ? 'Do you want to submit ?' : 'Do you want to Update ?',
 
         text: "",
 

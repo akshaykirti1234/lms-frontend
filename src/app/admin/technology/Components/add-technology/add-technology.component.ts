@@ -122,7 +122,7 @@ export class AddTechnologyComponent {
   saveTechForm(): void {
     if (this.technologyForm.valid) {
       Swal.fire({
-        title: this.technologyForm.get('techId').value === '' ? 'Do you want to Save?' : 'Do you want to Update?',
+        title: this.technologyForm.get('techId').value === '' ? 'Do you want to submit?' : 'Do you want to Update?',
         text: '',
         icon: 'warning',
         showCancelButton: true,
