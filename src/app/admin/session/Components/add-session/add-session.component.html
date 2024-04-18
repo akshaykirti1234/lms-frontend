@@ -5,7 +5,7 @@
     </div>
     <div class="card-body">
       <form [formGroup]="sessionForm" enctype="multipart/form-data" (ngSubmit)="onSubmit()">
-        <div class="row m-5">
+        <div class="row m-4">
           <div class="col-md-4">
             <div class="form-group">
               <label for="subModuleId">Sub Module:</label>
@@ -46,7 +46,7 @@
             <div class="form-group">
               <label for="sessionName">Session Name:</label>
               <span class="text-danger">*</span>
-              <input type="text" formControlName="sessionName" class="form-control" />
+              <input type="text" placeholder="Enter Session Name" formControlName="sessionName" class="form-control" />
               <div *ngIf="sessionForm.get('sessionName')?.invalid && sessionForm.get('sessionName')?.touched">
                 <p class="text-danger">Please Enter Session Name</p>
             </div>
@@ -54,8 +54,8 @@
           </div>
         </div>
 
-        <div class="row m-5">
-          <div class="col-md-4">
+        <div class="row m-4">
+          <div class="col-md-6">
             <div class="form-group">
               <label for="video">Video :</label>
               <span class="text-danger">*</span>
@@ -71,7 +71,7 @@
               </div>
             </div>
           </div>
-          <div class="col-md-4">
+          <div class="col-md-6">
             <div class="form-group">
               <label for="document">Document:</label>
               <span class="text-danger">*</span>
@@ -86,18 +86,22 @@
               </div>
             </div>
           </div>
-
-          <div class="col-md-4">
+          </div>
+          <div class="row m-4">
+          <div class="col-md-12">
             <div class="form-group">
               <label for="description">Description:</label>
               <span class="text-danger">*</span>
-              <input type="text" formControlName="description" class="form-control" />
+              <textarea formControlName="description" placeholder="Enter Description" class="form-control" rows="3"></textarea>
               <div *ngIf="sessionForm.get('description')?.invalid && sessionForm.get('description')?.touched">
                 <p class="text-danger">Please Enter Description</p>
-            </div>
+              </div>
             </div>
           </div>
         </div>
+          
+          
+        
         <div *ngIf="id === 0" class="text-center mb-5">
           <button type="submit" class="btn btn-primary">
             Submit</button>&nbsp;

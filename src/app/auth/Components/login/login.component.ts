@@ -239,16 +239,16 @@ export class LoginComponent {
     const passwordinput = document.querySelector('.password')!;
 
     if (passwordinputtype == 'password') {
-      passimg.innerHTML =
-        "<img src='" +
-        this.siteURL +
-        "assets/images/view_password_img.png' height='40px' alt='view'>";
+      passimg.innerHTML = '<i class="bi bi-eye-slash-fill"></i>';
+      // "<img src='" +
+      // this.siteURL +
+      // "assets/images/view_password_img.png' height='40px' alt='view'>";
       passwordinput.setAttribute('type', 'text');
     } else {
-      passimg.innerHTML =
-        "<img src='" +
-        this.siteURL +
-        "assets/images/hide_password_img.png' height='40px' alt='hide'>";
+      passimg.innerHTML = '<i class="bi bi-eye-fill"></i>';
+      // "<img src='" +
+      // this.siteURL +
+      // "assets/images/hide_password_img.png' height='40px' alt='hide'>";
 
       passwordinput.setAttribute('type', 'password');
     }

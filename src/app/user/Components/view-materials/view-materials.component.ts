@@ -11,12 +11,13 @@ export class ViewMaterialsComponent implements OnInit {
 
   public materialList: any;
 
-  public pdfList: any;
   public selectedPdf: any;
   public selectedVideo: any;
-
+  public authorName: any;
   public sessionName: any;
   public description: any;
+
+  public currentRating: any;
 
   private startTime: any;
   private elapsedTime: any;
@@ -60,6 +61,7 @@ export class ViewMaterialsComponent implements OnInit {
 
     this.sessionName = file.sessionName;
     this.description = file.sessionDescription;
+    this.authorName = file.scheduleFor.author.authName;
 
     this.selectedPdf = null;
     this.selectedVideo = null;
@@ -76,6 +78,23 @@ export class ViewMaterialsComponent implements OnInit {
     } else {
       console.log('Unsupported file type or unknown extension.');
     }
+  }
+
+  rateVideo(rating: number) {
+    this.currentRating = rating;
+    console.log("Rated video with", rating, "stars");
+
+    // Update star styling based on rating
+    const stars = document.querySelectorAll('.star-rating i');
+    for (let i = 0; i < stars.length; i++) {
+      stars[i].classList.remove('star-selected'); // Remove selected class from all stars
+      if (i < rating) {
+        stars[i].classList.add('star-selected'); // Add selected class for stars below the rating
+      }
+    }
+
+    // Implement logic to send rating to server (if needed)
+    // For example, make an API call with the rating value
   }
 
   startTimer() {

@@ -20,7 +20,8 @@ export class UserDashboardComponent implements OnInit {
 
   public moduleList: any;
   public subModuleList: any;
-
+  emailId = sessionStorage.getItem('emailId');
+  mobile = sessionStorage.getItem('mobileNo');
   constructor(private router: Router, private http: HttpClient, private fb: FormBuilder, private dashboardService: DashboardService) { }
 
   ngOnInit(): void {

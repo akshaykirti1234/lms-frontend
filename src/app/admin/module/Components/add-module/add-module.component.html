@@ -38,6 +38,13 @@
                                     *ngIf="moduleMasterForm.get('logo').invalid && moduleMasterForm.get('logo').touched">
                                     Module logo is required
                                 </div>
+                                <!-- Validation message for upload -->
+
+                                <div *ngIf="showUploadValidationMessage" class="text-danger mt-2">
+
+                                    {{ uploadValidationMessage }}
+
+                                </div>
                             </div>
                         </div>
                     </div>

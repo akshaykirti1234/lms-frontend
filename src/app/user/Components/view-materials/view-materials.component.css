@@ -13,4 +13,21 @@
     border-radius: 5px; /* Add rounded corners */
   }
   
-    
+  
+  .star-rating {
+  display: flex;
+}
+
+.star-rating i {
+  font-size: 20px; /* Adjust font size as needed */
+  cursor: pointer;
+  margin: 0 5px;
+}
+
+.star-unselected {
+  color: #ccc; /* Unselected star color */
+}
+
+.star-selected {
+  color: gold; /* Selected star color */
+}

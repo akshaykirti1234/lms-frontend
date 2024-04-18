@@ -43,11 +43,13 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-10 offset-lg-1">
-                <h3 class="mb-3">Login Now</h3>
-                <div class="bg-white shadow rounded">
-                    <div class="row">
+                <!-- <h3 class="mb-3">Login Now</h3> -->
+                <div class=" shadow rounded">
+                    <div class="row ">
                         <div class="col-md-7 pe-0">
-                            <div class="form-left h-100 py-5 px-5">
+                            <img src="../../../../assets/images/csm logo.jpg" style="mix-blend-mode: multiply ;"
+                                class="w-25 ms-4" alt="">
+                            <div class="form-left h-100  pb-5 px-5">
                                 <form [formGroup]="login_form" class="row g-4">
                                     <div class="col-12">
                                         <label>Email<span class="text-danger">*</span></label>
@@ -74,9 +76,11 @@
                                             <input formControlName="password" type="password"
                                                 class="form-control password" placeholder="Enter Password"
                                                 maxlength="24">
-                                            <a class="passwordshowbtn" (click)="togglePasswordVisibility()">
-                                                <img src='../../../../assets/images/hide_password_img.png' height="40px"
-                                                    alt='hide'>
+                                            <a class="passwordshowbtn input-group-text"
+                                                (click)="togglePasswordVisibility()">
+                                                <!-- <img src='../../../../assets/images/hide_password_img.png' height="40px"
+                                                    alt='hide'> -->
+                                                <i class="bi bi-eye-fill"></i>
                                             </a>
                                         </div>
                                         <small class="text-danger">
@@ -131,10 +135,10 @@
                             </div>
                         </div>
                         <div class="col-md-5 ps-0 d-none d-md-block">
-                            <div class="form-right h-100 bg-primary text-white text-center pt-5">
-                                <img src="../../../../assets/images/csm logo.jpg" width="360" height="250" alt=""
-                                    srcset="">
-                                <h2 class="fs-1">Learning Management System</h2>
+                            <div class="form-right h-100 bg-primary rounded-end-2">
+                                <img src="https://blogimages.softwaresuggest.com/blog/wp-content/uploads/2021/03/20142019/Top-Benefits-of-Using-LMS-in-Schools-for-Education.png"
+                                    class="w-100 rounded-end-2" alt="" style="object-fit: cover; height: 500px;">
+                                <!-- <h2 class="fs-1">Learning Management System</h2> -->
                             </div>
                         </div>
                     </div>

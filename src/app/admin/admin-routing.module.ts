@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
+import { adminAuthGuard } from '../auth.guard';
 
 const routes: Routes = [
 
@@ -17,7 +18,7 @@ const routes: Routes = [
       // { path: 'notify', loadChildren: () => import('./notify/notify.module').then(m => m.NotifyModule) },
       { path: 'location', loadChildren: () => import('./location/location.module').then(m => m.LocationModule) },
       // { path: 'assign', loadChildren: () => import('./assign/assign.module').then(m => m.AssignModule) },
-    ]
+    ],canActivate : [adminAuthGuard]
   }
 ];
 
