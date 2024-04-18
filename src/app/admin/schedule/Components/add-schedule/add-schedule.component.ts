@@ -45,7 +45,7 @@ export class AddScheduleComponent implements OnInit {
         authName: this.fb.control('')
       }),
       technology: this.fb.group({
-        techId: this.fb.control(''),
+        techId: this.fb.control('', [Validators.required]),
         techName: this.fb.control('')
       }),
       noOfSession: ['', [Validators.required, Validators.pattern('^[1-9][0-9]*$')]],

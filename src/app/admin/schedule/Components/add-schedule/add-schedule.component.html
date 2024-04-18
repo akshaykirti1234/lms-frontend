@@ -22,7 +22,7 @@
                     <div formGroupName="subModule">
                         <label class="form-label" for="submoduleId">Sub Module</label><span class="text-danger">*</span>
                         <select class="form-select" formControlName="submoduleId" id="submoduleId">
-                            <option value="" selected disabled>-Select-</option>
+                            <option value="" selected>-Select-</option>
                             <option class="form-select" *ngFor="let subModule of subModuleList"
                                 [value]="subModule.submoduleId">
                                 {{subModule.submoduleName}}
@@ -39,7 +39,7 @@
                     <div formGroupName="author">
                         <label class="form-label" for="authId">Author</label><span class="text-danger">*</span>
                         <select class="form-select" formControlName="authId" id="authId">
-                            <option value="" selected disabled>-Select-</option>
+                            <option value="" selected>-Select-</option>
                             <option class="form-select" *ngFor="let author of authorList" [value]="author.authId">
                                 {{author.authName}}
                             </option>
@@ -52,9 +52,9 @@
                     </div>
 
                     <div formGroupName="technology">
-                        <label class="form-label" for="techId">Technology</label>
+                        <label class="form-label" for="techId">Technology</label><span class="text-danger">*</span>
                         <select class="form-select" formControlName="techId" id="techId">
-                            <option value="">-Select-</option>
+                            <option value="" selected>-Select-</option>
                             <option class="form-select" *ngFor="let technology of technologyList"
                                 [value]="technology.techId">
                                 {{technology.techName}}
