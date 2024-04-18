@@ -7,6 +7,8 @@ const routes: Routes = [
 
   {
     path: '', component: AdminDashboardComponent, children: [
+      { path: '', redirectTo: 'analysis', pathMatch: 'full' },
+      { path: 'analysis', loadChildren: () => import('./analysis/analysis.module').then(m => m.AnalysisModule) },
       { path: 'schedule', loadChildren: () => import('./schedule/schedule.module').then(m => m.ScheduleModule) },
       { path: 'module', loadChildren: () => import('./module/module.module').then(m => m.ModuleModule) },
       { path: 'subModule', loadChildren: () => import('./sub-module/sub-module.module').then(m => m.SubModuleModule) },
@@ -18,7 +20,7 @@ const routes: Routes = [
       // { path: 'notify', loadChildren: () => import('./notify/notify.module').then(m => m.NotifyModule) },
       { path: 'location', loadChildren: () => import('./location/location.module').then(m => m.LocationModule) },
       // { path: 'assign', loadChildren: () => import('./assign/assign.module').then(m => m.AssignModule) },
-    ],canActivate : [adminAuthGuard]
+    ], canActivate: [adminAuthGuard]
   }
 ];
 
