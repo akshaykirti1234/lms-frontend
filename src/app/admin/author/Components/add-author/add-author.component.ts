@@ -74,7 +74,7 @@ export class AddAuthorComponent {
 
       Swal.fire({
 
-        title: this.authorForm.get('authId').value === '' ? 'Do you want to save ?' : 'Do you want to Update ?',
+        title: this.authorForm.get('authId').value === '' ? 'Do you want to submit ?' : 'Do you want to Update ?',
 
         text: "",
 
@@ -149,10 +149,6 @@ export class AddAuthorComponent {
     }
 
 
-
-
-
-
     // if (this.authorForm.valid) {
     //   this.authorService.saveAuthor(this.authorForm.value).subscribe({
     //     next: (response) => {
@@ -188,5 +184,22 @@ export class AddAuthorComponent {
   //     return null;
   //   };
   // }
+
+
+  cancel() {
+    Swal.fire({
+      title: 'Cancel',
+      text: 'Are you sure you want to cancel?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Yes',
+      cancelButtonText: 'No',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // User confirmed, navigate away
+        this.router.navigate(['/admin/author/viewAuthor']);
+      }
+    });
+  }
 
 }

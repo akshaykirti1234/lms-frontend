@@ -39,11 +39,11 @@
             </div>  -->
                 <div class="d-flex gap-2 justify-content-center mt-5">
                     <button type="submit" class="btn btn-primary"> {{ technologyForm.get('techId').value ?
-                        'Update' : 'Save' }}</button>
+                        'Update' : 'Submit' }}</button>
                     <button *ngIf="!technologyForm.get('techId').value" type="reset"
                         class="btn btn-danger">Reset</button>
                     <button type="button" *ngIf="technologyForm.get('techId').value" class="btn btn-danger"
-                        routerLink="/admin/technology/viewTechnology">Cancel</button>
+                         (click)="cancel()">Cancel</button>
                 </div>
             </form>
 
