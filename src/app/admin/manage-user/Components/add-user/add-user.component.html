@@ -11,13 +11,18 @@
                             <div class="form-group">
                                 <label for="fullName">Full Name</label>
                                 <span class="text-danger">*</span>
-                                <input type="text" class="form-control" id="fullName" formControlName="fullName">
-                                <div *ngIf="UserMasterForm.get('fullName').invalid && (UserMasterForm.get('fullName').dirty || UserMasterForm.get('fullName').touched)"
-                                    class="text-danger">
-                                    <div *ngIf="UserMasterForm.get('fullName').errors?.required">Full Name is required
+                                <input type="text" class="form-control" id="fullName" formControlName="fullName" />
+                                <div *ngIf="
+                    UserMasterForm.get('fullName').invalid &&
+                    (UserMasterForm.get('fullName').dirty ||
+                      UserMasterForm.get('fullName').touched)
+                  " class="text-danger">
+                                    <div *ngIf="UserMasterForm.get('fullName').errors?.required">
+                                        Full Name is required
                                     </div>
-                                    <div *ngIf="UserMasterForm.get('fullName').errors?.pattern">Full Name should only
-                                        contain letters and spaces</div>
+                                    <div *ngIf="UserMasterForm.get('fullName').errors?.pattern">
+                                        Full Name should only contain letters and spaces
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -26,31 +31,43 @@
                                 <label for="contactNumber">Contact Number</label>
                                 <span class="text-danger">*</span>
                                 <input type="text" class="form-control" id="contactNo" formControlName="contactNo"
-                                    maxlength="10">
+                                    maxlength="10" />
 
-                                <div *ngIf="UserMasterForm.get('contactNo').invalid && (UserMasterForm.get('contactNo').dirty || UserMasterForm.get('contactNo').touched)"
-                                    class="text-danger">
-                                    <div *ngIf="UserMasterForm.get('contactNo').errors?.required">Contact Number is
-                                        required</div>
-                                    <div *ngIf="UserMasterForm.get('contactNo').errors?.pattern">Contact Number should
-                                        only contain numbers</div>
+                                <div *ngIf="
+                    UserMasterForm.get('contactNo').invalid &&
+                    (UserMasterForm.get('contactNo').dirty ||
+                      UserMasterForm.get('contactNo').touched)
+                  " class="text-danger">
+                                    <div *ngIf="UserMasterForm.get('contactNo').errors?.required">
+                                        Contact Number is required
+                                    </div>
+                                    <div *ngIf="UserMasterForm.get('contactNo').errors?.pattern">
+                                        Contact Number should only contain numbers
+                                    </div>
                                     <!-- <div *ngIf="UserMasterForm.get('contactNo').errors?.maxLength">Contact Number should be maximum 10 digits</div> -->
                                 </div>
                             </div>
                         </div>
 
-
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="emailId">Email-Id</label>
                                 <span class="text-danger">*</span>
-                                <input type="text" class="form-control" id="emailId" formControlName="emailId">
-                                <div *ngIf="UserMasterForm.get('emailId').invalid && (UserMasterForm.get('emailId').dirty || UserMasterForm.get('emailId').touched)"
-                                    class="text-danger">
-                                    <div *ngIf="UserMasterForm.get('emailId').errors?.required">Email is required</div>
-                                    <div *ngIf="UserMasterForm.get('emailId').errors?.email">Invalid email format</div>
-                                    <div *ngIf="UserMasterForm.get('emailId').hasError('emailExists')"
-                                        class="text-danger">
+                                <input type="text" class="form-control" id="emailId" formControlName="emailId" />
+                                <div *ngIf="
+                    UserMasterForm.get('emailId').invalid &&
+                    (UserMasterForm.get('emailId').dirty ||
+                      UserMasterForm.get('emailId').touched)
+                  " class="text-danger">
+                                    <div *ngIf="UserMasterForm.get('emailId').errors?.required">
+                                        Email is required
+                                    </div>
+                                    <div *ngIf="UserMasterForm.get('emailId').errors?.email">
+                                        Invalid email format
+                                    </div>
+                                    <div *ngIf="
+                      UserMasterForm.get('emailId').hasError('emailExists')
+                    " class="text-danger">
                                         Email already exists
                                     </div>
                                 </div>
@@ -62,32 +79,41 @@
                             <div class="form-group">
                                 <label for="department">Department</label>
                                 <span class="text-danger">*</span>
-                                <input type="text" class="form-control" id="department" formControlName="department">
-                                <div *ngIf="UserMasterForm.get('department').invalid && (UserMasterForm.get('department').dirty || UserMasterForm.get('department').touched)"
-                                    class="text-danger">
-                                    <div *ngIf="UserMasterForm.get('department').errors?.required">Department is
-                                        required</div>
-                                    <div *ngIf="UserMasterForm.get('department').errors?.pattern">Department should only
-                                        contain letters and spaces</div>
+                                <input type="text" class="form-control" id="department" formControlName="department" />
+                                <div *ngIf="
+                    UserMasterForm.get('department').invalid &&
+                    (UserMasterForm.get('department').dirty ||
+                      UserMasterForm.get('department').touched)
+                  " class="text-danger">
+                                    <div *ngIf="UserMasterForm.get('department').errors?.required">
+                                        Department is required
+                                    </div>
+                                    <div *ngIf="UserMasterForm.get('department').errors?.pattern">
+                                        Department should only contain letters and spaces
+                                    </div>
                                 </div>
                             </div>
-
                         </div>
 
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="designation">Designation</label>
                                 <span class="text-danger">*</span>
-                                <input type="text" class="form-control" id="designation" formControlName="designation">
-                                <div *ngIf="UserMasterForm.get('designation').invalid && (UserMasterForm.get('designation').dirty || UserMasterForm.get('designation').touched)"
-                                    class="text-danger">
-                                    <div *ngIf="UserMasterForm.get('designation').errors?.required">Designation is
-                                        required</div>
-                                    <div *ngIf="UserMasterForm.get('designation').errors?.pattern">Designation should
-                                        only contain letters and spaces</div>
+                                <input type="text" class="form-control" id="designation"
+                                    formControlName="designation" />
+                                <div *ngIf="
+                    UserMasterForm.get('designation').invalid &&
+                    (UserMasterForm.get('designation').dirty ||
+                      UserMasterForm.get('designation').touched)
+                  " class="text-danger">
+                                    <div *ngIf="UserMasterForm.get('designation').errors?.required">
+                                        Designation is required
+                                    </div>
+                                    <div *ngIf="UserMasterForm.get('designation').errors?.pattern">
+                                        Designation should only contain letters and spaces
+                                    </div>
                                 </div>
                             </div>
-
                         </div>
 
                         <div class="col-md-4">
@@ -98,8 +124,13 @@
                                     <option value="">--Select--</option>
                                     <option *ngFor="let location of locationList" [value]="location.LOCATIONID">
                                         {{ location.LOCATIONNAME }}
-                                        <div *ngIf="UserMasterForm.get('location').invalid && (UserMasterForm.get('location').dirty || UserMasterForm.get('location').touched)"
-                                            class="text-danger">Location is required</div>
+                                        <div *ngIf="
+                        UserMasterForm.get('location').invalid &&
+                        (UserMasterForm.get('location').dirty ||
+                          UserMasterForm.get('location').touched)
+                      " class="text-danger">
+                                            Location is required
+                                        </div>
                                     </option>
                                 </select>
                             </div>
@@ -111,73 +142,58 @@
                         <button class="btn btn-danger mt-2" type="Reset">Reset</button>
                     </div>
 
-                    <div *ngIf="userId>0" class="text-center mt-5">
+                    <div *ngIf="userId > 0" class="text-center mt-5">
                         <button class="btn btn-success mt-2" type="submit">Update</button>&nbsp;
-                        <button class="btn btn-danger mt-2" type="button" (click)="cancel()">Cancel</button>
+                        <button class="btn btn-danger mt-2" type="button" (click)="cancel()">
+                            Cancel
+                        </button>
                     </div>
-
                 </div>
             </form>
             <div *ngIf="userId == 0">
-                <hr>
+                <hr />
 
                 <form [formGroup]="uploadForm">
-
                     <div class="row">
-
                         <div class="col-md-4">
-
                             <label>Upload File <span class="text-danger">*</span></label>
 
                             <input class="form-control" type="file" id="fileInput" (change)="onFileSelected($event)"
                                 accept=".xlsx" />
 
-
-
                             <!-- Validation message for upload -->
 
                             <div *ngIf="showUploadValidationMessage" class="text-danger mt-2">
-
                                 {{ uploadValidationMessage }}
-
                             </div>
-
                         </div>
 
                         <div class="col-md-4">
-
                             <label for=""></label>
 
                             <!-- <div><i class="fas fa-download" width="16" height="16" data-toggle="tooltip" data-placement="top" title="Download the excel format" (click)="downloadExcel()"></i> </div> -->
                             <div>
-
                                 <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
                                     class="bi bi-download" viewBox="0
                 0 16 16" data-bs-toggle="tooltip" data-bs-placement="top" title="This is the button
                 for file downloading" (click)="downloadExcel()">
-
                                     <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0
                 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5" />
 
                                     <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5
                 0 1 0-.708.708z" />
-
                                 </svg>
-
                             </div>
                         </div>
-
                     </div>
 
                     <div class="d-flex gap-2 justify-content-center mt-2">
-
-                        <button type="button" class="btn btn-primary" (click)="validateAndImport()">Import</button>
-
+                        <button type="button" class="btn btn-primary" (click)="validateAndImport()">
+                            Import
+                        </button>
                     </div>
-
                 </form>
             </div>
-
         </div>
     </div>
 </div>

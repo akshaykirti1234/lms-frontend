@@ -180,6 +180,12 @@ export class AddSessionComponent {
         title: 'Invalid Document format',
         text: 'Only PDF format is allowed.',
       });
+      const docInput: HTMLInputElement | null =
+        document.querySelector('#document');
+
+      if (docInput) {
+        docInput.value = '';
+      }
       return false;
     }
 
@@ -197,6 +203,13 @@ export class AddSessionComponent {
         title: 'Invalid file format',
         text: 'Only MP4, AVI, and MOV formats are allowed.',
       });
+      const videoInput: HTMLInputElement | null =
+        document.querySelector('#video');
+
+      if (videoInput) {
+        videoInput.value = '';
+      }
+
       return false;
     }
 
@@ -304,7 +317,7 @@ export class AddSessionComponent {
                 this.sessionForm.reset();
 
                 // Clear file input field
-
+                this.isConditionSatisfied = false;
                 const videoInput: HTMLInputElement | null =
                   document.querySelector('#video');
 
