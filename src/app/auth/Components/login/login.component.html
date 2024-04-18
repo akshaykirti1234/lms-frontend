@@ -44,10 +44,11 @@
         <div class="row">
             <div class="col-lg-10 offset-lg-1">
                 <!-- <h3 class="mb-3">Login Now</h3> -->
-                <div class="bg-white shadow rounded">
+                <div class=" shadow rounded">
                     <div class="row ">
                         <div class="col-md-7 pe-0">
-                            <img src="../../../../assets/images/csm logo.jpg" class="w-25 ms-4" alt="">
+                            <img src="../../../../assets/images/csm logo.jpg" style="mix-blend-mode: multiply ;"
+                                class="w-25 ms-4" alt="">
                             <div class="form-left h-100  pb-5 px-5">
                                 <form [formGroup]="login_form" class="row g-4">
                                     <div class="col-12">
@@ -75,9 +76,11 @@
                                             <input formControlName="password" type="password"
                                                 class="form-control password" placeholder="Enter Password"
                                                 maxlength="24">
-                                            <a class="passwordshowbtn" (click)="togglePasswordVisibility()">
-                                                <img src='../../../../assets/images/hide_password_img.png' height="40px"
-                                                    alt='hide'>
+                                            <a class="passwordshowbtn input-group-text"
+                                                (click)="togglePasswordVisibility()">
+                                                <!-- <img src='../../../../assets/images/hide_password_img.png' height="40px"
+                                                    alt='hide'> -->
+                                                <i class="bi bi-eye-fill"></i>
                                             </a>
                                         </div>
                                         <small class="text-danger">
