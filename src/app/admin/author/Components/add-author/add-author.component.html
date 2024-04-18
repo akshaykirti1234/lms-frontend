@@ -73,7 +73,7 @@
                         'Update' : 'Save' }}</button>
                     <button *ngIf="!authorForm.get('authId').value" type="reset" class="btn btn-danger">Reset</button>
                     <button type="button" *ngIf="authorForm.get('authId').value" class="btn btn-danger"
-                        routerLink="/admin/author/viewAuthor">Cancel</button>
+                        (click)="cancel()">Cancel</button>
                 </div>
             </form>
 

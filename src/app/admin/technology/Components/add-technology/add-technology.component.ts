@@ -184,4 +184,21 @@ export class AddTechnologyComponent {
     }
     )
   }
+
+  cancel() {
+    Swal.fire({
+      title: 'Cancel',
+      text: 'Are you sure you want to cancel?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Yes',
+      cancelButtonText: 'No',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // User confirmed, navigate away
+        this.router.navigate(['/admin/technology/viewTechnology']);
+      }
+    });
+  }
+
 }

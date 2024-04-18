@@ -43,7 +43,7 @@
                     <button *ngIf="!technologyForm.get('techId').value" type="reset"
                         class="btn btn-danger">Reset</button>
                     <button type="button" *ngIf="technologyForm.get('techId').value" class="btn btn-danger"
-                        routerLink="/admin/technology/viewTechnology">Cancel</button>
+                         (click)="cancel()">Cancel</button>
                 </div>
             </form>
 
