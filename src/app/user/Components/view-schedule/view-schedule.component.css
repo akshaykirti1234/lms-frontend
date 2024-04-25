@@ -1,7 +1,44 @@
-.card {
+/* .card {
     box-shadow: 10px 10px 10px 2px rgb(206, 204, 204);
 }
 
 .card:hover {
     box-shadow:5px 5px 10px 2px rgb(206, 204, 204);
+} */
+
+.custom-card {
+    /* width: calc(25% - 20px); */
+    /* max-width: 300px; */
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.custom-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.1);
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.card-title {
+    font-size: 1.2rem;
+}
+
+.card-text {
+    font-size: 1rem;
+    color: #555;
+}
+
+.form-control {
+    border-radius: 20px;
+    border-color: #ccc;
+}
+
+.form-control:focus {
+    border-color: #108fbb;
+    box-shadow: 0 0 0 0.2rem rgba(16, 143, 187, 0.25);
 }

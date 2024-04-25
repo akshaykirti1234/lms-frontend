@@ -129,6 +129,7 @@ export class LoginComponent {
     if (this.response.status === 200) {
       this.servicelogin.loginUser(this.response.result);
 
+      sessionStorage.setItem('userId', this.response.userId);
       sessionStorage.setItem('fullName', this.response.fullName);
       sessionStorage.setItem('userType', this.response.userType);
       sessionStorage.setItem('emailId', this.response.emailId);

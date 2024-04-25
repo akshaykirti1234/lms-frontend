@@ -26,12 +26,18 @@ export class DashboardService {
     return this.http.get(this.baseUrl + `getSubModuleByModuleId/${moduleId}`, { observe: 'response' });
   }
 
-  public getScheduleBySubModuleId(id: any) {
-    return this.http.get('http://localhost:8085/submodule/' + id, { observe: 'response' });
+  public getScheduleBySubModuleId(submoduleId: any) {
+    return this.http.get('http://localhost:8085/getScheduleBySubModuleId/' + submoduleId, { observe: 'response' });
   }
 
-  public getSessionByScheduleId(scheduleId: any) {
-    return this.http.get('http://localhost:8085/getSessionByScheduleId/' + scheduleId, { observe: 'response' });
+  public getSessionByscheduleForId(scheduleForId: any) {
+    return this.http.get('http://localhost:8085/getSessionByScheduleId/' + scheduleForId, { observe: 'response' });
+  }
+
+  //save userInfoForm
+  public saveUserInfoForm(userInfoForm: any) {
+    console.log(userInfoForm);
+    return this.http.post('http://localhost:8085/api/userInfo/saveUserInfoForm/', userInfoForm, { observe: 'response' });
   }
 
 

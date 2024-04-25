@@ -100,8 +100,10 @@
                                             class="error-message text-danger">
                                             Captcha can't be blank
                                         </div>
-                                        <div *ngIf="login_form.get('answer')?.hasError('required')"></div>
-                                        <div id="captcha-error" *ngIf="captchaError" class="error-message">
+                                        <div ngClass="text-danger"
+                                            *ngIf="login_form.get('answer')?.hasError('required')"></div>
+                                        <div ngClass="text-danger" id="captcha-error" *ngIf="captchaError"
+                                            class="error-message">
                                             {{ captchaError }}
                                         </div>
                                     </div>

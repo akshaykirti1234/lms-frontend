@@ -4,7 +4,6 @@ import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { DashboardService } from '../../Services/dashboard.service';
-import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-user-dashboard',
@@ -130,7 +129,6 @@ export class UserDashboardComponent implements OnInit {
     this.dashboardService.getAllModules().subscribe({
       next: (response) => {
         this.moduleList = response.body;
-        console.log(this.moduleList);
       },
       error: (error) => {
         console.log(error);
@@ -146,6 +144,7 @@ export class UserDashboardComponent implements OnInit {
       },
       error: (error) => {
         console.log(error);
+        this.subModuleList = null;
       }
     });
   }

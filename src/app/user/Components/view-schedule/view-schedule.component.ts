@@ -9,15 +9,26 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class ViewScheduleComponent implements OnInit {
 
+  public searchFilter: any;
+
   public scheduleList: any;
+
+  public sales: boolean = false;
+
+
 
   constructor(private dahboardService: DashboardService, private activateRoute: ActivatedRoute) {
   }
 
   ngOnInit(): void {
     this.activateRoute.paramMap.subscribe(params => {
-      const subModuleId = params.get('subModuleId');
-      this.getScheduleBySubModuleId(subModuleId);
+      const subModuleId: any = params.get('subModuleId');
+      if (subModuleId == 12) {
+        this.sales = true;
+      } else {
+        this.sales = false;
+        this.getScheduleBySubModuleId(subModuleId);
+      }
     });
   }
 
@@ -29,6 +40,7 @@ export class ViewScheduleComponent implements OnInit {
       },
       error: (error) => {
         console.log(error);
+        this.scheduleList = null;
       }
     });
   }

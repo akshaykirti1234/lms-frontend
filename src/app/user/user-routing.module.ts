@@ -9,8 +9,8 @@ const routes: Routes = [
   {
     path: '', component: UserDashboardComponent, children: [
       { path: 'viewSchedule/:subModuleId', component: ViewScheduleComponent },
-      { path: 'viewMaterials/:scheduleId', component: ViewMaterialsComponent }
-    ],canActivate : [userAuthGuard]
+      { path: 'viewMaterials/:scheduleForId', component: ViewMaterialsComponent }
+    ], canActivate: [userAuthGuard]
   }
 ];
 

@@ -7,13 +7,15 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ViewScheduleComponent } from './Components/view-schedule/view-schedule.component';
 import { ViewMaterialsComponent } from './Components/view-materials/view-materials.component';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
+import { ScheduleFilterPipe } from './Pipes/schedule-filter.pipe';
 
 
 @NgModule({
   declarations: [
     UserDashboardComponent,
     ViewScheduleComponent,
-    ViewMaterialsComponent
+    ViewMaterialsComponent,
+    ScheduleFilterPipe
   ],
   imports: [
     CommonModule,

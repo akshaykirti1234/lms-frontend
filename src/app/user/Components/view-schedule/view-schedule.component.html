@@ -1,12 +1,62 @@
+<!-- <div class="d-flex me-5 justify-content-end">
+    <input [(ngModel)]="searchFilter" type="text" class="form-control w-25 " placeholder="Search">
+</div>
 <div class="m-5 d-flex flex-wrap gap-5 justify-content-center">
-    <div class="card w-25" *ngFor="let schedule of scheduleList"
-        routerLink="/user/viewMaterials/{{schedule.SCHEDULEFORID}}">
+    <div class="card w-25" *ngFor="let schedule of scheduleList|scheduleFilter:searchFilter"
+        routerLink="/user/viewMaterials/{{schedule.scheduleForId}}">
         <div class="card-body">
-            <!-- {{schedule |json}} -->
-
-            <span class="text-danger fw-bold">{{schedule.SCHEDULEFOR}}</span> By
-            {{schedule.AUTHNAME}}
+            <span class="text-danger fw-bold">{{schedule.scheduleForName}}</span> By
+            {{schedule.author.authName}}
 
         </div>
+    </div>
+</div> -->
+
+<!-- <div class="container-fluid">
+    <div class="d-flex justify-content-end m-4">
+        <input [(ngModel)]="searchFilter" type="text" class="form-control w-25" placeholder="Search">
+    </div>
+
+    <div class="d-flex flex-wrap justify-content-center gap-4">
+        <div class="card custom-card" *ngFor="let schedule of scheduleList | scheduleFilter: searchFilter"
+            routerLink="/user/viewMaterials/{{ schedule.scheduleForId }}">
+            <div class="card-header text-center text-bg-danger">
+                <h5 class="card-title">{{ schedule.scheduleForName }}</h5>
+            </div>
+            <div class="card-body">
+                <p class="card-text"><span class="">Technology : </span> {{ schedule.technology.techName }}</p>
+                <p class="card-text"><span class="">Author</span> {{ schedule.author.authName }}</p>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+<div class="container-fluid" *ngIf="!sales">
+    <div class="d-flex justify-content-end m-4">
+        <input [(ngModel)]="searchFilter" type="text" class="form-control w-25" placeholder="Search">
+    </div>
+
+    <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4">
+        <div class="col mb-4" *ngFor="let schedule of scheduleList | scheduleFilter: searchFilter">
+            <div class="card custom-card">
+                <div class="card-header text-center text-bg-danger">
+                    <h5 class="card-title">{{ schedule.scheduleForName }}</h5>
+                </div>
+                <div class="card-body">
+                    <p class="card-text"><span class="">Technology : </span> {{ schedule.technology.techName }}</p>
+                    <p class="card-text"><span class="">Author</span> {{ schedule.author.authName }}</p>
+                </div>
+                <div class="text-center m-2">
+                    <button class="btn btn-success" style="cursor: pointer;"
+                        routerLink="/user/viewMaterials/{{ schedule.scheduleForId }}">Start</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="sales">
+    <div class="container shadow vh-100">
+        <button class="btn">Start</button>
     </div>
 </div>

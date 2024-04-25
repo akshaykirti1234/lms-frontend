@@ -1,93 +1,146 @@
-<div class="wrapper overflow-x-auto">
-    <!-- Sidebar  -->
-    <nav id="sidebar">
-        <div class="sidebar-header text-center">
-            <span class="fs-5 d-none d-sm-inline"><img src="/assets/images/CSMLOGO.jpg" style="object-fit: cover"
-                    height="70px" class="card-img-top rounded rounded-pill" /></span>
-        </div>
+<div class="component-container overflow-auto">
+    <div class="container-fluid p-0 d-flex min-vh-100">
+        <div id="bdSidebar" class="d-flex flex-column flex-shrink-0 p-3 text-white offcanvas-md offcanvas-start">
+            <div class="sidebar-header text-center">
+                <span class="fs-5 d-sm-inline"><img src="/assets/images/CSMLOGO.jpg" style="object-fit: cover"
+                        height="70px" class="card-img-top rounded rounded-pill" /></span>
+            </div>
+            <hr />
+            <ul class="mynav nav nav-pills flex-column mb-auto" id="menu">
+                <li *ngFor="let module of moduleList" class="">
+                    <a href="#{{ module.moduleId }}" data-bs-toggle="collapse"
+                        class="nav-link dropdown align-middle dropdown-toggle sidebar-navlink"
+                        (click)="getSubModuleByModuleId(module.moduleId)">
+                        <img src="../../../../assets/images/{{module.logo}}" class="rounded-circle"
+                            style="width: 35px; height: 35px;" alt="">
+                        <span class="ms-1 d-sm-inline">{{
+                            module.moduleName | titlecase
+                            }}</span>
+                    </a>
 
-        <ul class="list-unstyled components" id="menu">
-            <li *ngFor="let module of moduleList" class="">
-                <a href="#{{ module.moduleId }}" data-bs-toggle="collapse"
-                    class="nav-link dropdown align-middle dropdown-toggle sidebar-navlink"
-                    (click)="getSubModuleByModuleId(module.moduleId)">
-                    <i class="fs-4 bi-speedometer2"></i>
-                    <span class="ms-1 d-none d-sm-inline">{{
-                        module.moduleName | titlecase
-                        }}</span>
-                </a>
-
-                <ul class="collapse" id="{{ module.moduleId }}" data-bs-parent="#menu">
-                    <li *ngFor="let subModule of subModuleList" class="w-100">
-                        <a (click)="onSubModuleClick(subModule.submoduleId)" class="nav-link">
-                            <span class="d-none d-sm-inline">{{
-                                subModule.submoduleName
-                                }}</span>
-                        </a>
-                    </li>
-                </ul>
-            </li>
-        </ul>
-    </nav>
-
-    <!-- Page Content  -->
-    <div id="content">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container-fluid">
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="nav navbar-nav ml-auto">
-                        <li class="nav-item active">
-                            <a class="nav-link gap-5">
-                                <span class="h4 font-weight-bold" style="color: #108fbb">Learning Management
-                                    System</span>
+                    <ul class="collapse" id="{{ module.moduleId }}" data-bs-parent="#menu" style="cursor: pointer;">
+                        <li *ngFor="let subModule of subModuleList" class="w-100">
+                            <a (click)="onSubModuleClick(subModule.submoduleId)" class="nav-link">
+                                <span class="d-sm-inline">{{
+                                    subModule.submoduleName
+                                    }}</span>
                             </a>
                         </li>
                     </ul>
-                    <ul class="nav navbar-nav ms-auto">
-                        <li class="nav-item active">
-                            <span class="nav-link text-primary">
-                                {{ currentTime | date : "medium" }}
-                            </span>
-                        </li>
-                        <li class="nav-item dropdown active">
-                            <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" data-bs-toggle="dropdown"
-                                aria-expanded="false">
-                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkxPRMT2ZiDmW3aKQyLV_x-qYAwsNYY1XG2W0m5YE-2Q&s"
-                                    width="30" height="30" class="rounded-circle" alt="Profile Picture" />
-                                <span class="d-none d-sm-inline mx-1" style="
-                    padding-right: 20px;
-                    max-width: 100px;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                  ">{{ userName }}</span>
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="profileDropdown">
-                                <li>
-                                    <button class="dropdown-item profile-anchor" data-bs-toggle="modal"
-                                        data-bs-target="#profileModal">
-                                        My Profile
-                                    </button>
+                </li>
+            </ul>
+            <hr />
+            <div class="d-flex">
+                <span>
+                    <h6 class="mt-1 mb-0">&copy; Learning Management System</h6>
+                </span>
+            </div>
+        </div>
+
+        <div class="flex-fill">
+            <div class="p-2 d-md-none d-flex gap-3 text-white text-bg-primary justify-content-between">
+                <div>
+                    <a href="#" class="text-white" data-bs-toggle="offcanvas" data-bs-target="#bdSidebar">
+                        <i class="fa-solid fa-bars"></i>
+                    </a>
+                    <span class="ms-3">LMS</span>
+                </div>
+                <div class="d-flex gap-5">
+                    <li class="nav-item dropdown active" style="list-style-type: none;">
+                        <a class="nav-link " href="#" id="profileDropdown" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkxPRMT2ZiDmW3aKQyLV_x-qYAwsNYY1XG2W0m5YE-2Q&s"
+                                width="30" height="30" class="rounded-circle" alt="Profile Picture" />
+                            <span class="d-none d-sm-inline mx-1" style="
+                                padding-right: 20px;
+                                max-width: 100px;
+                                overflow: hidden;
+                                text-overflow: ellipsis;
+                              ">{{ userName }}</span>
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="profileDropdown">
+                            <li>
+                                <button class="dropdown-item profile-anchor" data-bs-toggle="modal"
+                                    data-bs-target="#profileModal">
+                                    My Profile
+                                </button>
+                            </li>
+                            <li>
+                                <button class="dropdown-item profile-anchor" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal">
+                                    Change Password
+                                </button>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item active" style="list-style-type: none;">
+                        <button class="nav-link" (click)="logout()">
+                            <i class="fa-solid fa-right-from-bracket"></i>
+                        </button>
+                    </li>
+                </div>
+            </div>
+
+            <div class="">
+                <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                    <div class="container-fluid">
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <ul class="nav navbar-nav ml-auto">
+                                <li class="nav-item active">
+                                    <a class="nav-link gap-5">
+                                        <span class="h4 font-weight-bold" style="color: #108fbb">Learning Management
+                                            System</span>
+                                    </a>
                                 </li>
-                                <li>
-                                    <button class="dropdown-item profile-anchor" data-bs-toggle="modal"
-                                        data-bs-target="#exampleModal">
-                                        Change Password
+                            </ul>
+                            <ul class="nav navbar-nav ms-auto">
+                                <li class="nav-item active">
+                                    <span class="nav-link text-primary">
+                                        {{ currentTime | date : "medium" }}
+                                    </span>
+                                </li>
+                                <li class="nav-item dropdown active">
+                                    <a class="nav-link " href="#" id="profileDropdown" data-bs-toggle="dropdown"
+                                        aria-expanded="false">
+                                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkxPRMT2ZiDmW3aKQyLV_x-qYAwsNYY1XG2W0m5YE-2Q&s"
+                                            width="30" height="30" class="rounded-circle" alt="Profile Picture" />
+                                        <span class="d-none d-sm-inline mx-1" style="
+                            padding-right: 20px;
+                            max-width: 100px;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                          ">{{ userName }}</span>
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="profileDropdown">
+                                        <li>
+                                            <button class="dropdown-item profile-anchor" data-bs-toggle="modal"
+                                                data-bs-target="#profileModal">
+                                                My Profile
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button class="dropdown-item profile-anchor" data-bs-toggle="modal"
+                                                data-bs-target="#exampleModal">
+                                                Change Password
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                                <li class="nav-item active">
+                                    <button class="nav-link" (click)="logout()">
+                                        <i class="fa-solid fa-right-from-bracket"></i>
                                     </button>
                                 </li>
                             </ul>
-                        </li>
+                        </div>
+                    </div>
+                </nav>
 
-                        <li class="nav-item active">
-                            <button class="nav-link" (click)="logout()">
-                                <i class="fa-solid fa-right-from-bracket"></i>
-                            </button>
-                        </li>
-                    </ul>
+                <div>
+                    <router-outlet></router-outlet>
                 </div>
             </div>
-        </nav>
-        <div>
-            <router-outlet></router-outlet>
         </div>
     </div>
 </div>

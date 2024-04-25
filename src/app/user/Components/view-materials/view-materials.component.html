@@ -1,12 +1,12 @@
-<div class="d-flex m-2">
-    <div class="p-2 w-100 vh-100" *ngIf="selectedPdf">
+<div class="row m-2">
+    <div class="p-2 col-lg-9 vh-100" *ngIf="selectedPdf">
         <ngx-extended-pdf-viewer [showDownloadButton]="false" [showDrawEditor]="false" [showOpenFileButton]="false"
             [showPrintButton]="false" [src]="selectedPdf" [showSecondaryToolbarButton]="false" [showTextEditor]="false">
         </ngx-extended-pdf-viewer>
     </div>
 
 
-    <div class="p-2 w-100 vh-100" *ngIf="selectedVideo">
+    <div class="p-2 col-lg-9 vh-100" *ngIf="selectedVideo">
         <video class="w-100" height="360" poster="../../../../assets/images/csm logo.jpg" (play)="onPlay()"
             (pause)="onPause()" (ended)="onEnded()" controls controlsList="nodownload" disablePictureInPicture>
             <source [src]="selectedVideo" type="video/mp4">
@@ -50,7 +50,8 @@
     </div>
 
 
-    <div class="container d-flex gap-4 flex-column w-25 me-2 overflow-y-scroll vh-50" style="cursor: pointer;">
+    <!-- <div class="col-lg-3 d-flex gap-4 flex-column  overflow-y-scroll vh-100" style="cursor: pointer;">
+        <span class="text-center text-bg-primary p-1 rounded">{{firstRecord?.scheduleFor.scheduleForName}}</span>
         <div class=" d-flex flex-column gap-1" *ngFor="let file of materialList">
             <div class="d-flex gap-1 border rounded" (click)="showMaterial(file.video,file)">
                 <div class="col-3">
@@ -62,10 +63,36 @@
                 </div>
             </div>
 
-            <div (click)="showMaterial(file.document,file)" class="bg text-bg-primary px-1 border rounded">
+            <div (click)="showMaterial(file.document,file)" class="text-bg-secondary px-1 border rounded">
                 <span>{{file.document}}</span>
             </div>
         </div>
+    </div> -->
+    <div class="col-lg-3 d-flex gap-4 flex-column overflow-y-scroll vh-100" style="cursor: pointer;">
+        <span class="text-center text-bg-primary p-1 rounded" title="{{ firstRecord?.scheduleFor.scheduleForName }}">
+            {{ (firstRecord?.scheduleFor.scheduleForName?.length > 25) ? (firstRecord?.scheduleFor.scheduleForName |
+            slice: 0:25) + "..." : firstRecord?.scheduleFor.scheduleForName }}
+        </span>
+        <div class="d-flex flex-column gap-1" *ngFor="let file of materialList">
+            <div class="d-flex gap-1 border rounded" (click)="showMaterial(file.video, file)">
+                <div class="col-3">
+                    <img src="https://addplaybuttontoimage.way4info.net/Images/Icons/22.png" width="50" alt=""
+                        style="object-fit: cover; height: fit-content;" class="p-1">
+                </div>
+                <div class="col-9 p-1 d-flex align-items-center">
+                    <a [title]="file.sessionName">
+                        {{ (file.sessionName?.length > 25) ? (file.sessionName | slice: 0:25) + "..." : file.sessionName
+                        }}
+                    </a>
+                </div>
+            </div>
+
+            <div (click)="showMaterial(file.document, file)" class="text-bg-secondary px-1 border rounded">
+                <span>{{ file.document }}</span>
+            </div>
+        </div>
     </div>
+
+
 
 </div>
