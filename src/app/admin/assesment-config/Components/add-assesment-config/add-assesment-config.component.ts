@@ -40,17 +40,13 @@ export class AddAssesmentConfigComponent {
   }
   getModuleList() {
     this.moduleService.getModuleDetails().subscribe((data : any)=>{
-      console.log(data);
-      
       this.modules = data;
     })
   }
 
   onModuleChange(event : any) {
     const moduleId = event.target.value;
-    console.log(moduleId);
     this.dashboardService.getSubModuleByModuleId(moduleId).subscribe((data : any)=>{
-      console.log(data.body);
       this.submodules = data.body;
     })
     
@@ -58,9 +54,7 @@ export class AddAssesmentConfigComponent {
 
   onSubModuleChange(event : any){
     const subModuleId = event.target.value;
-    console.log(subModuleId);
     this.dashboardService.getScheduleBySubModuleId(subModuleId).subscribe((data : any)=>{
-      console.log(data.body);
       this.schedules= data.body;
       
     })
@@ -69,9 +63,7 @@ export class AddAssesmentConfigComponent {
 
   onScheduleChange(event : any){
     const scheduleId = event.target.value;
-    console.log(scheduleId);
     this.dashboardService.getSessionByscheduleForId(scheduleId).subscribe((data : any)=>{
-      console.log(data.body);
       this.sessions = data.body;
       
     })
@@ -107,9 +99,7 @@ export class AddAssesmentConfigComponent {
       "noOfQuestions" : noOfQuestions,
       "scheduleforId": scheduleForId
     } );
-    this.configForm.value.scheduleWiseList = this.scheduleWiseList;
-    console.log(this.scheduleWiseList);
-    
+    this.configForm.value.scheduleWiseList = this.scheduleWiseList; 
     }
 
     setSessionList(event : any , sessionId : any){
@@ -120,25 +110,16 @@ export class AddAssesmentConfigComponent {
         "sessionId": sessionId
       } );
       this.configForm.value.sessionWiseList = this.sessionWiseList;
-      console.log(this.sessionWiseList);
-      
       }
 
   onSubmit() {
-    
     console.log(this.configForm.value);
-
     Swal.fire({
       title: 'Save Data',
-
       text: 'Are you sure you want to save this data?',
-
       icon: 'question',
-
       showCancelButton: true,
-
       confirmButtonText: 'Yes, save it',
-
       cancelButtonText: 'No, cancel',
     }).then((result) => {
       if (result.isConfirmed) {
@@ -157,21 +138,15 @@ export class AddAssesmentConfigComponent {
                 'Your data has been saved successfully.',
                 'success'
               );
-             
           },
-
           (error: any) => {
             Swal.fire(
               'Error!',
-
               'There is some internal server error',
-
               'warning'
             );
           }
         );
-
-        //this.router.navigate(['/emp-list']);
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         Swal.fire('Cancelled', 'Your data was not saved.', 'info');
       }
