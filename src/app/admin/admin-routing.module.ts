@@ -20,6 +20,7 @@ const routes: Routes = [
       // { path: 'notify', loadChildren: () => import('./notify/notify.module').then(m => m.NotifyModule) },
       { path: 'location', loadChildren: () => import('./location/location.module').then(m => m.LocationModule) },
       // { path: 'assign', loadChildren: () => import('./assign/assign.module').then(m => m.AssignModule) },
+      {path : 'assessment-config' , loadChildren : ()=>import('./assesment-config/assesment-config.module').then(m => m.AssesmentConfigModule)}
     ], canActivate: [adminAuthGuard]
   }
 ];
