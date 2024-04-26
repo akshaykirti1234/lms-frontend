@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -5,5 +6,10 @@ import { Injectable } from '@angular/core';
 })
 export class AssesmentConfigService {
 
-  constructor() { }
+  constructor(private http : HttpClient) { }
+
+  saveAssesmentSetting(formData : any){
+    return  this.http.post('http://localhost:8085/assessentSetting' , formData);
+  }
+
 }

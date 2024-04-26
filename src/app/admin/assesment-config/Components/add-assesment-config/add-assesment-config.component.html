@@ -1,1 +1,84 @@
-<p>add-assesment-config works!</p>
+<div class="container">
+    <div class="card m-5 shadow">
+        <div class="card-header text-center text-bg-primary">
+            <h3>Assessment Configuration</h3>
+        </div>
+        <div class="card-body">
+            <form [formGroup]="configForm" (ngSubmit)="onSubmit()">
+              <div class="row">
+                <div class="col-md-6">
+                <label class="form-label" for="">Module<span class="text-danger">*</span></label>
+                <select class="form-select"  id="module" formControlName="module" (change)="onModuleChange($event)">
+                  <option value="">Select Module</option>
+                  <option *ngFor="let module of modules" [value]="module.moduleId">{{ module.moduleName }}</option>
+                </select>
+              </div>
+              
+                <div class="col-md-6">
+                    <label class="form-label" for="">Sub Module<span class="text-danger">*</span></label>
+                  <select class="form-select"  id="subModule" formControlName="subModule" (change)="onSubModuleChange($event)">
+                    <option value="">Select Submodule</option>
+                    <option *ngFor="let submodule of submodules" [value]="submodule.submoduleId">{{ submodule.submoduleName }}</option>
+                  </select>
+                  </div>
+                </div>
+                
+              
+                <div *ngIf="configForm.get('subModule')!.value">
+                  <label><input type="radio" formControlName="radio" value="schedule" (change)="onRadioChange()"> Schedule Wise</label>
+                  <label><input type="radio" formControlName="radio" value="session" (change)="onRadioChange()"> Session Wise</label>
+                </div>
+              
+                <div *ngIf="configForm.get('radio')!.value === 'schedule'">
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th>Schedule Id</th>
+                        <th>Schedule Name</th>
+                        <th>Input Box</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let schedule of schedules">
+                        <td>{{schedule.scheduleForId}}</td>
+                        <td>{{ schedule.scheduleForName }}</td>
+                        <td><input class="form-control" type="number" min="0" placeholder="Enter some number" (blur)="setScheduleList($event,schedule.scheduleForId)"></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              
+                <div *ngIf="configForm.get('radio')!.value === 'session'">
+                    <label class="form-label" for="schedule">Schedule:</label>
+                    <select class="form-select" id="schedule" formControlName="schedule" (change)="onScheduleChange($event)">
+                      <option value="">Select Schedule</option>
+                      <option *ngFor="let schedule of schedules" [value]="schedule.scheduleForId">{{ schedule.scheduleForName }}</option>
+                    </select>
+                  </div>
+                <div *ngIf="configForm.get('schedule')!.value">
+                    <table class="table table-bordered">
+                      <thead>
+                        <tr>
+                            <th>Session ID</th>
+                          <th>Session Name</th>
+                          <th>Input Box</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let session of sessions">
+                            <td>{{session.sessionId}}</td>
+                          <td>{{ session.sessionName }}</td>
+                          <td><input class="form-control" type="number" min="0" placeholder="Enter some number" (blur)="setSessionList($event,session.sessionId)"></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+              
+                <button class="btn btn-primary mt-1" type="submit">Submit</button>
+              </form>
+              
+
+        </div>
+    </div>
+</div>
+{{configForm.value | json}}
