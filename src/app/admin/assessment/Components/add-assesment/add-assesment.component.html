@@ -7,19 +7,72 @@
             <form [formGroup]="assessmentData" (ngSubmit)="saveForm()">
                 <input type="hidden" formControlName="assessmentId" class="form-control" />
                 <div class="d-flex gap-3 flex-wrap justify-content-around row-cols-lg-3 row-cols-md-2 row-cols-md-1">
+                    <div class="form-group col-4">
+                        <label>Type</label>
+
+                        <span class="text-danger">*</span>
+                        <select class="form-control" formControlName="moduleId" id="moduleId" (change)="getSubModuleByModuleId($event)">
+                            <option value="">-Select-</option>
+                            <option *ngFor="let module of ModuleList" [value]="module['moduleId']">
+                                {{ module["moduleName"] }}
+                            </option>
+                        </select>
+
+                        <div class="text-danger" *ngIf="assessmentData.get('moduleId')?.invalid &&(assessmentData.get('moduleId')?.touched ||
+                assessmentData.get('moduleId')?.dirty) ">
+                            <div *ngIf="assessmentData.get('moduleId')?.hasError('required')">
+                                Please Enter Type
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="form-label" for="submoduleId">Module</label><span class="text-danger">*</span>
+                        <select class="form-control" formControlName="submoduleId" id="submoduleId" (change)="getSchList($event)">
+                            <option value="">-Select-</option>
+                            <option class="form-select" *ngFor="let subModule of subModuleList"
+                                [value]="subModule.submoduleId">
+                                {{subModule.submoduleName}}
+                            </option>
+                        </select>
+                        <div class="text-danger"
+                            *ngIf="assessmentData.get('subModule.submoduleId')?.invalid && (assessmentData.get('subModule.submoduleId')?.touched ||  assessmentData.get('subModule.submoduleId')?.dirty)">
+                            <div *ngIf=" assessmentData.get('subModule.submoduleId')?.hasError('required')">Please Choose a Module</div>
+                        </div>
+                    </div>
+                    <div>
+                        <label><input type="radio" formControlName="radio" value="schedule"  (change)="onRadioChange()" checked> Schedule For</label>
+                        <label><input type="radio" formControlName="radio" value="session" (change)="onRadioChange()"> Session For</label>
+                    </div>
                     <div>
                         <label class="form-label" for="">Schedule For <span class="text-danger">*</span></label>
-                        <select class="form-select" formControlName="scheduleForId" id="schedule">
+                        <select class="form-select" formControlName="scheduleForId" id="scheduleForId" (change)="getSessionList($event)">
                             <option value="" selected disabled>-Select-</option>
                             <option class="form-select" *ngFor="let schedule of schedulelist"
-                                [value]="schedule.scheduleForId">
-                                {{ schedule.scheduleForName }}
+                                [value]="schedule.SCHEDULEFORID">
+                                {{ schedule.SCHEDULEFOR }}
                             </option>
                         </select>
                         <div class="text-danger"
                             *ngIf="assessmentData.get('scheduleForId')?.invalid && (assessmentData.get('scheduleForId')?.touched ||  assessmentData.get('scheduleForId')?.dirty)">
                             <div *ngIf=" assessmentData.get('scheduleForId')?.hasError('required')">Please Select
                                 Schedule Name.</div>
+                        </div>
+                    </div>
+
+                    <!-- Session dropdown -->
+                    <div *ngIf="assessmentData.get('radio').value === 'session'">
+                        <label class="form-label" for="session">Session For <span class="text-danger">*</span></label>
+                        <select class="form-select" formControlName="sessionId" id="sessionId">
+                            <option value="" selected disabled>-Select-</option>
+                            <option class="form-select" *ngFor="let session of sessionList"
+                                [value]="session.sessionId">
+                                {{ session.sessionName }}
+                            </option>
+                        </select>
+                        <div class="text-danger"
+                            *ngIf="assessmentData.get('sessionId')?.invalid && (assessmentData.get('sessionId')?.touched ||  assessmentData.get('sessionId')?.dirty)">
+                            <div *ngIf=" assessmentData.get('sessionId')?.hasError('required')">Please Select
+                                Session Name.</div>
                         </div>
                     </div>
 
@@ -119,4 +172,5 @@
             </form>
         </div>
     </div>
+
 </div>
