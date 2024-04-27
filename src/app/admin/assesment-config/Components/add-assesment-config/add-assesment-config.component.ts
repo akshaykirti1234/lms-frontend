@@ -17,57 +17,57 @@ export class AddAssesmentConfigComponent {
   schedules: any[] = [];
   sessions: any[] = [];
   scheduleDropdown: any[] = [];
-  scheduleWiseList : any = [];
-  sessionWiseList : any = [];
+  scheduleWiseList: any = [];
+  sessionWiseList: any = [];
 
-  constructor(private fb: FormBuilder ,
-     private  moduleService : ModuleserviceService,
-    private dashboardService : DashboardService,
-  private assessmentConfigService : AssesmentConfigService) {
+  constructor(private fb: FormBuilder,
+    private moduleService: ModuleserviceService,
+    private dashboardService: DashboardService,
+    private assessmentConfigService: AssesmentConfigService) {
     this.configForm = this.fb.group({
-      module: ['' , Validators.required],
-      subModule: ['' , Validators.required],
-      radio: ['' , Validators.required],
+      module: ['', Validators.required],
+      subModule: ['', Validators.required],
+      radio: ['', Validators.required],
       schedule: [''],
       session: [''],
-      sessionWiseList : [''],
-      scheduleWiseList : [''] 
+      sessionWiseList: [''],
+      scheduleWiseList: ['']
     });
   }
 
-  ngOnInit(){
+  ngOnInit() {
     this.getModuleList();
   }
   getModuleList() {
-    this.moduleService.getModuleDetails().subscribe((data : any)=>{
+    this.moduleService.getModuleDetails().subscribe((data: any) => {
       this.modules = data;
     })
   }
 
-  onModuleChange(event : any) {
+  onModuleChange(event: any) {
     const moduleId = event.target.value;
-    this.dashboardService.getSubModuleByModuleId(moduleId).subscribe((data : any)=>{
+    this.dashboardService.getSubModuleByModuleId(moduleId).subscribe((data: any) => {
       this.submodules = data.body;
     })
-    
+
   }
 
-  onSubModuleChange(event : any){
+  onSubModuleChange(event: any) {
     const subModuleId = event.target.value;
-    this.dashboardService.getScheduleBySubModuleId(subModuleId).subscribe((data : any)=>{
-      this.schedules= data.body;
-      
+    this.dashboardService.getScheduleBySubModuleId(subModuleId).subscribe((data: any) => {
+      this.schedules = data.body;
+
     })
-    
+
   }
 
-  onScheduleChange(event : any){
+  onScheduleChange(event: any) {
     const scheduleId = event.target.value;
-    this.dashboardService.getSessionByscheduleForId(scheduleId).subscribe((data : any)=>{
+    this.dashboardService.getSessionByscheduleForId(scheduleId).subscribe((data: any) => {
       this.sessions = data.body;
-      
+
     })
-    
+
   }
 
   onRadioChange() {
@@ -92,25 +92,30 @@ export class AddAssesmentConfigComponent {
     }
   }
 
-  setScheduleList(event : any , scheduleForId : any){
-    const noOfQuestions = event.target.value;
-    
-    this.scheduleWiseList.push( {
-      "noOfQuestions" : noOfQuestions,
-      "scheduleforId": scheduleForId
-    } );
-    this.configForm.value.scheduleWiseList = this.scheduleWiseList; 
+  setScheduleList(event: any, scheduleForId: any) {
+    const noOfQuestions: string = event.target.value;
+    if (noOfQuestions.length > 0) {
+      this.scheduleWiseList.push({
+        "noOfQuestions": noOfQuestions,
+        "scheduleforId": scheduleForId
+      });
+      this.configForm.value.scheduleWiseList = this.scheduleWiseList;
     }
+    // else {
+    //   Swal.fire("Error", "Number of questions can not be  empty!", 'error');
+    // }
+  }
 
-    setSessionList(event : any , sessionId : any){
-      const noOfQuestions = event.target.value;
-      
-      this.sessionWiseList.push( {
-        "noOfQuestions" : noOfQuestions,
+  setSessionList(event: any, sessionId: any) {
+    const noOfQuestions = event.target.value;
+    if (noOfQuestions.length > 0) {
+      this.sessionWiseList.push({
+        "noOfQuestions": noOfQuestions,
         "sessionId": sessionId
-      } );
+      });
       this.configForm.value.sessionWiseList = this.sessionWiseList;
-      }
+    }
+  }
 
   onSubmit() {
     console.log(this.configForm.value);
@@ -133,11 +138,11 @@ export class AddAssesmentConfigComponent {
             //   );
             //   this.router.navigate(['/admin/session/viewSession']);
             // } else {
-              Swal.fire(
-                'Data Saved!',
-                'Your data has been saved successfully.',
-                'success'
-              );
+            Swal.fire(
+              'Data Saved!',
+              'Your data has been saved successfully.',
+              'success'
+            );
           },
           (error: any) => {
             Swal.fire(

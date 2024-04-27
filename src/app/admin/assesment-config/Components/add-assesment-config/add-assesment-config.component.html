@@ -25,12 +25,14 @@
                 
               
                 <div *ngIf="configForm.get('subModule')!.value">
-                  <label><input type="radio" formControlName="radio" value="schedule" (change)="onRadioChange()"> Schedule Wise</label>
-                  <label><input type="radio" formControlName="radio" value="session" (change)="onRadioChange()"> Session Wise</label>
+                  <input class="form-check-input" type="radio" formControlName="radio" value="schedule" (change)="onRadioChange()"> 
+                  <label class="form-check-label mx-2">Schedule Wise</label>
+                  <input class="form-check-input" type="radio" formControlName="radio" value="session" (change)="onRadioChange()">
+                  <label class="form-check-label mx-2">Session Wise</label>
                 </div>
               
                 <div *ngIf="configForm.get('radio')!.value === 'schedule'">
-                  <table class="table table-bordered">
+                  <table class="table table-bordered mt-2">
                     <thead>
                       <tr>
                         <th>Schedule Id</th>
@@ -39,8 +41,8 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr *ngFor="let schedule of schedules">
-                        <td>{{schedule.scheduleForId}}</td>
+                      <tr *ngFor="let schedule of schedules;let i=index;">
+                        <td>{{i+1}}</td>
                         <td>{{ schedule.scheduleForName }}</td>
                         <td><input class="form-control" type="number" min="0" placeholder="Enter some number" (blur)="setScheduleList($event,schedule.scheduleForId)"></td>
                       </tr>
@@ -49,14 +51,14 @@
                 </div>
               
                 <div *ngIf="configForm.get('radio')!.value === 'session'">
-                    <label class="form-label" for="schedule">Schedule:</label>
+                    <label class="form-label" for="schedule">Schedule<span class="text-danger">*</span></label>
                     <select class="form-select" id="schedule" formControlName="schedule" (change)="onScheduleChange($event)">
                       <option value="">Select Schedule</option>
                       <option *ngFor="let schedule of schedules" [value]="schedule.scheduleForId">{{ schedule.scheduleForName }}</option>
                     </select>
                   </div>
                 <div *ngIf="configForm.get('schedule')!.value">
-                    <table class="table table-bordered">
+                    <table class="table table-bordered mt-2">
                       <thead>
                         <tr>
                             <th>Session ID</th>
@@ -65,16 +67,18 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr *ngFor="let session of sessions">
-                            <td>{{session.sessionId}}</td>
+                        <tr *ngFor="let session of sessions;let i = index">
+                            <td>{{i+1}}</td>
                           <td>{{ session.sessionName }}</td>
                           <td><input class="form-control" type="number" min="0" placeholder="Enter some number" (blur)="setSessionList($event,session.sessionId)"></td>
                         </tr>
                       </tbody>
                     </table>
                   </div>
-              
-                <button class="btn btn-primary mt-1" type="submit">Submit</button>
+                  <div class="text-center mt-2">
+                    <button class="btn btn-primary" type="submit">Submit</button>
+                  </div>
+                
               </form>
               
 
