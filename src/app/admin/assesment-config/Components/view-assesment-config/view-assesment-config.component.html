@@ -1,1 +1,135 @@
-<p>view-assesment-config works!</p>
+<div class="container mt-5">
+    <h2>Data View</h2>
+    
+    <div class="form-check">
+      <input class="form-check-input" type="radio" name="data-type" id="schedule-wise" checked (change)="toggleDataView()">
+      <label class="form-check-label" for="schedule-wise">Schedule wise data</label>
+    </div>
+    
+    <div class="form-check">
+      <input class="form-check-input" type="radio" name="data-type" id="session-wise" (change)="toggleDataView()">
+      <label class="form-check-label" for="session-wise">Session wise data</label>
+    </div>
+    
+    <table class="table mt-3" *ngIf="isScheduleWise">
+      <thead>
+        <tr>
+            <th>Sl No.</th>
+          <th>Module</th>
+          <th>Sub module</th>
+          <th>Schedule</th>
+          <th>No Of Questions</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of scheduleData; let i = index">
+            <td>{{i+1}}</td>
+          <td>{{ item.MODULENAME }}</td>
+          <td>{{ item.SUBMODULENAME }}</td>
+          <td>{{ item.SCHEDULEFOR }}</td>
+          <td>{{item.NOOFQUESTION}}</td>
+          <td>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" (click)="openEditModal(item)">Edit</button>
+            <button class="btn btn-danger mx-1">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <table class="table mt-3" *ngIf="!isScheduleWise">
+      <thead>
+        <tr>
+            <th>Sl No.</th>
+            <th>Module</th>
+            <th>Sub module</th>
+            <th>Schedule</th>
+            <th>Session</th>
+            <th>No Of Questions</th>
+            <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of sessionData; let i = index">
+            <td>{{i+1}}</td>
+            <td>{{ item.MODULENAME }}</td>
+            <td>{{ item.SUBMODULENAME }}</td>
+            <td>{{ item.SCHEDULEFOR }}</td>
+            <td>{{item.SESSIONNAME}}</td>
+            <td>{{item.NOOFQUESTION}}</td>
+          <td>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" (click)="openEditModal(item)">Edit</button>
+            <button class="btn btn-danger mx-1">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+  
+  
+  <!-- Modal -->
+  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Edit Data</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <!-- <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Module</th>
+                    <th>Sub module</th>
+                    <th>Schedule</th>
+                    <th>Session</th>
+                    <th>No Of Questions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                    <td>Module 1</td>
+                    <td>SubModule 1</td>
+                    <td>Schedule 1</td>
+                    <td>Session 1</td>
+                    <td><input type="number" class="form-control" value="10"/></td>
+                </tr>
+              </tbody>
+          </table> -->
+          <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Module</th>
+                        <td>Module 1</td>
+                    </tr>
+                    <tr>
+                        <th>Sub module</th>
+                        <td>SubModule 1</td>
+                    </tr>
+                    <tr>
+                        <th>Schedule</th>
+                        <td>Schedule 1</td>
+                    </tr>
+                    <tr>
+                        <th>Session</th>
+                        <td>Session 1</td>
+                    </tr>
+                    <tr>
+                        <th>No Of Questions</th>
+                        <td><input type="number" class="form-control" value="10"/></td>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save Changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  

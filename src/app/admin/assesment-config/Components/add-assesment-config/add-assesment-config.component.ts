@@ -4,6 +4,7 @@ import { ModuleserviceService } from 'src/app/admin/module/Services/moduleservic
 import { DashboardService } from 'src/app/user/Services/dashboard.service';
 import Swal from 'sweetalert2';
 import { AssesmentConfigService } from '../../Services/assesment-config.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-assesment-config',
@@ -23,7 +24,8 @@ export class AddAssesmentConfigComponent {
   constructor(private fb: FormBuilder,
     private moduleService: ModuleserviceService,
     private dashboardService: DashboardService,
-    private assessmentConfigService: AssesmentConfigService) {
+    private assessmentConfigService: AssesmentConfigService,
+  private router : Router) {
     this.configForm = this.fb.group({
       module: ['', Validators.required],
       subModule: ['', Validators.required],
@@ -96,8 +98,8 @@ export class AddAssesmentConfigComponent {
     const noOfQuestions: string = event.target.value;
     if (noOfQuestions.length > 0) {
       this.scheduleWiseList.push({
-        "noOfQuestions": noOfQuestions,
-        "scheduleforId": scheduleForId
+        "scheduleForId": scheduleForId,
+        "numberOfQuestions": noOfQuestions
       });
       this.configForm.value.scheduleWiseList = this.scheduleWiseList;
     }
@@ -110,15 +112,14 @@ export class AddAssesmentConfigComponent {
     const noOfQuestions = event.target.value;
     if (noOfQuestions.length > 0) {
       this.sessionWiseList.push({
-        "noOfQuestions": noOfQuestions,
-        "sessionId": sessionId
+        "sessionId": sessionId,
+        "numberOfQuestions": noOfQuestions,
       });
       this.configForm.value.sessionWiseList = this.sessionWiseList;
     }
   }
 
   onSubmit() {
-    console.log(this.configForm.value);
     Swal.fire({
       title: 'Save Data',
       text: 'Are you sure you want to save this data?',
@@ -128,21 +129,15 @@ export class AddAssesmentConfigComponent {
       cancelButtonText: 'No, cancel',
     }).then((result) => {
       if (result.isConfirmed) {
+        if(this.configForm.value.radio == 'schedule'){
         this.assessmentConfigService.saveAssesmentSetting(this.configForm.value).subscribe(
           (data: any) => {
-            // if (this.id != 0) {
-            //   Swal.fire(
-            //     'Data Updated!',
-            //     'Your data has been updated successfully.',
-            //     'success'
-            //   );
-            //   this.router.navigate(['/admin/session/viewSession']);
-            // } else {
             Swal.fire(
               'Data Saved!',
               'Your data has been saved successfully.',
               'success'
             );
+          this.router.navigateByUrl('/admin/assessment-config/view');
           },
           (error: any) => {
             Swal.fire(
@@ -150,8 +145,31 @@ export class AddAssesmentConfigComponent {
               'There is some internal server error',
               'warning'
             );
+            console.log(error);
+            
           }
         );
+      }else{
+        this.assessmentConfigService.saveAssessmentSessionSetting(this.configForm.value).subscribe(
+          (data: any) => {
+            Swal.fire(
+              'Data Saved!',
+              'Your data has been saved successfully.',
+              'success'
+            );
+          this.router.navigateByUrl('/admin/assessment-config/view');
+          },
+          (error: any) => {
+            Swal.fire(
+              'Error!',
+              'There is some internal server error',
+              'warning'
+            );
+            console.log(error);
+            
+          }
+        );
+      }
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         Swal.fire('Cancelled', 'Your data was not saved.', 'info');
       }

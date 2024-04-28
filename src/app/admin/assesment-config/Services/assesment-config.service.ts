@@ -9,7 +9,18 @@ export class AssesmentConfigService {
   constructor(private http : HttpClient) { }
 
   saveAssesmentSetting(formData : any){
-    return  this.http.post('http://localhost:8085/assessentSetting' , formData);
+    return  this.http.post('http://localhost:8085/assessmentSetting' , formData);
   }
 
+  getAllScheduleConfigList(){
+    return this.http.get('http://localhost:8085/assessmentSetting');
+  }
+
+  saveAssessmentSessionSetting(formData : any){
+    return  this.http.post('http://localhost:8085/sessionAssessmentSetting' , formData);
+  }
+
+  getAllSessionConfigList(){
+    return this.http.get('http://localhost:8085/sessionAssessmentSetting');
+  }
 }
