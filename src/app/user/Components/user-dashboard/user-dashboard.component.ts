@@ -25,9 +25,9 @@ export class UserDashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.initializeForm();
-    setInterval(() => {
-      this.currentTime = new Date();
-    }, 1000);
+    // setInterval(() => {
+    //   this.currentTime = new Date();
+    // }, 1000);
   }
 
   //Initialize changePasswordForm

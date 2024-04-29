@@ -5,6 +5,50 @@
         </ngx-extended-pdf-viewer>
     </div>
 
+    <div class="p-2 col-lg-9 vh-100" *ngIf="selectedQuestionar">
+        <div class="assessment-container">
+            <h3 class="text-center">Assessment</h3>
+            <form [formGroup]="questionForm">
+                <p>{{ questionarList[currentQuestionIndex].question }}</p>
+                <div class="options">
+                    <div class="form-check mt-5">
+                        <input class="form-check-input" type="radio" [formControlName]="'option'"
+                            [value]="questionarList[currentQuestionIndex].option1">
+                        <label class="form-check-label"
+                            for="option1">{{questionarList[currentQuestionIndex].option1}}</label>
+                    </div>
+                    <div class="form-check mt-5">
+                        <input class="form-check-input" type="radio" [formControlName]="'option'"
+                            [value]="questionarList[currentQuestionIndex].option2">
+                        <label class="form-check-label"
+                            for="option2">{{questionarList[currentQuestionIndex].option2}}</label>
+                    </div>
+                    <div class="form-check mt-5">
+                        <input class="form-check-input" type="radio" [formControlName]="'option'"
+                            [value]="questionarList[currentQuestionIndex].option3">
+                        <label class="form-check-label"
+                            for="option3">{{questionarList[currentQuestionIndex].option3}}</label>
+                    </div>
+                    <div class="form-check mt-5">
+                        <input class="form-check-input" type="radio" [formControlName]="'option'"
+                            [value]="questionarList[currentQuestionIndex].option4">
+                        <label class="form-check-label"
+                            for="option4">{{questionarList[currentQuestionIndex].option4}}</label>
+                    </div>
+                </div>
+                <div class="buttons mt-5">
+                    <button class="btn btn-danger" (click)="previousQuestion()"
+                        *ngIf="currentQuestionIndex > 0">Back</button>
+                    <button class="btn btn-primary m-lg-2" (click)="nextQuestion()"
+                        *ngIf="currentQuestionIndex < questionarList.length - 1">Next</button>
+                    <button class="btn btn-success m-lg-2" (click)="submitAssessment()"
+                        *ngIf="currentQuestionIndex === questionarList.length - 1">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
 
     <div class="p-2 col-lg-9 vh-100" *ngIf="selectedVideo">
         <video class="w-100" height="360" poster="../../../../assets/images/csm logo.jpg" (play)="onPlay()"
@@ -47,6 +91,7 @@
                 </div>
             </div>
         </div>
+
     </div>
 
 
@@ -68,12 +113,12 @@
             </div>
         </div>
     </div> -->
-    <div class="col-lg-3 d-flex gap-4 flex-column overflow-y-scroll vh-100" style="cursor: pointer;">
+    <div class="col-lg-3 d-flex gap-4 flex-column overflow-y-scroll vh-100 ">
         <span class="text-center text-bg-primary p-1 rounded" title="{{ firstRecord?.scheduleFor.scheduleForName }}">
             {{ (firstRecord?.scheduleFor.scheduleForName?.length > 25) ? (firstRecord?.scheduleFor.scheduleForName |
             slice: 0:25) + "..." : firstRecord?.scheduleFor.scheduleForName }}
         </span>
-        <div class="d-flex flex-column gap-1" *ngFor="let file of materialList">
+        <div class="d-flex flex-column gap-1" *ngFor="let file of materialList" style="cursor: pointer;">
             <div class="d-flex gap-1 border rounded" (click)="showMaterial(file.video, file)">
                 <div class="col-3">
                     <img src="https://addplaybuttontoimage.way4info.net/Images/Icons/22.png" width="50" alt=""
@@ -87,8 +132,14 @@
                 </div>
             </div>
 
-            <div (click)="showMaterial(file.document, file)" class="text-bg-secondary px-1 border rounded">
+            <div (click)="showMaterial(file.document, file)" class="text-bg-secondary px-1 border rounded"
+                style="cursor: pointer;">
                 <span>{{ file.document }}</span>
+            </div>
+
+            <div (click)="showQuestionar(file.sessionId)" class="text-bg-success px-1 border rounded"
+                style="cursor: pointer;">
+                <span>Questionar</span>
             </div>
         </div>
     </div>

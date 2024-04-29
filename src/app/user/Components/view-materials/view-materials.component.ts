@@ -1,7 +1,8 @@
 import { ChangeDetectorRef, Component, ElementRef, HostListener, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DashboardService } from '../../Services/dashboard.service';
 import { FormBuilder } from '@angular/forms';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-view-materials',
@@ -14,8 +15,11 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
 
   public materialList: any;
 
+  public questionarList: any;
+
   public selectedPdf: any;
   public selectedVideo: any;
+  public selectedQuestionar: any;
   public authorName: any;
   public sessionName: any;
   public description: any;
@@ -27,9 +31,9 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
   private timer: any;
 
   private userInfoForm: any;
-
+  private questionAnswer: any;
   constructor(private activatedRout: ActivatedRoute, private dashboardService: DashboardService, private cdr: ChangeDetectorRef,
-    private elementRef: ElementRef, private fb: FormBuilder) { }
+    private elementRef: ElementRef, private fb: FormBuilder, private router: Router) { }
 
 
   ngOnInit(): void {
@@ -39,6 +43,7 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
     });
 
     this.initUserInfoForm();
+    this.initQuestionForm();
   }
 
   ngOnDestroy(): void {
@@ -75,9 +80,9 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
   }
 
 
-  // =======================================================================
-
-
+  // ***********************************************************************
+  //  Video and PDF
+  // ***********************************************************************
 
   public showMaterial(materialPath: string, file: any): void {
 
@@ -88,6 +93,7 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
 
     this.selectedPdf = null;
     this.selectedVideo = null;
+    this.selectedQuestionar = false;
     this.cdr.detectChanges();
 
     if (this.userInfoForm.get('startTime').value) {
@@ -108,6 +114,123 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
     }
   }
 
+
+  // ***********************************************************************
+  //  Questionar
+  // ***********************************************************************
+
+  public showQuestionar(sessionId: any): void {
+    this.selectedPdf = null;
+    this.selectedVideo = null;
+    this.selectedQuestionar = true;
+    this.dashboardService.getQuestionarBySessionId(sessionId).subscribe({
+      next: (response) => {
+        this.questionarList = response.body;
+        console.log(this.questionarList);
+      },
+      error: (error) => {
+        console.log(error);
+        this.questionarList = null;
+        this.currentQuestionIndex = 0;
+      }
+    });
+  }
+  // ********************************************************************
+
+  public questionForm: any;
+
+  public currentQuestionIndex: number = 0;
+  public selectedOption: string | null = null;
+  public givenQuestionAnswer: any[] = [];
+
+  public initQuestionForm() {
+    this.questionForm = this.fb.group({
+      questionId: [''],
+      option: ['']
+    });
+  }
+
+  previousQuestion() {
+    if (this.currentQuestionIndex > 0) {
+      this.currentQuestionIndex--;
+
+      const currentQuestionId = this.questionarList[this.currentQuestionIndex].sessionAssessmentMasterId;
+
+      const currentAnswer = this.givenQuestionAnswer.find(qa => qa.questionId === currentQuestionId);
+
+      if (currentAnswer) {
+        console.log("id exist");
+        this.questionForm.get("option").setValue(currentAnswer.option);
+      } else {
+        console.log("id not exist");
+        this.questionForm.get("option").setValue(null);
+      }
+      console.log(this.questionarList[this.currentQuestionIndex]);
+    } else {
+      console.log("Already at the first question.");
+    }
+  }
+
+
+  nextQuestion() {
+    this.questionForm.get("questionId").setValue(this.questionarList[this.currentQuestionIndex].sessionAssessmentMasterId);
+
+    console.log(this.questionForm.value);
+    const currentQuestionId = this.questionarList[this.currentQuestionIndex].sessionAssessmentMasterId;
+
+    const currentAnswer = this.givenQuestionAnswer.find(qa => qa.questionId === currentQuestionId);
+    console.log(currentAnswer);
+
+
+
+
+    // Create an object to hold the values of "questionId" and "option"
+    this.questionAnswer = {
+      questionId: this.questionForm.get("questionId").value,
+      option: this.questionForm.get("option").value
+    };
+    // Push the questionAnswer object into your array
+    this.givenQuestionAnswer.push(this.questionAnswer);
+    if (currentAnswer) {
+      this.givenQuestionAnswer.splice(this.currentQuestionIndex--, 1);
+      this.questionForm.get("option").setValue(currentAnswer.option);
+      // this.givenQuestionAnswer.push(this.questionAnswer);
+    } else {
+    }
+
+    console.log(this.givenQuestionAnswer);
+
+    if (this.currentQuestionIndex < this.questionarList.length - 1) {
+      this.currentQuestionIndex++;
+    }
+    this.questionForm.get("option").setValue(null);
+
+
+  }
+
+  submitAssessment() {
+    // Here you can handle the submission of the assessment, e.g., send data to a backend service
+    console.log("Assessment submitted");
+    // Resetting the assessment state after submission
+    this.selectedQuestionar = false;
+    this.currentQuestionIndex = 0;
+    this.selectedOption = null;
+  }
+
+  selectAnswer(option: string) {
+    this.selectedOption = option;
+    // this.answeredQuestions[this.currentQuestionIndex] = true; // Mark current question as answered
+  }
+  showAssessment(sId: any) {
+    this.selectedPdf = null;
+    this.selectedVideo = null;
+    this.selectedQuestionar = true;
+  }
+
+  // ***********************************************************************
+  //  Video Rating
+  // ***********************************************************************
+
   rateVideo(rating: number) {
     this.currentRating = rating;
     this.userInfoForm.get('rating').setValue(this.currentRating);
@@ -121,6 +244,11 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
       }
     }
   }
+
+
+  // ***********************************************************************
+  //  Time Tracking
+  // ***********************************************************************
 
   // startTimer() {
   //   this.startTime = Date.now();
@@ -178,6 +306,12 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
   //   const remainingSeconds = seconds % 60;
   //   return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
   // }
+
+
+
+  // ***********************************************************************
+  //  Disable right click
+  // ***********************************************************************
 
   @HostListener('contextmenu', ['$event'])
   onContextMenu(event: Event): void {
