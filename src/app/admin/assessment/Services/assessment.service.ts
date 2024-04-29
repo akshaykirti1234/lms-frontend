@@ -8,13 +8,17 @@ import { Observable } from 'rxjs';
 export class AssessmentService {
 
   private scheduleUrl="http://localhost:8085/";
+  
 
   constructor(private httpClient:HttpClient) { }
 
-  getAllScheduleName(){
-    return this.httpClient.get(this.scheduleUrl+"getAllScheduleNames");
-  }
+  // getAllScheduleName(){
+  //   return this.httpClient.get(this.scheduleUrl+"getAllScheduleNames");
+  // }
 
+  getScheduleBySessionId(id: any) {
+    return this.httpClient.get('http://localhost:8085/session-master/',id);
+  }
   saveAssessment(assessment:any):Observable<any>{
     return this.httpClient.post(this.scheduleUrl+"assessmentSave",assessment);
   }
@@ -32,5 +36,6 @@ export class AssessmentService {
     
     return this.httpClient.delete(this.scheduleUrl+`delete/${id}`);
   }
+
 }
 
