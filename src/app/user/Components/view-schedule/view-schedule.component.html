@@ -31,14 +31,14 @@
     </div>
 </div> -->
 
-<div class="container-fluid" *ngIf="!sales">
+<div class="container-fluid" *ngIf="scheduleForId != 7">
     <div class="d-flex justify-content-end m-4">
         <input [(ngModel)]="searchFilter" type="text" class="form-control w-25" placeholder="Search">
     </div>
 
     <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4">
-        <div class="col mb-4" *ngFor="let schedule of scheduleList | scheduleFilter: searchFilter">
-            <div class="card custom-card">
+        <div class="col mb-4" *ngFor="let schedule of newlist | scheduleFilter: searchFilter" style="cursor: pointer;">
+            <div class="card custom-card" routerLink="/user/viewMaterials/{{ schedule.scheduleForId }}">
                 <div class="card-header text-center text-bg-danger">
                     <h5 class="card-title">{{ schedule.scheduleForName }}</h5>
                 </div>
@@ -46,17 +46,56 @@
                     <p class="card-text"><span class="">Technology : </span> {{ schedule.technology.techName }}</p>
                     <p class="card-text"><span class="">Author</span> {{ schedule.author.authName }}</p>
                 </div>
-                <div class="text-center m-2">
-                    <button class="btn btn-success" style="cursor: pointer;"
-                        routerLink="/user/viewMaterials/{{ schedule.scheduleForId }}">Start</button>
-                </div>
             </div>
         </div>
     </div>
 </div>
 
-<div *ngIf="sales">
-    <div class="container shadow vh-100">
-        <button class="btn">Start</button>
+<div class="container p-3" *ngIf="scheduleForId == 7">
+    <div class="card ">
+        <div class="card-header text-center text-bg-danger">
+            <h3 class="">{{scheduleForName}}</h3>
+        </div>
+        <div class="card-body">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero voluptatum rem placeat nisi aliquam voluptas
+            beatae
+            eveniet laudantium unde atque consectetur, vitae exercitationem nihil facere, voluptate totam, illum illo.
+            Veniam?
+            Aspernatur unde quam quae labore amet maiores magnam perferendis adipisci deleniti nihil nobis cum voluptate
+            enim
+            autem assumenda, libero illo praesentium saepe at quia exercitationem. Quisquam voluptatum vitae molestias
+            nemo?
+            Eius, eaque? Voluptatum labore, natus aliquam, ipsum nemo non voluptas quis eos, modi itaque doloribus
+            laudantium
+            ducimus iusto quidem ad incidunt mollitia libero nobis doloremque rerum neque eum rem a!
+            Soluta reprehenderit sint illum, iusto voluptatum nam molestiae et tempora nemo quaerat, cum, aliquam
+            maiores
+            voluptas? Nobis deserunt blanditiis quia sunt! Odit adipisci neque veniam nisi laudantium sunt assumenda
+            laboriosam.
+            Sint vero modi provident quam minima voluptas, ducimus illum temporibus ipsa quae quo? Atque cupiditate quam
+            quidem
+            praesentium, quasi sint at repudiandae laboriosam, neque consectetur totam, veritatis culpa alias tempore?
+            Quas accusantium commodi optio a quasi nesciunt cumque ex totam iure voluptate doloribus aspernatur dolores
+            eligendi
+            beatae illo porro, deserunt quibusdam est veniam tempora nemo ducimus? Inventore cumque explicabo molestiae!
+            Distinctio quaerat nobis velit ab dolore ad non sequi. Ut, placeat ullam dolore ad quam eum neque veniam
+            itaque
+            necessitatibus facere dolores quos! Non, modi aspernatur. Minus fugit beatae nam?
+            Hic nostrum neque voluptates doloremque, obcaecati expedita assumenda debitis omnis cumque rerum deleniti
+            veritatis
+            necessitatibus, quae cupiditate modi delectus praesentium aut maxime! Nesciunt est, laudantium culpa eveniet
+            minima
+            cumque commodi!
+            Accusantium asperiores odit tempora voluptas sequi rerum similique aspernatur repudiandae ducimus aliquam
+            ipsum,
+            suscipit ex, eius culpa. Consectetur ab dicta nam quos vitae dolore, vero repellendus quisquam sequi,
+            assumenda
+            repudiandae.
+
+        </div>
+        <div class="text-center p-2">
+            <button class="btn btn-success btn-block" routerLink="/user/viewMaterials/{{scheduleForId}}">Start</button>
+        </div>
     </div>
+
 </div>

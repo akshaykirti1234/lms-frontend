@@ -40,5 +40,10 @@ export class DashboardService {
     return this.http.post('http://localhost:8085/api/userInfo/saveUserInfoForm/', userInfoForm, { observe: 'response' });
   }
 
+  //get questionar by sessionId
+  public getQuestionarBySessionId(sessionId: any) {
+    return this.http.get(`http://localhost:8085/api/sessionAssessment/getQuestionarBySessionId/${sessionId}`, { observe: 'response' });
+  }
+
 
 }
