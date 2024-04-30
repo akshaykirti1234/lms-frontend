@@ -416,35 +416,37 @@ ngOnInit() {
     const scheduleId = this.assessmentData.value.scheduleForId;
     const radio = this.assessmentData.value.radio;
     const sessionId = this.assessmentData.value.sessionId;
-    if(moduleId == undefined){
+    console.log(`${moduleId},${subModuleId},${scheduleId},${sessionId}`);
+    
+    if(moduleId == ''){
       this.showUploadValidationMessage = true; // Show validation message
 
       this.uploadValidationMessage = 'Please select module before import file';
 
       return;
     }
-    if(subModuleId == undefined){
+    if(subModuleId == ''){
       this.showUploadValidationMessage = true; // Show validation message
 
       this.uploadValidationMessage = 'Please select sub module before import file';
 
       return;
     }
-    if(scheduleId == undefined){
+    if(scheduleId == ''){
       this.showUploadValidationMessage = true; // Show validation message
 
       this.uploadValidationMessage = 'Please select schedule before import file';
 
       return;
     }
-    if(radio == undefined){
+    if(radio == ''){
       this.showUploadValidationMessage = true; // Show validation message
 
       this.uploadValidationMessage = 'Please select one option before import file';
 
       return;
     }
-    if(this.assessmentData.value.radio == 'session' && sessionId == undefined){
+    if(this.assessmentData.value.radio == 'session' && sessionId == ''){
       this.showUploadValidationMessage = true; // Show validation message
 
       this.uploadValidationMessage = 'Please select session before import file';
@@ -473,7 +475,7 @@ ngOnInit() {
       return;
 
     }
-
+  
     // Proceed with import
 
     this.importData(moduleId,subModuleId,scheduleId,sessionId);
@@ -484,8 +486,17 @@ ngOnInit() {
     if (this.selectedFile) {
       const formData = new FormData();
       formData.append('moduleId' , moduleId);
+      formData.append('subModuleId' , subModuleId);
+      formData.append('scheduleId', scheduleId);
+      if(this.assessmentData.get('radio').value === 'session' && sessionId != null){
+      formData.append('sessionId', sessionId);
+      }
       formData.append('file', this.selectedFile);
-      const isSession = this.uploadForm.get('radio').value === 'session';
+      formData.forEach((item: any) => {
+        console.log(`${item}`);
+      });
+      
+      const isSession = this.assessmentData.get('radio').value === 'session';
       if(isSession){
       this.service.importSessionExcel(formData).subscribe(
         (data: any) => {
