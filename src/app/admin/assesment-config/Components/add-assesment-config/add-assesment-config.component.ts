@@ -4,6 +4,7 @@ import { ModuleserviceService } from 'src/app/admin/module/Services/moduleservic
 import { DashboardService } from 'src/app/user/Services/dashboard.service';
 import Swal from 'sweetalert2';
 import { AssesmentConfigService } from '../../Services/assesment-config.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-assesment-config',
@@ -17,65 +18,67 @@ export class AddAssesmentConfigComponent {
   schedules: any[] = [];
   sessions: any[] = [];
   scheduleDropdown: any[] = [];
-  scheduleWiseList : any = [];
-  sessionWiseList : any = [];
+  scheduleWiseList: any = [];
+  sessionWiseList: any = [];
 
-  constructor(private fb: FormBuilder ,
-     private  moduleService : ModuleserviceService,
-    private dashboardService : DashboardService,
-  private assessmentConfigService : AssesmentConfigService) {
+  constructor(private fb: FormBuilder,
+    private moduleService: ModuleserviceService,
+    private dashboardService: DashboardService,
+    private assessmentConfigService: AssesmentConfigService,
+  private router : Router) {
     this.configForm = this.fb.group({
-      module: ['' , Validators.required],
-      subModule: ['' , Validators.required],
-      radio: ['' , Validators.required],
+      module: ['', Validators.required],
+      subModule: ['', Validators.required],
+      radio: ['', Validators.required],
       schedule: [''],
       session: [''],
-      sessionWiseList : [''],
-      scheduleWiseList : [''] 
+      sessionWiseList: [''],
+      scheduleWiseList: ['']
+    });
+    this.configForm.get('radio')?.valueChanges.subscribe(value => {
+      if (value === 'schedule') {
+        this.configForm.get('schedule')?.clearValidators();
+        this.configForm.get('schedule')?.updateValueAndValidity();
+      } else if (value === 'session') {
+        this.configForm.get('schedule')?.setValidators(Validators.required);
+        this.configForm.get('schedule')?.updateValueAndValidity();
+      }
     });
   }
 
-  ngOnInit(){
+  ngOnInit() {
     this.getModuleList();
   }
   getModuleList() {
-    this.moduleService.getModuleDetails().subscribe((data : any)=>{
-      console.log(data);
-      
+    this.moduleService.getModuleDetails().subscribe((data: any) => {
       this.modules = data;
     })
   }
 
-  onModuleChange(event : any) {
+  onModuleChange(event: any) {
     const moduleId = event.target.value;
-    console.log(moduleId);
-    this.dashboardService.getSubModuleByModuleId(moduleId).subscribe((data : any)=>{
-      console.log(data.body);
+    this.dashboardService.getSubModuleByModuleId(moduleId).subscribe((data: any) => {
       this.submodules = data.body;
     })
-    
+
   }
 
-  onSubModuleChange(event : any){
+  onSubModuleChange(event: any) {
     const subModuleId = event.target.value;
-    console.log(subModuleId);
-    this.dashboardService.getScheduleBySubModuleId(subModuleId).subscribe((data : any)=>{
-      console.log(data.body);
-      this.schedules= data.body;
-      
+    this.dashboardService.getScheduleBySubModuleId(subModuleId).subscribe((data: any) => {
+      this.schedules = data.body;
+
     })
-    
+
   }
 
-  onScheduleChange(event : any){
+  onScheduleChange(event: any) {
     const scheduleId = event.target.value;
-    console.log(scheduleId);
-    this.dashboardService.getSessionByscheduleForId(scheduleId).subscribe((data : any)=>{
-      console.log(data.body);
+    this.dashboardService.getSessionByscheduleForId(scheduleId).subscribe((data: any) => {
       this.sessions = data.body;
-      
+
     })
-    
+
   }
 
   onRadioChange() {
@@ -100,81 +103,130 @@ export class AddAssesmentConfigComponent {
     }
   }
 
-  setScheduleList(event : any , scheduleForId : any){
-    const noOfQuestions = event.target.value;
-    
-    this.scheduleWiseList.push( {
-      "noOfQuestions" : noOfQuestions,
-      "scheduleforId": scheduleForId
-    } );
-    this.configForm.value.scheduleWiseList = this.scheduleWiseList;
-    console.log(this.scheduleWiseList);
-    
+  setScheduleList(event: any, scheduleForId: any) {
+    const noOfQuestions: string = event.target.value;
+    if(Number.parseInt(noOfQuestions) <= 0){
+      Swal.fire('You can not enter negetive number or zero');
+      event.target.value = '';
+    }else{
+    if (noOfQuestions.length > 0) {
+      this.scheduleWiseList.push({
+        "scheduleForId": scheduleForId,
+        "numberOfQuestions": noOfQuestions
+      });
+      this.configForm.value.scheduleWiseList = this.scheduleWiseList;
     }
+  }
+  }
 
-    setSessionList(event : any , sessionId : any){
-      const noOfQuestions = event.target.value;
-      
-      this.sessionWiseList.push( {
-        "noOfQuestions" : noOfQuestions,
-        "sessionId": sessionId
-      } );
+  setSessionList(event: any, sessionId: any) {
+    const noOfQuestions = event.target.value;
+    if(Number.parseInt(noOfQuestions) <= 0){
+      Swal.fire('You can not enter negetive number or zero');
+      event.target.value = '';
+    }else{
+    if (noOfQuestions.length > 0) {
+      this.sessionWiseList.push({
+        "sessionId": sessionId,
+        "numberOfQuestions": noOfQuestions,
+      });
       this.configForm.value.sessionWiseList = this.sessionWiseList;
-      console.log(this.sessionWiseList);
-      
-      }
+    }
+  }
+  }
 
   onSubmit() {
-    
-    console.log(this.configForm.value);
+    let errorFlag = 0;
+    const module = this.configForm.get('module');
+    const subModule = this.configForm.get('subModule');
+    const radio = this.configForm.get('radio');
+    const schedule = this.configForm.get('schedule');
+    if (module?.invalid && errorFlag === 0) {
+      errorFlag = 1;
+      console.log('error happened');
+      module.markAsTouched();
+    }
+    if (subModule?.invalid && errorFlag === 0) {
+      errorFlag = 1;
+      console.log('error happened');
+      subModule.markAsTouched();
+    }
+    if (radio?.invalid && errorFlag === 0) {
+      errorFlag = 1;
+      console.log('error happened');
+      radio.markAsTouched();
+    }
+    if (schedule?.invalid && errorFlag === 0) {
+      errorFlag = 1;
+      console.log('error happened');
+      schedule.markAsTouched();
+    }
 
+    if(this.configForm.value.radio == 'schedule' && this.scheduleWiseList == "" ){
+      errorFlag = 1;
+      Swal.fire('Please enter at least one no. of question for scheduling', '', 'warning')
+    }
+
+    if(this.configForm.value.radio == 'session' && this.sessionWiseList == "" ){
+      errorFlag = 1;
+      Swal.fire('Please enter at least one no. of question for scheduling', '', 'warning')
+    }
+
+    if (errorFlag === 0) {
     Swal.fire({
       title: 'Save Data',
-
       text: 'Are you sure you want to save this data?',
-
       icon: 'question',
-
       showCancelButton: true,
-
       confirmButtonText: 'Yes, save it',
-
       cancelButtonText: 'No, cancel',
     }).then((result) => {
       if (result.isConfirmed) {
+        if(this.configForm.value.radio == 'schedule'){
         this.assessmentConfigService.saveAssesmentSetting(this.configForm.value).subscribe(
           (data: any) => {
-            // if (this.id != 0) {
-            //   Swal.fire(
-            //     'Data Updated!',
-            //     'Your data has been updated successfully.',
-            //     'success'
-            //   );
-            //   this.router.navigate(['/admin/session/viewSession']);
-            // } else {
-              Swal.fire(
-                'Data Saved!',
-                'Your data has been saved successfully.',
-                'success'
-              );
-             
+            Swal.fire(
+              'Data Saved!',
+              'Your data has been saved successfully.',
+              'success'
+            );
+          this.router.navigateByUrl('/admin/assessment-config/view');
           },
-
           (error: any) => {
             Swal.fire(
               'Error!',
-
               'There is some internal server error',
-
               'warning'
             );
+            console.log(error);
+            
           }
         );
-
-        //this.router.navigate(['/emp-list']);
+      }else{
+        this.assessmentConfigService.saveAssessmentSessionSetting(this.configForm.value).subscribe(
+          (data: any) => {
+            Swal.fire(
+              'Data Saved!',
+              'Your data has been saved successfully.',
+              'success'
+            );
+          this.router.navigateByUrl('/admin/assessment-config/view');
+          },
+          (error: any) => {
+            Swal.fire(
+              'Error!',
+              'There is some internal server error',
+              'warning'
+            );
+            console.log(error);
+            
+          }
+        );
+      }
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         Swal.fire('Cancelled', 'Your data was not saved.', 'info');
       }
     });
   }
+}
 }
