@@ -37,11 +37,11 @@
                     </div>
                 </div>
                 <div class="buttons mt-5">
-                    <button class="btn btn-danger" (click)="previousQuestion()"
+                    <button type="button" class="btn btn-danger" (click)="previousQuestion()"
                         *ngIf="currentQuestionIndex > 0">Back</button>
-                    <button class="btn btn-primary m-lg-2" (click)="nextQuestion()"
+                    <button type="button" class="btn btn-primary m-lg-2" (click)="nextQuestion()"
                         *ngIf="currentQuestionIndex < questionarList.length - 1">Next</button>
-                    <button class="btn btn-success m-lg-2" (click)="submitAssessment()"
+                    <button type="button" class="btn btn-success m-lg-2" (click)="submitAssessment()"
                         *ngIf="currentQuestionIndex === questionarList.length - 1">Submit</button>
                 </div>
             </form>

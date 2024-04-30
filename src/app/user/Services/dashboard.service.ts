@@ -45,5 +45,10 @@ export class DashboardService {
     return this.http.get(`http://localhost:8085/api/sessionAssessment/getQuestionarBySessionId/${sessionId}`, { observe: 'response' });
   }
 
+  //save SessionResultMaster
+  public saveSessionResult(sessionResultPayload: any): Observable<any> {
+    return this.http.post("http://localhost:8085/api/sessionResult/saveSessionResult/", sessionResultPayload, { observe: 'response' });
+  }
+
 
 }

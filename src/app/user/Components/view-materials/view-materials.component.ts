@@ -145,10 +145,11 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
 
   public initQuestionForm() {
     this.questionForm = this.fb.group({
-      questionId: [''],
+      sessionAssessmentMasterId: [''],
       option: ['']
     });
   }
+
 
   previousQuestion() {
     if (this.currentQuestionIndex > 0) {
@@ -156,71 +157,111 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
 
       const currentQuestionId = this.questionarList[this.currentQuestionIndex].sessionAssessmentMasterId;
 
-      const currentAnswer = this.givenQuestionAnswer.find(qa => qa.questionId === currentQuestionId);
+      const currentAnswer = this.givenQuestionAnswer.find(qa => qa.sessionAssessmentMasterId === currentQuestionId);
 
       if (currentAnswer) {
-        console.log("id exist");
+        console.log("Answer found for previous question");
         this.questionForm.get("option").setValue(currentAnswer.option);
       } else {
-        console.log("id not exist");
+        console.log("No answer found for previous question");
         this.questionForm.get("option").setValue(null);
       }
+
       console.log(this.questionarList[this.currentQuestionIndex]);
     } else {
       console.log("Already at the first question.");
     }
   }
 
-
   nextQuestion() {
-    this.questionForm.get("questionId").setValue(this.questionarList[this.currentQuestionIndex].sessionAssessmentMasterId);
-
-    console.log(this.questionForm.value);
     const currentQuestionId = this.questionarList[this.currentQuestionIndex].sessionAssessmentMasterId;
 
-    const currentAnswer = this.givenQuestionAnswer.find(qa => qa.questionId === currentQuestionId);
-    console.log(currentAnswer);
+    // Find the index of the current answer in givenQuestionAnswer array
+    const currentAnswerIndex = this.givenQuestionAnswer.findIndex(qa => qa.sessionAssessmentMasterId === currentQuestionId);
 
-
-
-
-    // Create an object to hold the values of "questionId" and "option"
-    this.questionAnswer = {
-      questionId: this.questionForm.get("questionId").value,
+    // Create a new answer object with the current question ID and selected option
+    const newAnswer = {
+      userId: sessionStorage.getItem('userId'),
+      sessionAssessmentMasterId: currentQuestionId,
       option: this.questionForm.get("option").value
     };
-    // Push the questionAnswer object into your array
-    this.givenQuestionAnswer.push(this.questionAnswer);
-    if (currentAnswer) {
-      this.givenQuestionAnswer.splice(this.currentQuestionIndex--, 1);
-      this.questionForm.get("option").setValue(currentAnswer.option);
-      // this.givenQuestionAnswer.push(this.questionAnswer);
+
+    if (currentAnswerIndex !== -1) {
+      // If an answer for the current question already exists, update it
+      this.givenQuestionAnswer[currentAnswerIndex] = newAnswer;
+      console.log("Answer updated for question", currentQuestionId);
     } else {
+      // If no answer exists for the current question, add the new answer to the array
+      this.givenQuestionAnswer.push(newAnswer);
+      console.log("New answer added for question", currentQuestionId);
     }
 
     console.log(this.givenQuestionAnswer);
 
+    // Move to the next question
     if (this.currentQuestionIndex < this.questionarList.length - 1) {
       this.currentQuestionIndex++;
+
+      // Retrieve the answer for the next question, if it exists
+      const nextQuestionId = this.questionarList[this.currentQuestionIndex].sessionAssessmentMasterId;
+      const nextAnswer = this.givenQuestionAnswer.find(qa => qa.sessionAssessmentMasterId === nextQuestionId);
+
+      // Set the option value in the form to the next question's answer, if available
+      if (nextAnswer) {
+        this.questionForm.get("option").setValue(nextAnswer.option);
+      } else {
+        // If no answer exists for the next question, reset the option value
+        this.questionForm.get("option").setValue(null);
+      }
+    } else {
+      console.log("Already at the last question.");
+      // Clear the option value if already at the last question
+      this.questionForm.get("option").setValue(null);
     }
-    this.questionForm.get("option").setValue(null);
-
-
   }
 
   submitAssessment() {
-    // Here you can handle the submission of the assessment, e.g., send data to a backend service
-    console.log("Assessment submitted");
+    // Push the answer for the last question into givenQuestionAnswer array
+    const lastQuestionId = this.questionarList[this.questionarList.length - 1].sessionAssessmentMasterId;
+    const lastAnswerIndex = this.givenQuestionAnswer.findIndex(qa => qa.sessionAssessmentMasterId === lastQuestionId);
+
+    // Create a new answer object for the last question
+    const lastAnswer = {
+      userId: sessionStorage.getItem('userId'),
+      sessionAssessmentMasterId: lastQuestionId,
+      option: this.questionForm.get("option").value
+    };
+
+    // If an answer for the last question already exists, update it; otherwise, add the new answer
+    if (lastAnswerIndex !== -1) {
+      this.givenQuestionAnswer[lastAnswerIndex] = lastAnswer;
+    } else {
+      this.givenQuestionAnswer.push(lastAnswer);
+    }
+
+    // Perform any necessary actions to submit the assessment data, e.g., send data to a backend service
+    console.log(this.givenQuestionAnswer);
+
+
+    this.dashboardService.saveSessionResult(this.givenQuestionAnswer).subscribe({
+      next: (response) => {
+        console.log(response);
+        console.log(response.body);
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    });
+
+
     // Resetting the assessment state after submission
     this.selectedQuestionar = false;
     this.currentQuestionIndex = 0;
     this.selectedOption = null;
+    this.questionForm.reset();
   }
 
-  selectAnswer(option: string) {
-    this.selectedOption = option;
-    // this.answeredQuestions[this.currentQuestionIndex] = true; // Mark current question as answered
-  }
+
   showAssessment(sId: any) {
     this.selectedPdf = null;
     this.selectedVideo = null;
