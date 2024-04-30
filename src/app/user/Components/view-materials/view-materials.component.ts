@@ -61,9 +61,11 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
   }
 
   public getSessionByscheduleForId(scheduleForId: any) {
-    this.dashboardService.getSessionByscheduleForId(scheduleForId).subscribe({
+    let userId = sessionStorage.getItem('userId');
+    this.dashboardService.getSessionByscheduleForIdAndUserId(scheduleForId, userId).subscribe({
       next: (response) => {
         this.materialList = response.body;
+        console.log(response.body);
         // Check if materialList is not empty and contains videos
         if (this.materialList) {
           const firstVideo = this.materialList.find((item: any) => item.video);
@@ -247,6 +249,7 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
       next: (response) => {
         console.log(response);
         console.log(response.body);
+        this.givenQuestionAnswer = [];
       },
       error: (error) => {
         console.log(error);

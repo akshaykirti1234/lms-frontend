@@ -12,6 +12,9 @@
                   <option value="">Select Module</option>
                   <option *ngFor="let module of modules" [value]="module.moduleId">{{ module.moduleName }}</option>
                 </select>
+                <div *ngIf="configForm.get('module')?.invalid && configForm.get('module')?.touched">
+                  <p class="text-danger">Please Select Module</p>
+                </div>
               </div>
               
                 <div class="col-md-6">
@@ -20,6 +23,9 @@
                     <option value="">Select Submodule</option>
                     <option *ngFor="let submodule of submodules" [value]="submodule.submoduleId">{{ submodule.submoduleName }}</option>
                   </select>
+                  <div *ngIf="configForm.get('subModule')?.invalid && configForm.get('subModule')?.touched">
+                    <p class="text-danger">Please Select Sub Module</p>
+                  </div>
                   </div>
                 </div>
                 
@@ -29,6 +35,9 @@
                   <label class="form-check-label mx-2">Schedule Wise</label>
                   <input class="form-check-input" type="radio" formControlName="radio" value="session" (change)="onRadioChange()">
                   <label class="form-check-label mx-2">Session Wise</label>
+                  <div *ngIf="configForm.get('radio')?.invalid && configForm.get('radio')?.touched">
+                    <p class="text-danger">Please Select One Option</p>
+                  </div>
                 </div>
               
                 <div *ngIf="configForm.get('radio')!.value === 'schedule'">
@@ -56,6 +65,9 @@
                       <option value="">Select Schedule</option>
                       <option *ngFor="let schedule of schedules" [value]="schedule.scheduleForId">{{ schedule.scheduleForName }}</option>
                     </select>
+                    <div *ngIf="configForm.get('schedule')?.invalid && configForm.get('schedule')?.touched">
+                      <p class="text-danger">Please Select Schedule</p>
+                    </div>
                   </div>
                 <div *ngIf="configForm.get('schedule')!.value">
                     <table class="table table-bordered mt-2">
