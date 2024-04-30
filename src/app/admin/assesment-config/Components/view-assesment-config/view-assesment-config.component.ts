@@ -11,6 +11,17 @@ import Swal from 'sweetalert2';
 export class ViewAssesmentConfigComponent {
 
   isScheduleWise: boolean = true;
+  indexNumber: number = 0;
+  page: number = 1;
+  tableSize: number = 10;
+  count: number = 0;
+  pageSizes = [10, 20, 30, 40, 50];
+
+  indexNumberSess: number = 0;
+  pageSess: number = 1;
+  tableSizeSess: number = 10;
+  countSess: number = 0;
+  pageSizesSess = [10, 20, 30, 40, 50];
   scheduleData: any[] = [];
   scheduleConfigDetails: any = {
 
@@ -47,11 +58,25 @@ export class ViewAssesmentConfigComponent {
     })
   }
 
+  //pagination functionality
+  getTableDataChangeSch(event: any) {
+    this.page = event;
+    this.indexNumber = (this.page - 1) * this.tableSize;
+    this.getAllScheduleConfigList();
+  }
+
   getAllSessionConfigList() {
     this.assessmentConfigService.getAllSessionConfigList().subscribe((data: any) => {
       this.sessionData = data;
 
     })
+  }
+
+  //pagination functionality
+  getTableDataChangeSess(event: any) {
+    this.pageSess = event;
+    this.indexNumberSess = (this.pageSess - 1) * this.tableSizeSess;
+    this.getAllSessionConfigList();
   }
 
   @ViewChild('editModal') editModal: any;

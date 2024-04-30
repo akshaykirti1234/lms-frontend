@@ -1,163 +1,182 @@
 <div class="container mt-5">
-  <h2>Data View</h2>
-
-  <div class="form-check">
-    <input class="form-check-input" type="radio" name="data-type" id="schedule-wise" checked
-      (change)="toggleDataView()">
-    <label class="form-check-label" for="schedule-wise">Schedule wise data</label>
-  </div>
-
-  <div class="form-check">
-    <input class="form-check-input" type="radio" name="data-type" id="session-wise" (change)="toggleDataView()">
-    <label class="form-check-label" for="session-wise">Session wise data</label>
-  </div>
-
-  <table class="table mt-3" *ngIf="isScheduleWise">
-    <thead>
-      <tr>
-        <th>Sl No.</th>
-        <th>Module</th>
-        <th>Sub module</th>
-        <th>Schedule</th>
-        <th>No Of Questions</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let item of scheduleData; let i = index">
-        <td>{{i+1}}</td>
-        <td>{{ item.MODULENAME }}</td>
-        <td>{{ item.SUBMODULENAME }}</td>
-        <td>{{ item.SCHEDULEFOR }}</td>
-        <td>{{item.NOOFQUESTION}}</td>
-        <td>
-          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop1"
-            (click)="openSchEditModal(item.ASSESSMENTSETTINGID)">Edit</button>
-          <button class="btn btn-danger mx-1" (click)="deleteSchConfig(item.ASSESSMENTSETTINGID)" >Delete</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-
-  <table class="table mt-3" *ngIf="!isScheduleWise">
-    <thead>
-      <tr>
-        <th>Sl No.</th>
-        <th>Module</th>
-        <th>Sub module</th>
-        <th>Schedule</th>
-        <th>Session</th>
-        <th>No Of Questions</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let item of sessionData; let i = index">
-        <td>{{i+1}}</td>
-        <td>{{ item.MODULENAME }}</td>
-        <td>{{ item.SUBMODULENAME }}</td>
-        <td>{{ item.SCHEDULEFOR }}</td>
-        <td>{{item.SESSIONNAME}}</td>
-        <td>{{item.NOOFQUESTION}}</td>
-        <td>
-          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop2"
-            (click)="openSessEditModal(item.SESSIONASSESSMENTSETTINGID)">Edit</button>
-          <button class="btn btn-danger mx-1" (click)="deleteSessConfig(item.SESSIONASSESSMENTSETTINGID)">Delete</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-
-
-
-<!-- Modal For Schedule Config-->
-<div class="modal fade" id="staticBackdrop1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-  aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">Edit Data</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form [formGroup]="schConfigForm" (ngSubmit)="schFormSubmit(scheduleConfigDetails.id )">
-          <div class="table-responsive">
-            <table class="table table-bordered">
-              <thead>
-                <tr>
-                  <th>Module</th>
-                  <td>{{scheduleConfigDetails.moduleName}}</td>
-                </tr>
-                <tr>
-                  <th>Sub module</th>
-                  <td>{{scheduleConfigDetails.subModuleName}}</td>
-                </tr>
-                <tr>
-                  <th>Schedule</th>
-                  <td>{{scheduleConfigDetails.schdeuleFor}}</td>
-                </tr>
-                <tr>
-                  <th>No Of Questions</th>
-                  <td>
-                    <input type="number" formControlName="numberOfQuestions" class="form-control" />
-                  </td>
-                </tr>
-              </thead>
-            </table>
-          </div>
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary mx-2">Save Changes</button>
-        </form>
-      </div>
-      
+  <div class="card shadow">
+    <div class="card-header bg-primary text-white">
+      <h3 class="text-center mb-0">Assessment Config Details</h3>
     </div>
-  </div>
-</div>
-
-<!-- Modal For Session Config-->
-<div class="modal fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-  aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">Edit Data</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div>
+      <div class="m-1">
+        <input class="form-check-input" type="radio" name="data-type" id="schedule-wise" checked
+          (change)="toggleDataView()">
+        <label class="form-check-label mx-2" for="schedule-wise">Schedule wise data</label>
+        <input class="form-check-input" type="radio" name="data-type" id="session-wise" (change)="toggleDataView()">
+        <label class="form-check-label mx-2" for="session-wise">Session wise data</label>
       </div>
-      <div class="modal-body">
-        <form [formGroup]="sessConfigForm" (ngSubmit)="sessFormSubmit(sessionConfigDetails.id)">
-          <div class="table-responsive">
-            <table class="table table-bordered">
-              <thead>
-                <tr>
-                  <th>Module</th>
-                  <td>{{sessionConfigDetails.moduleName}}</td>
-                </tr>
-                <tr>
-                  <th>Sub module</th>
-                  <td>{{sessionConfigDetails.subModuleName}}</td>
-                </tr>
-                <tr>
-                  <th>Schedule</th>
-                  <td>{{sessionConfigDetails.schdeuleFor}}</td>
-                </tr>
-                <tr>
-                  <th>Session</th>
-                  <td>{{sessionConfigDetails.sessionName}}</td>
-                </tr>
-                <tr>
-                  <th>No Of Questions</th>
-                  <td>
-                    <input type="number" formControlName="numberOfQuestions" class="form-control" />
-                  </td>
-                </tr>
-              </thead>
-            </table>
-          </div>
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary mx-2">Save Changes</button>
-        </form>
+
+      <div class="m-1" *ngIf="isScheduleWise">
+        <table class="table table-hover table-bordered mt-3" >
+          <thead class="table-primary">
+            <tr>
+              <th>Sl No.</th>
+              <th>Module</th>
+              <th>Sub module</th>
+              <th>Schedule</th>
+              <th>No Of Questions</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of scheduleData | paginate : {
+                itemsPerPage: tableSize,
+                currentPage: page,
+                totalItems: count
+              }; let i = index">
+              <td>{{i+1}}</td>
+              <td>{{ item.MODULENAME }}</td>
+              <td>{{ item.SUBMODULENAME }}</td>
+              <td>{{ item.SCHEDULEFOR }}</td>
+              <td>{{item.NOOFQUESTION}}</td>
+              <td>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop1"
+                  (click)="openSchEditModal(item.ASSESSMENTSETTINGID)">Edit</button>
+                <button class="btn btn-danger mx-1" (click)="deleteSchConfig(item.ASSESSMENTSETTINGID)">Delete</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="d-flex justify-content-end mt-3">
+          <pagination-controls previousLabel="Prev" nextLabel="Next" (pageChange)="getTableDataChangeSch($event)">
+          </pagination-controls>
+        </div>
+      </div>
+      <div class="m-1"  *ngIf="!isScheduleWise">
+        <table class="table table-hover table-bordered mt-3">
+          <thead class="table-primary">
+            <tr>
+              <th>Sl No.</th>
+              <th>Module</th>
+              <th>Sub module</th>
+              <th>Schedule</th>
+              <th>Session</th>
+              <th>No Of Questions</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of sessionData | paginate : {
+                itemsPerPage: tableSizeSess,
+                currentPage: pageSess,
+                totalItems: countSess
+              }; let i = index">
+              <td>{{i+1}}</td>
+              <td>{{ item.MODULENAME }}</td>
+              <td>{{ item.SUBMODULENAME }}</td>
+              <td>{{ item.SCHEDULEFOR }}</td>
+              <td>{{item.SESSIONNAME}}</td>
+              <td>{{item.NOOFQUESTION}}</td>
+              <td>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop2"
+                  (click)="openSessEditModal(item.SESSIONASSESSMENTSETTINGID)">Edit</button>
+                <button class="btn btn-danger mx-1"
+                  (click)="deleteSessConfig(item.SESSIONASSESSMENTSETTINGID)">Delete</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="d-flex justify-content-end mt-3">
+          <pagination-controls previousLabel="Prev" nextLabel="Next" (pageChange)="getTableDataChangeSess($event)">
+          </pagination-controls>
+        </div>
       </div>
     </div>
   </div>
-</div>
+
+  <!-- Modal For Schedule Config-->
+  <div class="modal fade" id="staticBackdrop1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Edit Data</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="schConfigForm" (ngSubmit)="schFormSubmit(scheduleConfigDetails.id )">
+            <div class="table-responsive">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th>Module</th>
+                    <td>{{scheduleConfigDetails.moduleName}}</td>
+                  </tr>
+                  <tr>
+                    <th>Sub module</th>
+                    <td>{{scheduleConfigDetails.subModuleName}}</td>
+                  </tr>
+                  <tr>
+                    <th>Schedule</th>
+                    <td>{{scheduleConfigDetails.schdeuleFor}}</td>
+                  </tr>
+                  <tr>
+                    <th>No Of Questions</th>
+                    <td>
+                      <input type="number" formControlName="numberOfQuestions" class="form-control" />
+                    </td>
+                  </tr>
+                </thead>
+              </table>
+            </div>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary mx-2">Save Changes</button>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal For Session Config-->
+  <div class="modal fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Edit Data</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="sessConfigForm" (ngSubmit)="sessFormSubmit(sessionConfigDetails.id)">
+            <div class="table-responsive">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th>Module</th>
+                    <td>{{sessionConfigDetails.moduleName}}</td>
+                  </tr>
+                  <tr>
+                    <th>Sub module</th>
+                    <td>{{sessionConfigDetails.subModuleName}}</td>
+                  </tr>
+                  <tr>
+                    <th>Schedule</th>
+                    <td>{{sessionConfigDetails.schdeuleFor}}</td>
+                  </tr>
+                  <tr>
+                    <th>Session</th>
+                    <td>{{sessionConfigDetails.sessionName}}</td>
+                  </tr>
+                  <tr>
+                    <th>No Of Questions</th>
+                    <td>
+                      <input type="number" formControlName="numberOfQuestions" class="form-control" />
+                    </td>
+                  </tr>
+                </thead>
+              </table>
+            </div>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary mx-2">Save Changes</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
