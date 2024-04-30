@@ -114,6 +114,7 @@ export class ViewAssesmentConfigComponent {
 
     this.assessmentConfigService.updateSchConfig(id, this.schConfigForm.value).subscribe((data: any) => {
       Swal.fire('Success', 'Successfully Updated!', 'success');
+      this.getAllScheduleConfigList();
 
     })
 
@@ -137,7 +138,7 @@ export class ViewAssesmentConfigComponent {
               'The data has been successfully deleted.',
               'success'
             );
-
+            this.getAllScheduleConfigList();
           },
           (error) => {
             Swal.fire(
@@ -178,6 +179,7 @@ export class ViewAssesmentConfigComponent {
     console.log('sessFormSubmit works');
     this.assessmentConfigService.updateSessConfig(id, this.sessConfigForm.value).subscribe((data: any) => {
       Swal.fire('Success', 'Successfully Updated!', 'success');
+      this.getAllSessionConfigList();
     })
   }
 
@@ -198,7 +200,7 @@ export class ViewAssesmentConfigComponent {
               'The data has been successfully deleted.',
               'success'
             );
-
+          this.getAllSessionConfigList();
           },
           (error) => {
             Swal.fire(
