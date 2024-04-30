@@ -35,6 +35,15 @@ export class AddAssesmentConfigComponent {
       sessionWiseList: [''],
       scheduleWiseList: ['']
     });
+    this.configForm.get('radio')?.valueChanges.subscribe(value => {
+      if (value === 'schedule') {
+        this.configForm.get('schedule')?.clearValidators();
+        this.configForm.get('schedule')?.updateValueAndValidity();
+      } else if (value === 'session') {
+        this.configForm.get('schedule')?.setValidators(Validators.required);
+        this.configForm.get('schedule')?.updateValueAndValidity();
+      }
+    });
   }
 
   ngOnInit() {
@@ -96,6 +105,10 @@ export class AddAssesmentConfigComponent {
 
   setScheduleList(event: any, scheduleForId: any) {
     const noOfQuestions: string = event.target.value;
+    if(Number.parseInt(noOfQuestions) <= 0){
+      Swal.fire('You can not enter negetive number or zero');
+      event.target.value = '';
+    }else{
     if (noOfQuestions.length > 0) {
       this.scheduleWiseList.push({
         "scheduleForId": scheduleForId,
@@ -103,13 +116,15 @@ export class AddAssesmentConfigComponent {
       });
       this.configForm.value.scheduleWiseList = this.scheduleWiseList;
     }
-    // else {
-    //   Swal.fire("Error", "Number of questions can not be  empty!", 'error');
-    // }
+  }
   }
 
   setSessionList(event: any, sessionId: any) {
     const noOfQuestions = event.target.value;
+    if(Number.parseInt(noOfQuestions) <= 0){
+      Swal.fire('You can not enter negetive number or zero');
+      event.target.value = '';
+    }else{
     if (noOfQuestions.length > 0) {
       this.sessionWiseList.push({
         "sessionId": sessionId,
@@ -118,8 +133,46 @@ export class AddAssesmentConfigComponent {
       this.configForm.value.sessionWiseList = this.sessionWiseList;
     }
   }
+  }
 
   onSubmit() {
+    let errorFlag = 0;
+    const module = this.configForm.get('module');
+    const subModule = this.configForm.get('subModule');
+    const radio = this.configForm.get('radio');
+    const schedule = this.configForm.get('schedule');
+    if (module?.invalid && errorFlag === 0) {
+      errorFlag = 1;
+      console.log('error happened');
+      module.markAsTouched();
+    }
+    if (subModule?.invalid && errorFlag === 0) {
+      errorFlag = 1;
+      console.log('error happened');
+      subModule.markAsTouched();
+    }
+    if (radio?.invalid && errorFlag === 0) {
+      errorFlag = 1;
+      console.log('error happened');
+      radio.markAsTouched();
+    }
+    if (schedule?.invalid && errorFlag === 0) {
+      errorFlag = 1;
+      console.log('error happened');
+      schedule.markAsTouched();
+    }
+
+    if(this.configForm.value.radio == 'schedule' && this.scheduleWiseList == "" ){
+      errorFlag = 1;
+      Swal.fire('Please enter at least one no. of question for scheduling', '', 'warning')
+    }
+
+    if(this.configForm.value.radio == 'session' && this.sessionWiseList == "" ){
+      errorFlag = 1;
+      Swal.fire('Please enter at least one no. of question for scheduling', '', 'warning')
+    }
+
+    if (errorFlag === 0) {
     Swal.fire({
       title: 'Save Data',
       text: 'Are you sure you want to save this data?',
@@ -175,4 +228,5 @@ export class AddAssesmentConfigComponent {
       }
     });
   }
+}
 }
