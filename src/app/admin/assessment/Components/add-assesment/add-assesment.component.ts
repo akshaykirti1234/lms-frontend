@@ -273,7 +273,7 @@ ngOnInit() {
   private saveAssessment(): void {
     this.service.saveAssessment(this.assessmentData.value).subscribe({
       next: (response) => {
-        const message = this.assessmentData.get('assessmentId').value === '' ? 'Assessment Saved Successfully' : 'Updated Successfully';
+        const message = this.assessmentData.get('assessmentId').value === '' ? 'Assessment Schedule Saved Successfully' : 'Updated Successfully';
   
         Swal.fire({
           icon: 'success',
