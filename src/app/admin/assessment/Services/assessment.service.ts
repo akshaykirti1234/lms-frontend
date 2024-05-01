@@ -14,9 +14,7 @@ export class AssessmentService {
 
   constructor(private httpClient:HttpClient) { }
 
-  // getAllScheduleName(){
-  //   return this.httpClient.get(this.scheduleUrl+"getAllScheduleNames");
-  // }
+  
 
   getScheduleBySessionId(id: any) {
     return this.httpClient.get('http://localhost:8085/session-master/',id);
@@ -60,32 +58,32 @@ export class AssessmentService {
 
 // for session upload
   
-  downloadSessionExcel() {
+  // downloadSessionExcel() {
 
-    return this.httpClient.get("http://localhost:8085/downloadExcelSessionQuestions", { responseType: 'blob' })
+  //   return this.httpClient.get("http://localhost:8085/downloadExcelSessionQuestions", { responseType: 'blob' })
 
 
-  }
+  // }
 
-  importSessionExcel(formData: any) {
+  // importSessionExcel(formData: any) {
 
-    return this.httpClient.post("http://localhost:8085/uploadSessionExcel", formData, { responseType: 'text' })
+  //   return this.httpClient.post("http://localhost:8085/uploadSessionExcel", formData, { responseType: 'text' })
 
-  }
+  // }
 
   // for schedule excel
-  downloadScheduleExcel() {
+  // downloadScheduleExcel() {
 
-    return this.httpClient.get("http://localhost:8085/downloadExcelmoduleQuestions", { responseType: 'blob' })
+  //   return this.httpClient.get("http://localhost:8085/downloadExcelmoduleQuestions", { responseType: 'blob' })
 
 
-  }
+  // }
 
-  importScheduleExcel(formData: any) {
+  // importScheduleExcel(formData: any) {
 
-    return this.httpClient.post("http://localhost:8085/uploadModuleExcel", formData, { responseType: 'text' })
+  //   return this.httpClient.post("http://localhost:8085/uploadModuleExcel", formData, { responseType: 'text' })
 
-  }
+  // }
 
   
 // Both Schdeule and Session excel Download
