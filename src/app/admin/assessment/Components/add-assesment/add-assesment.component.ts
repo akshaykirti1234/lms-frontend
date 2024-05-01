@@ -58,9 +58,6 @@ export class AddAssesmentComponent {
 
     })
 
-    this.uploadForm = this.formBuilder.group({
-      radio:['schedule', [Validators.required]] 
-  });
 
     
   }
