@@ -15,7 +15,7 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
 
   public firstRecord: any;
 
-  public materialList: any;
+  public materialList: any[] = [];
 
   public questionarList: any = [];
 
@@ -66,7 +66,7 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
     let userId = sessionStorage.getItem('userId');
     this.dashboardService.getSessionByscheduleForIdAndUserId(scheduleForId, userId).subscribe({
       next: (response) => {
-        this.materialList = response.body;
+        this.materialList = response.body as any[];
         console.log(response.body);
         // Check if materialList is not empty and contains videos
         if (this.materialList) {
