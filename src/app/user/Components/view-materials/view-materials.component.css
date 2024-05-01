@@ -32,4 +32,11 @@
   color: gold; /* Selected star color */
 }
 
+.disabled {
+  opacity: 0.5; 
+  pointer-events: none;
+  text-decoration: none;
+  }
+
+
 
