@@ -36,9 +36,14 @@
               <td>{{ item.SCHEDULEFOR }}</td>
               <td>{{item.NOOFQUESTION}}</td>
               <td>
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop1"
+                <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop1"
                   (click)="openSchEditModal(item.ASSESSMENTSETTINGID)">Edit</button>
-                <button class="btn btn-danger mx-1" (click)="deleteSchConfig(item.ASSESSMENTSETTINGID)">Delete</button>
+                <button class="btn btn-danger mx-1" (click)="deleteSchConfig(item.ASSESSMENTSETTINGID)">Delete</button> -->
+
+                <div class="d-flex gap-3">
+                  <i data-bs-toggle="modal" data-bs-target="#staticBackdrop1" (click)="openSchEditModal(item.ASSESSMENTSETTINGID)" class="fa-solid fa-pen-to-square text-primary" style="cursor: pointer;"></i>
+                  <i (click)="deleteSchConfig(item.ASSESSMENTSETTINGID)" class="fa-solid fa-trash text-danger" style="cursor: pointer;"></i>
+                </div>
               </td>
             </tr>
           </tbody>
@@ -74,10 +79,17 @@
               <td>{{item.SESSIONNAME}}</td>
               <td>{{item.NOOFQUESTION}}</td>
               <td>
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop2"
+                <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop2"
                   (click)="openSessEditModal(item.SESSIONASSESSMENTSETTINGID)">Edit</button>
                 <button class="btn btn-danger mx-1"
-                  (click)="deleteSessConfig(item.SESSIONASSESSMENTSETTINGID)">Delete</button>
+                  (click)="deleteSessConfig(item.SESSIONASSESSMENTSETTINGID)">Delete</button> -->
+
+              <div class="d-flex gap-3">
+                <i data-bs-toggle="modal" data-bs-target="#staticBackdrop2"(click)="openSessEditModal(item.SESSIONASSESSMENTSETTINGID)"
+                  class="fa-solid fa-pen-to-square text-primary" style="cursor: pointer;"></i>
+                <i (click)="deleteSessConfig(item.SESSIONASSESSMENTSETTINGID)" class="fa-solid fa-trash text-danger"
+                  style="cursor: pointer;"></i>
+              </div>
               </td>
             </tr>
           </tbody>
