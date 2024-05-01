@@ -7,6 +7,7 @@ import { SubModuleService } from 'src/app/admin/sub-module/Services/sub-module.s
 import { ScheduleService } from 'src/app/admin/schedule/Services/schedule.service';
 import { DashboardService } from 'src/app/user/Services/dashboard.service';
 import { SessionMasterService } from 'src/app/admin/session/Services/session-master.service';
+import { formatCurrency } from '@angular/common';
 
 @Component({
   selector: 'app-add-assesment',
@@ -20,7 +21,21 @@ export class AddAssesmentComponent {
   assessmentData: any;
   assessmentId: any;
   scheduleForName: any;
-  sessionList:any
+  sessionList:any;
+  selectedType: string = 'schedule'; // Default to 'Schedule for'
+
+  // for upload excel
+
+  uploadForm: any;
+
+  selectedFile: File | null = null; // Variable to store the selected file
+
+  showUploadValidationMessage: boolean = false; // Flag to show/hide upload validation message
+
+  uploadValidationMessage: string = ''; // Validation message
+
+
+  
 
   constructor(private formBuilder: FormBuilder, private service: AssessmentService, private router: Router,
     private subModuleService : SubModuleService,
@@ -42,41 +57,122 @@ export class AddAssesmentComponent {
       radio: ['schedule', [Validators.required]] 
 
     })
+
+    this.uploadForm = this.formBuilder.group({
+      radio:['schedule', [Validators.required]] 
+  });
+
+    
   }
 
-  ngOnInit() {
-    this.actRout.params.subscribe((params) => {
-      this.assessmentId = params['id'];
-      console.log(this.assessmentId);
-      this.service.editAssessment(this.assessmentId).subscribe(response => {
+  
 
-        this.assessmentData.patchValue({
-          assessmentId: response.ASSESSMENTID,
-          moduleId:response.MODULEID,
-          submoduleId:response.SUBMODULEID,
-          scheduleForId: response.SCHEDULEFORID,
-          sessionId:response.SESSIONID,
-          question: response.QUESTION,
-          option1: response.OPTION1,
-          option2: response.OPTION2,
-          option3: response.OPTION3,
-          option4: response.OPTION4,
-          answer: response.ANSWER
-        })
-      })
-    })
-    //this.getAllSchedules();
-    this.getModuleList();
+ngOnInit() {
+  this.actRout.params.subscribe((params) => {
+    this.assessmentId = params['id'];
+    console.log(this.assessmentId);
 
+    // Determine which edit method to call based on the type of assessment
+
+    this.actRout.queryParams.subscribe(params => {
+      this.selectedType = params['selectType'];
+      if(this.assessmentId>0){
+      if (this.selectedType === 'schedule') {
+        this.editAssessment(this.assessmentId);
+      } else if (this.selectedType === 'session') {
+        this.editAssessmentSession(this.assessmentId);
+      }
+    }
+    else{
+      this.assessmentId=0;
+    }
+
+    });
+    
+  });
+  this.getModuleList();
+}
+
+  editAssessment(assessmentId: any) {
+  this.service.editAssessment(assessmentId).subscribe(response => {
+    console.log(response);
+    this.assessmentData.patchValue({
+      assessmentId: response.ASSESSMENTMASTERID,
+      moduleId: response.MODULEID,
+      submoduleId: response.SUBMODULEID,
+      scheduleForId: response.SCHEDULEFORID,
+      //sessionId: response.SESSIONID, // Remove this line to ensure session radio button is selected by default
+      question: response.QUESTION,
+      option1: response.OPTION1,
+      option2: response.OPTION2,
+      option3: response.OPTION3,
+      option4: response.OPTION4,
+      answer: response.ANSWER
+    });
+
+    setTimeout(() => {
+      const moduleId = document.querySelectorAll('#moduleId');
+      for (let i = 0; i < moduleId.length; i++) {
+        moduleId[i].dispatchEvent(new Event('change'));
+      }
+    }, 1010);
+
+    setTimeout(() => {
+      const submoduleId = document.querySelectorAll('#submoduleId');
+      for (let i = 0; i < submoduleId.length; i++) {
+        submoduleId[i].dispatchEvent(new Event('change'));
+      }
+    }, 2010);
+  });
+}
+
+  editAssessmentSession(assessmentId: any) {
+    const isSessionEdit = true
+    if (isSessionEdit) {
+      this.assessmentData.get('radio').setValue('session');
   }
+  this.service.editAssessmentSession(assessmentId).subscribe(response => {
+    console.log(response);
+    this.assessmentData.patchValue({
+      assessmentId: response.SESSIONASSESSMENTMASTERID, // Use SESSIONASSESSMENTMASTERID as primary key for sessions
+      moduleId: response.MODULEID,
+      submoduleId: response.SUBMODULEID,
+      scheduleForId: response.SCHEDULEFORID,
+      sessionId: response.SESSIONID, // Remove this line to ensure session radio button is selected by default
+      question: response.QUESTION,
+      option1: response.OPTION1,
+      option2: response.OPTION2,
+      option3: response.OPTION3,
+      option4: response.OPTION4,
+      answer: response.ANSWER
+    });
 
-  // getAllSchedules() {
-  //   this.service.getAllScheduleName().subscribe((data: any) => {
+    setTimeout(() => {
+      const moduleId = document.querySelectorAll('#moduleId');
+      for (let i = 0; i < moduleId.length; i++) {
+        moduleId[i].dispatchEvent(new Event('change'));
+      }
+    }, 1010);
 
-  //     this.schedulelist = data;
-  //     console.log(this.schedulelist)
-  //   })
-  // }
+    setTimeout(() => {
+      const submoduleId = document.querySelectorAll('#submoduleId');
+      for (let i = 0; i < submoduleId.length; i++) {
+        submoduleId[i].dispatchEvent(new Event('change'));
+      }
+    }, 2010);
+   
+    
+          setTimeout(() => {
+            const scheduleForId = document.querySelectorAll('#scheduleForId');
+            for (let i = 0; i < scheduleForId.length; i++) {
+              scheduleForId[i].dispatchEvent(new Event('change'));
+            }
+          }, 2110);
+
+  });
+}
+
+
 
 //for ModuleList
   getModuleList() {
@@ -138,36 +234,17 @@ export class AddAssesmentComponent {
 
   }
 
-  // saveForm() {
-  //   if (this.assessmentData.valid) {
-  //     this.service.saveAssessment(this.assessmentData.value).subscribe((response) => {
-  //       Swal.fire("Success", "Data saved Successfully", "success");
-  //       this.router.navigate(["/dashboard/viewAssessment"])
+  
+   
 
-  //     },
-  //       (error: any) => {
-  //         Swal.fire({
+  
 
-  //           icon: 'error',
-
-  //           title: 'Something Went Wrong!',
-
-  //         });
-  //       }
-  //     )
-  //   } else {
-  //     Swal.fire({
-  //       icon: 'error',
-  //       title: 'Please Enter Form Correctly',
-  //     });
-  //   }
-  // }
 
   public saveForm(): void {
     if (this.assessmentData.valid) {
       Swal.fire({
-        title: this.assessmentData.get('assessmentId').value === '' ? 'Do you want to save ?' : 'Do you want to Update ?',
-        text: "",
+        title: this.assessmentData.get('assessmentId').value === '' ? 'Do you want to save?' : 'Do you want to Update?',
+        text: '',
         icon: 'warning',
         showCancelButton: true,
         cancelButtonText: 'No',
@@ -176,24 +253,14 @@ export class AddAssesmentComponent {
         confirmButtonText: 'Yes'
       }).then((result) => {
         if (result.isConfirmed) {
-          this.service.saveAssessment(this.assessmentData.value).subscribe({
-            next: (response) => {
-              Swal.fire({
-                icon: 'success',
-                title: this.assessmentData.get('assessmentId').value === '' ? 'Assesment Saved Successfully' : 'Updated Successfully',
-              }).then((result) => {
-                if (result.isConfirmed) {
-                  this.router.navigate(['/admin/assessment/viewAssessment']);
-                }
-              });
-            },
-            error: (error) => {
-              Swal.fire({
-                icon: 'error',
-                title: 'Something Went Wrong!',
-              });
-            }
-          });
+          // Check if it's a session or schedule
+          const isSession = this.assessmentData.get('radio').value === 'session';
+      
+          if (isSession) {
+            this.saveAssessmentSession();
+          } else {
+            this.saveAssessment();
+          }
         }
       });
     } else {
@@ -204,6 +271,48 @@ export class AddAssesmentComponent {
       });
       this.assessmentData.markAllAsTouched();
     }
+  }
+  
+  private saveAssessment(): void {
+    this.service.saveAssessment(this.assessmentData.value).subscribe({
+      next: (response) => {
+        const message = this.assessmentData.get('assessmentId').value === '' ? 'Assessment Saved Successfully' : 'Updated Successfully';
+  
+        Swal.fire({
+          icon: 'success',
+          title: message,
+        }).then(() => {
+          this.assessmentData.reset(); // Reset the form to clear all fields
+        });
+      },
+      error: (error) => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Something Went Wrong!',
+        });
+      }
+    });
+  }
+  
+  private saveAssessmentSession(): void {
+    this.service.saveAssessmentSession(this.assessmentData.value).subscribe({
+      next: (response) => {
+        const message = this.assessmentData.get('assessmentId').value === '' ? 'Session Assessment Saved Successfully' : 'Updated Successfully';
+  
+        Swal.fire({
+          icon: 'success',
+          title: message,
+        }).then(() => {
+          this.assessmentData.reset(); // Reset the form to clear all fields
+        });
+      },
+      error: (error) => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Something Went Wrong!',
+        });
+      }
+    });
   }
 
   onRadioChange() {
@@ -218,5 +327,226 @@ export class AddAssesmentComponent {
 
     this.assessmentData.get('sessionId').updateValueAndValidity(); // Update validation status for session field
   }
+
+
+
+   //iInserting record through  uploading xl file
+
+   onFileSelected(event: any) {
+    this.selectedFile = event.target.files[0]; // Store the selected file
+
+    console.log('Selected file:', this.selectedFile);
+
+    // Check if the selected file is not an Excel file
+
+    if (!this.selectedFile?.name.endsWith('.xlsx')) {
+      this.showUploadValidationMessage = true; // Show validation message
+
+      this.uploadValidationMessage =
+        'Please select an only Excel file (.xlsx) only.';
+
+      const fileInput: HTMLInputElement | null = document.querySelector('#fileInput');
+
+      console.log(fileInput);
+
+
+
+
+      if (fileInput) {
+        // Reset the file input by setting its value to an empty string
+        fileInput.value = '';
+      }
+    } else {
+      this.showUploadValidationMessage = false; // Hide validation message
+    }
+  }
+
+  downloadExcel() {
+  const isSession = this.uploadForm.get('radio').value === 'session';
+
+  if(isSession){
+       this.service.downloadSessionExcel().subscribe((data: any) => {
+      const blob = new Blob([data], {
+        type:
+          'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      });
+
+      const url = window.URL.createObjectURL(blob);
+
+      const link = document.createElement('a');
+
+      link.href = url;
+
+      link.download = 'SessionList.xlsx';
+
+      link.click();
+
+      window.URL.revokeObjectURL(url);
+    });
+  }
+    else {
+
+      this.service.downloadScheduleExcel().subscribe((data: any) => {
+        const blob = new Blob([data], {
+          type:
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        });
+  
+        const url = window.URL.createObjectURL(blob);
+  
+        const link = document.createElement('a');
+  
+        link.href = url;
+  
+        link.download = 'ModuleList.xlsx';
+  
+        link.click();
+  
+        window.URL.revokeObjectURL(url);
+      });
+
+    }
+  }
+
+  // normal field validation message
+
+  validateAndImport() {
+    const moduleId = this.assessmentData.value.moduleId;
+    const subModuleId = this.assessmentData.value.submoduleId;
+    const scheduleId = this.assessmentData.value.scheduleForId;
+    const radio = this.assessmentData.value.radio;
+    const sessionId = this.assessmentData.value.sessionId;
+    console.log(`${moduleId},${subModuleId},${scheduleId},${sessionId}`);
+    
+    if(moduleId == ''){
+      this.showUploadValidationMessage = true; // Show validation message
+
+      this.uploadValidationMessage = 'Please select module before import file';
+
+      return;
+    }
+    if(subModuleId == ''){
+      this.showUploadValidationMessage = true; // Show validation message
+
+      this.uploadValidationMessage = 'Please select sub module before import file';
+
+      return;
+    }
+    if(scheduleId == ''){
+      this.showUploadValidationMessage = true; // Show validation message
+
+      this.uploadValidationMessage = 'Please select schedule before import file';
+
+      return;
+    }
+    if(radio == ''){
+      this.showUploadValidationMessage = true; // Show validation message
+
+      this.uploadValidationMessage = 'Please select one option before import file';
+
+      return;
+    }
+    if(this.assessmentData.value.radio == 'session' && sessionId == ''){
+      this.showUploadValidationMessage = true; // Show validation message
+
+      this.uploadValidationMessage = 'Please select session before import file';
+
+      return;
+    }
+    
+    // Check if a file is selected
+
+    if (!this.selectedFile) {
+      this.showUploadValidationMessage = true; // Show validation message
+
+      this.uploadValidationMessage = 'Please select a file to import.';
+
+      return;
+    }
+
+    // Check if the selected file is an Excel file
+
+    if (!this.selectedFile.name.endsWith('.xlsx')) {
+
+      this.showUploadValidationMessage = true; // Show validation message
+
+      this.uploadValidationMessage = 'Please select an only Excel file (.xlsx) only.';
+
+      return;
+
+    }
+  
+    // Proceed with import
+
+    this.importData(moduleId,subModuleId,scheduleId,sessionId);
+  }
+
+  importData(moduleId : any,subModuleId : any,scheduleId : any,sessionId : any) {
+
+    if (this.selectedFile) {
+      const formData = new FormData();
+      formData.append('moduleId' , moduleId);
+      formData.append('subModuleId' , subModuleId);
+      formData.append('scheduleId', scheduleId);
+      if(this.assessmentData.get('radio').value === 'session' && sessionId != null){
+      formData.append('sessionId', sessionId);
+      }
+      formData.append('file', this.selectedFile);
+      formData.forEach((item: any) => {
+        console.log(`${item}`);
+      });
+      
+      const isSession = this.assessmentData.get('radio').value === 'session';
+      if(isSession){
+      this.service.importSessionExcel(formData).subscribe(
+        (data: any) => {
+          console.log('Importing file:', this.selectedFile);
+          Swal.fire('Data Saved Succesfully', 'Session data saved Successfully', 'success');
+        },
+
+        (error: any) => {
+          console.error('Error importing file:', error);
+          Swal.fire('Error', 'Invalid Data format found. Please Check Your Excel and try again', 'error');
+        }
+      );
+      }
+      else {
+        this.service.importScheduleExcel(formData).subscribe(
+          (data: any) => {
+            console.log('Importing file:', this.selectedFile);
+            Swal.fire('Data Saved Succesfully', 'Schedule data saved Successfully', 'success');
+          },
+  
+          (error: any) => {
+            console.error('Error importing file:', error);
+            Swal.fire('Error', 'Invalid Data format found. Please Check Your Excel and try again', 'error');
+          }
+        );
+      }
+
+      // Clear the selected file reference
+
+      this.selectedFile = null;
+    } else {
+      // Handle case when no file is selected
+
+      console.log('No file selected.');
+    }
+
+    const fileInput: HTMLInputElement | null = document.querySelector('#fileInput');
+
+    console.log(fileInput);
+
+
+
+
+    if (fileInput) {
+      // Reset the file input by setting its value to an empty string
+      fileInput.value = '';
+    }
+  }
+
+  
+
 
 }

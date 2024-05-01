@@ -8,7 +8,7 @@
                 <input type="hidden" formControlName="assessmentId" class="form-control" />
                 <div class="d-flex gap-3 flex-wrap justify-content-around row-cols-lg-3 row-cols-md-2 row-cols-md-1">
                     <div class="form-group col-4">
-                        <label>Type</label>
+                        <label for="moduleId">Type</label>
 
                         <span class="text-danger">*</span>
                         <select class="form-control" formControlName="moduleId" id="moduleId" (change)="getSubModuleByModuleId($event)">
@@ -40,8 +40,10 @@
                         </div>
                     </div>
                     <div>
-                        <label><input type="radio" formControlName="radio" value="schedule"  (change)="onRadioChange()" checked> Schedule For</label>
+                        <label><input type="radio" formControlName="radio" value="schedule"  (change)="onRadioChange()" checked> Schedule For</label>&nbsp;
                         <label><input type="radio" formControlName="radio" value="session" (change)="onRadioChange()"> Session For</label>
+
+                        
                     </div>
                     <div>
                         <label class="form-label" for="">Schedule For <span class="text-danger">*</span></label>
@@ -61,7 +63,7 @@
 
                     <!-- Session dropdown -->
                     <div *ngIf="assessmentData.get('radio').value === 'session'">
-                        <label class="form-label" for="session">Session For <span class="text-danger">*</span></label>
+                        <label class="form-label" for="sessionId">Session For <span class="text-danger">*</span></label>
                         <select class="form-select" formControlName="sessionId" id="sessionId">
                             <option value="" selected disabled>-Select-</option>
                             <option class="form-select" *ngFor="let session of sessionList"
@@ -170,7 +172,59 @@
                     </button>
                 </div>
             </form>
+          
+            <div *ngIf="assessmentId == 0">
+                <hr />
+
+                <form [formGroup]="uploadForm">
+                    <div class="row">
+                        <div>
+                            <label><input type="radio" formControlName="radio" value="schedule" checked> Schedule For</label>&nbsp;
+                            <label><input type="radio" formControlName="radio" value="session" > Session For</label>
+                        </div>
+                        <div class="col-md-4 mt-3">
+                            <label>Upload File <span class="text-danger">*</span></label>
+
+                            <input class="form-control" type="file" id="fileInput" (change)="onFileSelected($event)"
+                                accept=".xlsx" />
+
+                            <!-- Validation message for upload -->
+
+                            <div *ngIf="showUploadValidationMessage" class="text-danger mt-2">
+                                {{ uploadValidationMessage }}
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 mt-3">
+                            <label for=""></label>
+
+                            <!-- <div><i class="fas fa-download" width="16" height="16" data-toggle="tooltip" data-placement="top" title="Download the excel format" (click)="downloadExcel()"></i> </div> -->
+                            <div>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
+                                    class="bi bi-download" viewBox="0
+                0 16 16" data-bs-toggle="tooltip" data-bs-placement="top" title="This is the button
+                for file downloading" (click)="downloadExcel()">
+                                    <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0
+                0 1-2-2v-2.5a.5.5 0 0 1 .5-.5" />
+
+                                    <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5
+                0 1 0-.708.708z" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex gap-2 justify-content-center mt-2">
+                        <button type="button" class="btn btn-primary" (click)="validateAndImport()">
+                            Import
+                        </button>
+                    </div>
+                </form>
+            </div>
+
         </div>
     </div>
 
 </div>
+
+{{assessmentData.value | json}}
