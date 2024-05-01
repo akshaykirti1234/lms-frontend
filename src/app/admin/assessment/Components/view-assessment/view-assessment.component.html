@@ -26,7 +26,12 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let assessment of assessmentList; let i = index">
+                    <!-- <tr *ngFor="let assessment of assessmentList; let i = index"> -->
+                        <tr *ngFor="let assessment of assessmentList | paginate :{
+                            itemsPerPage : tableSize,
+                            currentPage : page ,
+                            totalItems: count
+                            }; let i = index;">
                         <td>{{ i + 1 }}</td>
                         <td>{{ assessment.MODULENAME }}</td>
                         <td>{{ assessment.SUBMODULENAME }}</td>
@@ -66,7 +71,12 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let assessment of assessmentList; let i = index">
+                    <!-- <tr *ngFor="let assessment of assessmentList; let i = index" -->
+                        <tr *ngFor="let assessment of assessmentList | paginate :{
+                        itemsPerPage : tableSize,
+                        currentPage : page ,
+                        totalItems: count
+                        }; let i = index;">
                         <td>{{ i + 1 }}</td>
                         <td>{{ assessment.MODULENAME }}</td>
                         <td>{{ assessment.SUBMODULENAME }}</td>
