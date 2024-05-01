@@ -4,6 +4,7 @@ import { DashboardService } from '../../Services/dashboard.service';
 import { FormBuilder } from '@angular/forms';
 import { of } from 'rxjs';
 import jsPDF from 'jspdf';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-view-materials',
@@ -287,6 +288,17 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
         console.log(response);
         console.log(response.body);
         this.givenQuestionAnswer = [];
+
+        const icon = response.body < 60 ? 'warning' : 'success';
+        const title = response.body < 60 ? `Failed` : `Passed`;
+        const text = `Your score is ${response.body}%`;
+        Swal.fire({
+          title: title,
+          icon: icon,
+          text: text,
+          confirmButtonText: 'OK'
+        });
+
         // window.location.reload();
         this.ngOnInit();
       },
