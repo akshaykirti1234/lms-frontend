@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DashboardService } from '../../Services/dashboard.service';
 import { FormBuilder } from '@angular/forms';
 import { of } from 'rxjs';
+import jsPDF from 'jspdf';
 
 @Component({
   selector: 'app-view-materials',
@@ -15,7 +16,7 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
 
   public materialList: any;
 
-  public questionarList: any;
+  public questionarList: any = [];
 
   public selectedPdf: any;
   public selectedVideo: any;
@@ -121,21 +122,57 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
   //  Questionar
   // ***********************************************************************
 
-  public showQuestionar(sessionId: any): void {
-    this.selectedPdf = null;
-    this.selectedVideo = null;
-    this.selectedQuestionar = true;
-    this.dashboardService.getQuestionarBySessionId(sessionId).subscribe({
-      next: (response) => {
-        this.questionarList = response.body;
-        console.log(this.questionarList);
-      },
-      error: (error) => {
-        console.log(error);
-        this.questionarList = null;
-        this.currentQuestionIndex = 0;
-      }
-    });
+  public showQuestionar(sessionId: any, resultStatus: any): void {
+    if (!resultStatus) {
+      this.selectedPdf = null;
+      this.selectedVideo = null;
+      this.selectedQuestionar = true;
+      this.questionarList = [];
+      this.dashboardService.getQuestionarBySessionId(sessionId).subscribe({
+        next: (response) => {
+          this.questionarList = response.body;
+          console.log(this.questionarList);
+        },
+        error: (error) => {
+          console.log(error);
+          this.questionarList = [];
+          this.currentQuestionIndex = 0;
+        }
+      });
+    }
+  }
+
+  allQuestionnairesPassed(): boolean {
+    return this.materialList.every((file: any) => file.resultStatus);
+  }
+
+  downloadPDF(): void {
+    let userName = sessionStorage.getItem('fullName');
+    const currentDate = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+    const doc = new jsPDF();
+
+    // Set border color and fill color
+    doc.setDrawColor(0); // Set border color to black
+    doc.setFillColor(255, 255, 255); // Set background color to white
+
+    // Add rectangle with border and filled with background color
+    doc.rect(5, 5, 200, 287, 'FD');
+
+    doc.setFontSize(22);
+    doc.text("Certificate of Completion", 105, 50, { align: 'center' });
+
+    doc.setFontSize(16);
+    doc.text("This is to certify that", 105, 80, { align: 'center' });
+    doc.text(`${userName}`, 105, 90, { align: 'center' });
+
+    doc.text("has successfully completed the course", 105, 110, { align: 'center' });
+    doc.text(this.firstRecord?.scheduleFor.scheduleForName, 105, 120, { align: 'center' });
+
+    doc.text(`Date: ${currentDate}`, 20, 140);
+    // doc.text("Signature: <<Signature>>", 160, 140);
+
+    doc.save('Certificate.pdf');
   }
   // ********************************************************************
 
@@ -250,6 +287,8 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
         console.log(response);
         console.log(response.body);
         this.givenQuestionAnswer = [];
+        // window.location.reload();
+        this.ngOnInit();
       },
       error: (error) => {
         console.log(error);
