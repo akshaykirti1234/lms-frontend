@@ -362,10 +362,8 @@ ngOnInit() {
   }
 
   downloadExcel() {
-  const isSession = this.uploadForm.get('radio').value === 'session';
-
-  if(isSession){
-       this.service.downloadSessionExcel().subscribe((data: any) => {
+  
+       this.service.downloadScheduleSessionExcel().subscribe((data: any) => {
       const blob = new Blob([data], {
         type:
           'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
@@ -377,36 +375,15 @@ ngOnInit() {
 
       link.href = url;
 
-      link.download = 'SessionList.xlsx';
+      link.download = 'QuestionList.xlsx';
 
       link.click();
 
       window.URL.revokeObjectURL(url);
     });
   }
-    else {
-
-      this.service.downloadScheduleExcel().subscribe((data: any) => {
-        const blob = new Blob([data], {
-          type:
-            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-        });
+    
   
-        const url = window.URL.createObjectURL(blob);
-  
-        const link = document.createElement('a');
-  
-        link.href = url;
-  
-        link.download = 'ModuleList.xlsx';
-  
-        link.click();
-  
-        window.URL.revokeObjectURL(url);
-      });
-
-    }
-  }
 
   // normal field validation message
 
@@ -496,9 +473,8 @@ ngOnInit() {
         console.log(`${item}`);
       });
       
-      const isSession = this.assessmentData.get('radio').value === 'session';
-      if(isSession){
-      this.service.importSessionExcel(formData).subscribe(
+      
+      this.service.importScheduleSessionExcel(formData).subscribe(
         (data: any) => {
           console.log('Importing file:', this.selectedFile);
           Swal.fire('Data Saved Succesfully', 'Session data saved Successfully', 'success');
@@ -509,20 +485,8 @@ ngOnInit() {
           Swal.fire('Error', 'Invalid Data format found. Please Check Your Excel and try again', 'error');
         }
       );
-      }
-      else {
-        this.service.importScheduleExcel(formData).subscribe(
-          (data: any) => {
-            console.log('Importing file:', this.selectedFile);
-            Swal.fire('Data Saved Succesfully', 'Schedule data saved Successfully', 'success');
-          },
-  
-          (error: any) => {
-            console.error('Error importing file:', error);
-            Swal.fire('Error', 'Invalid Data format found. Please Check Your Excel and try again', 'error');
-          }
-        );
-      }
+      
+      
 
       // Clear the selected file reference
 

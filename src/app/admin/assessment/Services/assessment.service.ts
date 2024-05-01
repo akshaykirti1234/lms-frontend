@@ -87,6 +87,24 @@ export class AssessmentService {
 
   }
 
+  
+// Both Schdeule and Session excel Download
+
+    
+  downloadScheduleSessionExcel() {
+
+    return this.httpClient.get("http://localhost:8085/generateSAssesmentExcel", { responseType: 'blob' })
+
+
+  }
+
+  importScheduleSessionExcel(formData: any) {
+
+    return this.httpClient.post("http://localhost:8085/uploadExcelSessionExcel", formData, { responseType: 'text' })
+
+  }
+
+
 
 }
 
