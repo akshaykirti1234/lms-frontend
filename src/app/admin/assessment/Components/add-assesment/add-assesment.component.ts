@@ -98,7 +98,6 @@ ngOnInit() {
       moduleId: response.MODULEID,
       submoduleId: response.SUBMODULEID,
       scheduleForId: response.SCHEDULEFORID,
-      //sessionId: response.SESSIONID, // Remove this line to ensure session radio button is selected by default
       question: response.QUESTION,
       option1: response.OPTION1,
       option2: response.OPTION2,
@@ -230,11 +229,6 @@ ngOnInit() {
       });
 
   }
-
-  
-   
-
-  
 
 
   public saveForm(): void {
