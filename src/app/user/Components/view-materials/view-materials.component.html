@@ -124,6 +124,7 @@
             </div>
 
             <div *ngIf="file.hasQuestions" (click)="showQuestionar(file.sessionId, file.resultStatus)"
+                [ngClass]="{'disabled': !file.accessStatus}"
                 class="text-bg-success px-1 border rounded d-flex justify-content-between" style="cursor: pointer;">
                 <span>Questionnaire</span>
                 <div>
