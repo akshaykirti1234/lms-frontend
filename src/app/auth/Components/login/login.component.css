@@ -1,6 +1,7 @@
 a {
     text-decoration: none;
 }
+
 .login-page {
     width: 100%;
     height: 100vh;
@@ -8,14 +9,19 @@ a {
     display: flex;
     align-items: center;
 }
+
 .form-right i {
     font-size: 100px;
 }
 
-label{
+label {
     font-weight: bold;
 }
 
+.form-control:focus {
+    outline: none !important;
+    box-shadow: none;
+}
 
 /* .login-page{
     background-color: #8EC5FC;
@@ -23,10 +29,12 @@ label{
     } */
 
 .login-page {
-    background-color: #E0C3FC; /* Reversed color */
-    background-image: linear-gradient(62deg, #E0C3FC 0%, #8EC5FC 100%); /* Reversed gradient */
+    background-color: #E0C3FC;
+    /* Reversed color */
+    background-image: linear-gradient(62deg, #E0C3FC 0%, #8EC5FC 100%);
+    /* Reversed gradient */
 }
 
-input{
+input {
     background-color: lavender;
 }
