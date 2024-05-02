@@ -21,7 +21,7 @@
                         <div class="text-danger" *ngIf="assessmentData.get('moduleId')?.invalid &&(assessmentData.get('moduleId')?.touched ||
                 assessmentData.get('moduleId')?.dirty) ">
                             <div *ngIf="assessmentData.get('moduleId')?.hasError('required')">
-                                Please Enter Type
+                                Please Select Type
                             </div>
                         </div>
                     </div>
@@ -35,8 +35,8 @@
                             </option>
                         </select>
                         <div class="text-danger"
-                            *ngIf="assessmentData.get('subModule.submoduleId')?.invalid && (assessmentData.get('subModule.submoduleId')?.touched ||  assessmentData.get('subModule.submoduleId')?.dirty)">
-                            <div *ngIf=" assessmentData.get('subModule.submoduleId')?.hasError('required')">Please Choose a Module</div>
+                            *ngIf="assessmentData.get('submoduleId')?.invalid && (assessmentData.get('submoduleId')?.touched ||  assessmentData.get('submoduleId')?.dirty)">
+                            <div *ngIf=" assessmentData.get('submoduleId')?.hasError('required')">Please Select Module</div>
                         </div>
                     </div>
                     <div>
@@ -57,7 +57,7 @@
                         <div class="text-danger"
                             *ngIf="assessmentData.get('scheduleForId')?.invalid && (assessmentData.get('scheduleForId')?.touched ||  assessmentData.get('scheduleForId')?.dirty)">
                             <div *ngIf=" assessmentData.get('scheduleForId')?.hasError('required')">Please Select
-                                Schedule Name.</div>
+                                Schedule</div>
                         </div>
                     </div>
 
@@ -74,7 +74,7 @@
                         <div class="text-danger"
                             *ngIf="assessmentData.get('sessionId')?.invalid && (assessmentData.get('sessionId')?.touched ||  assessmentData.get('sessionId')?.dirty)">
                             <div *ngIf=" assessmentData.get('sessionId')?.hasError('required')">Please Select
-                                Session Name.</div>
+                                Session</div>
                         </div>
                     </div>
 
@@ -178,10 +178,7 @@
 
                 <form [formGroup]="uploadForm">
                     <div class="row">
-                        <div>
-                            <label><input type="radio" formControlName="radio" value="schedule" checked> Schedule For</label>&nbsp;
-                            <label><input type="radio" formControlName="radio" value="session" > Session For</label>
-                        </div>
+                      
                         <div class="col-md-4 mt-3">
                             <label>Upload File <span class="text-danger">*</span></label>
 

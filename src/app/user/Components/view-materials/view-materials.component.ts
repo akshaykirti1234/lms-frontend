@@ -15,7 +15,7 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
 
   public firstRecord: any;
 
-  public materialList: any;
+  public materialList: any[] = [];
 
   public questionarList: any = [];
 
@@ -62,11 +62,31 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
     });
   }
 
+  // public getSessionByscheduleForId(scheduleForId: any) {
+  //   let userId = sessionStorage.getItem('userId');
+  //   this.dashboardService.getSessionByscheduleForIdAndUserId(scheduleForId, userId).subscribe({
+  //     next: (response) => {
+  //       this.materialList = response.body as any[];
+  //       console.log(response.body);
+  //       // Check if materialList is not empty and contains videos
+  //       if (this.materialList) {
+  //         const firstVideo = this.materialList.find((item: any) => item.video);
+  //         this.firstRecord = firstVideo;
+  //         if (firstVideo) {
+  //           this.showMaterial(firstVideo.video, firstVideo);
+  //         }
+  //       }
+  //     },
+  //     error: (error) => {
+  //       console.log(error);
+  //     }
+  //   });
+  // }
   public getSessionByscheduleForId(scheduleForId: any) {
     let userId = sessionStorage.getItem('userId');
     this.dashboardService.getSessionByscheduleForIdAndUserId(scheduleForId, userId).subscribe({
       next: (response) => {
-        this.materialList = response.body;
+        this.materialList = response.body as any[];
         console.log(response.body);
         // Check if materialList is not empty and contains videos
         if (this.materialList) {
@@ -76,12 +96,32 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
             this.showMaterial(firstVideo.video, firstVideo);
           }
         }
+
+        // Check if response.body is not null and is an array before iterating through sessions
+        if (Array.isArray(response.body)) {
+          this.materialList.forEach(session => {
+            if (session.sessionId) {
+              this.dashboardService.getQuestionarBySessionId(session.sessionId).subscribe({
+                next: (res) => {
+                  session.hasQuestions = (Array.isArray(res.body) && res.body.length > 0) ? true : false;
+                },
+                error: (error) => {
+                  console.log(error);
+                  session.hasQuestions = false; // Set hasQuestions to false if there's an error
+                }
+              });
+            } else {
+              session.hasQuestions = false; // Set hasQuestions to false if sessionId is not available
+            }
+          });
+        }
       },
       error: (error) => {
         console.log(error);
       }
     });
   }
+
 
 
   // ***********************************************************************
@@ -133,18 +173,27 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
         next: (response) => {
           this.questionarList = response.body;
           console.log(this.questionarList);
+          // Show the questionnaire section only if there are questions available
+          if (this.questionarList.length === 0) {
+            this.selectedQuestionar = false;
+          }
         },
         error: (error) => {
           console.log(error);
           this.questionarList = [];
           this.currentQuestionIndex = 0;
+          this.selectedQuestionar = false; // Hide questionnaire if there's an error fetching questions
         }
       });
     }
   }
 
   allQuestionnairesPassed(): boolean {
-    return this.materialList.every((file: any) => file.resultStatus);
+    if (this.materialList.length > 0) {
+      return this.materialList.every((file: any) => file.resultStatus);
+    } else {
+      return false;
+    }
   }
 
   downloadPDF(): void {

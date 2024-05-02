@@ -58,9 +58,6 @@ export class AddAssesmentComponent {
 
     })
 
-    this.uploadForm = this.formBuilder.group({
-      radio:['schedule', [Validators.required]] 
-  });
 
     
   }
@@ -101,7 +98,6 @@ ngOnInit() {
       moduleId: response.MODULEID,
       submoduleId: response.SUBMODULEID,
       scheduleForId: response.SCHEDULEFORID,
-      //sessionId: response.SESSIONID, // Remove this line to ensure session radio button is selected by default
       question: response.QUESTION,
       option1: response.OPTION1,
       option2: response.OPTION2,
@@ -234,11 +230,6 @@ ngOnInit() {
 
   }
 
-  
-   
-
-  
-
 
   public saveForm(): void {
     if (this.assessmentData.valid) {
@@ -276,7 +267,7 @@ ngOnInit() {
   private saveAssessment(): void {
     this.service.saveAssessment(this.assessmentData.value).subscribe({
       next: (response) => {
-        const message = this.assessmentData.get('assessmentId').value === '' ? 'Assessment Saved Successfully' : 'Updated Successfully';
+        const message = this.assessmentData.get('assessmentId').value === '' ? 'Assessment Schedule Saved Successfully' : 'Updated Successfully';
   
         Swal.fire({
           icon: 'success',
