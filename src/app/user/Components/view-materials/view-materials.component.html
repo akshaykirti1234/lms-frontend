@@ -12,7 +12,7 @@
             </div>
             <div class="card-body">
                 <form [formGroup]="questionForm">
-                    <p>{{ questionarList[currentQuestionIndex].question }}</p>
+                    <p>Q.{{ currentQuestionIndex + 1 }} : {{ questionarList[currentQuestionIndex].question }}</p>
                     <div class="options">
                         <div class="form-check mt-5">
                             <input class="form-check-input" type="radio" [formControlName]="'option'"
