@@ -46,14 +46,18 @@
                       <tr>
                         <th>Sl No.</th>
                         <th>Schedule Name</th>
-                        <th>Input Box</th>
+                        <th>No. Of Question</th>
+                        <th>Pass Percentage</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr *ngFor="let schedule of schedules;let i=index;">
                         <td>{{i+1}}</td>
                         <td>{{ schedule.scheduleForName }}</td>
-                        <td><input class="form-control" type="number" min="0" placeholder="Enter some number" (blur)="setScheduleList($event,schedule.scheduleForId)"></td>
+                        
+                        <td><input class="form-control" type="number" min="0" placeholder="Enter no of question" (blur)="setScheduleList($event,schedule.scheduleForId)"></td>
+                        <td><input class="form-control" type="number" min="0" placeholder="Pass Percentage" (blur)="setPassPercentScheduleList($event,schedule.scheduleForId)"></td>
+                        
                       </tr>
                     </tbody>
                   </table>
@@ -75,14 +79,16 @@
                         <tr>
                             <th>Sl No.</th>
                           <th>Session Name</th>
-                          <th>Input Box</th>
+                          <th>No of Questions</th>
+                          <th>Pass Percentage</th>
                         </tr>
                       </thead>
                       <tbody>
                         <tr *ngFor="let session of sessions;let i = index">
                             <td>{{i+1}}</td>
                           <td>{{ session.sessionName }}</td>
-                          <td><input class="form-control" type="number" min="0" placeholder="Enter some number" (blur)="setSessionList($event,session.sessionId)"></td>
+                          <td><input class="form-control" type="number" min="0" placeholder="Enter number of questions" (blur)="setSessionList($event,session.sessionId)"></td>
+                          <td><input class="form-control" type="number" min="0" placeholder="Pass Percentage" (blur)="setPassPercentSessionList($event,session.sessionId)"></td>
                         </tr>
                       </tbody>
                     </table>
@@ -97,4 +103,4 @@
         </div>
     </div>
 </div>
-<!-- {{configForm.value | json}} -->
+{{configForm.value | json}}
