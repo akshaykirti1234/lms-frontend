@@ -414,9 +414,9 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
         this.givenQuestionAnswer = [];
         this.questionStatusList = [];
 
-        const icon = response.body < 60 ? 'warning' : 'success';
-        const title = response.body < 60 ? `Failed` : `Passed`;
-        const text = `Your score is ${response.body}%`;
+        const icon = response.body.percentage < response.body.passingPercentage ? 'warning' : 'success';
+        const title = response.body.percentage < response.body.passingPercentage ? `Failed` : `Passed`;
+        const text = `Your score is ${response.body.percentage}%`;
         Swal.fire({
           title: title,
           icon: icon,
