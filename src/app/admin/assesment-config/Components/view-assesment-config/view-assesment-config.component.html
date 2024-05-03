@@ -21,6 +21,7 @@
               <th>Sub module</th>
               <th>Schedule</th>
               <th>No Of Questions</th>
+              <th>Passing Percentage</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -35,6 +36,7 @@
               <td>{{ item.SUBMODULENAME }}</td>
               <td>{{ item.SCHEDULEFOR }}</td>
               <td>{{item.NOOFQUESTION}}</td>
+              <td>{{item.PASSINGPERCENTAGE}}</td>
               <td>
                 <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop1"
                   (click)="openSchEditModal(item.ASSESSMENTSETTINGID)">Edit</button>
@@ -63,6 +65,7 @@
               <th>Schedule</th>
               <th>Session</th>
               <th>No Of Questions</th>
+              <th>Passing Percentage</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -78,6 +81,7 @@
               <td>{{ item.SCHEDULEFOR }}</td>
               <td>{{item.SESSIONNAME}}</td>
               <td>{{item.NOOFQUESTION}}</td>
+              <td>{{item.PASSINGPERCENTAGE}}</td>
               <td>
                 <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop2"
                   (click)="openSessEditModal(item.SESSIONASSESSMENTSETTINGID)">Edit</button>

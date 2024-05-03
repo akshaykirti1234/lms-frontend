@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Route, Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { AssessmentService } from '../../Services/assessment.service';
@@ -21,7 +21,7 @@ export class AddAssesmentComponent {
   assessmentData: any;
   assessmentId: any;
   scheduleForName: any;
-  sessionList:any;
+  sessionList: any;
   selectedType: string = 'schedule'; // Default to 'Schedule for'
 
   // for upload excel
@@ -35,142 +35,168 @@ export class AddAssesmentComponent {
   uploadValidationMessage: string = ''; // Validation message
 
 
-  
+
 
   constructor(private formBuilder: FormBuilder, private service: AssessmentService, private router: Router,
-    private subModuleService : SubModuleService,
-     private actRout: ActivatedRoute,
-     private dashboardService :DashboardService,private sessionService:SessionMasterService) {
+    private subModuleService: SubModuleService,
+    private actRout: ActivatedRoute,
+    private dashboardService: DashboardService, private sessionService: SessionMasterService) {
 
     this.assessmentData = this.formBuilder.group({
       assessmentId: [''],
       scheduleForId: ['', [Validators.required]],
       sessionId: [''],
-      question: ['',[Validators.required]],
-      option1: ['',[Validators.required]],
-      option2: ['',[Validators.required]],
-      option3: ['',[Validators.required]],
-      option4: ['',[Validators.required]],
-      answer: ['',[Validators.required]],
-      moduleId: ['' ,[Validators.required]],
+      question: ['', [Validators.required]],
+      option1: ['', [Validators.required]],
+      option2: ['', [Validators.required]],
+      option3: ['', [Validators.required]],
+      option4: ['', [Validators.required]],
+      answer: ['', [Validators.required]],
+      moduleId: ['', [Validators.required]],
       submoduleId: ['', [Validators.required]],
-      radio: ['schedule', [Validators.required]] 
-
-    })
-
-
+      radio: ['schedule', [Validators.required]],
+      bulkUploadMode: [false]
+    });
     
+    this.assessmentData.get('bulkUploadMode')!.valueChanges.subscribe((value: any) => {
+      if (value) {
+        console.log(1); // Log 1 if checked
+        document.getElementById("bulkQsnMode")!.style.display = "block";
+        document.getElementById("oneQsnMode")!.style.display = "none";
+      } else {
+        console.log(0); // Log 0 if unchecked
+        document.getElementById("bulkQsnMode")!.style.display = "none";
+        document.getElementById("oneQsnMode")!.style.display = "block";
+      }
+    });
+    
+    
+    
+
+
   }
 
-  
 
-ngOnInit() {
-  this.actRout.params.subscribe((params) => {
-    this.assessmentId = params['id'];
-    console.log(this.assessmentId);
 
-    // Determine which edit method to call based on the type of assessment
+  ngOnInit() {
+    this.actRout.params.subscribe((params) => {
+      this.assessmentId = params['id'];
+      console.log(this.assessmentId);
 
-    this.actRout.queryParams.subscribe(params => {
-      this.selectedType = params['selectType'];
-      if(this.assessmentId>0){
-      if (this.selectedType === 'schedule') {
-        this.editAssessment(this.assessmentId);
-      } else if (this.selectedType === 'session') {
-        this.editAssessmentSession(this.assessmentId);
-      }
-    }
-    else{
-      this.assessmentId=0;
-    }
+      // Determine which edit method to call based on the type of assessment
+
+      this.actRout.queryParams.subscribe(params => {
+        this.selectedType = params['selectType'];
+        if (this.assessmentId > 0) {
+          if (this.selectedType === 'schedule') {
+            this.editAssessment(this.assessmentId);
+          } else if (this.selectedType === 'session') {
+            this.editAssessmentSession(this.assessmentId);
+          }
+        }
+        else {
+          this.assessmentId = 0;
+        }
+
+      });
 
     });
-    
-  });
-  this.getModuleList();
-}
+    this.getModuleList();
+    setTimeout(() => {
+      const bulkQsnModeElement = document.getElementById("bulkQsnMode");
+      if (bulkQsnModeElement) {
+        console.log('inside display none');
+        bulkQsnModeElement.style.display = "none";
+      } else {
+        console.log(bulkQsnModeElement);
+      }
+    });
+
+  }
+
+
 
   editAssessment(assessmentId: any) {
-  this.service.editAssessment(assessmentId).subscribe(response => {
-    console.log(response);
-    this.assessmentData.patchValue({
-      assessmentId: response.ASSESSMENTMASTERID,
-      moduleId: response.MODULEID,
-      submoduleId: response.SUBMODULEID,
-      scheduleForId: response.SCHEDULEFORID,
-      question: response.QUESTION,
-      option1: response.OPTION1,
-      option2: response.OPTION2,
-      option3: response.OPTION3,
-      option4: response.OPTION4,
-      answer: response.ANSWER
+    this.service.editAssessment(assessmentId).subscribe(response => {
+      console.log(response);
+      this.assessmentData.patchValue({
+        assessmentId: response.ASSESSMENTMASTERID,
+        moduleId: response.MODULEID,
+        submoduleId: response.SUBMODULEID,
+        scheduleForId: response.SCHEDULEFORID,
+        question: response.QUESTION,
+        option1: response.OPTION1,
+        option2: response.OPTION2,
+        option3: response.OPTION3,
+        option4: response.OPTION4,
+        answer: response.ANSWER
+      });
+
+      setTimeout(() => {
+        const moduleId = document.querySelectorAll('#moduleId');
+        for (let i = 0; i < moduleId.length; i++) {
+          moduleId[i].dispatchEvent(new Event('change'));
+        }
+      }, 1010);
+
+      setTimeout(() => {
+        const submoduleId = document.querySelectorAll('#submoduleId');
+        for (let i = 0; i < submoduleId.length; i++) {
+          submoduleId[i].dispatchEvent(new Event('change'));
+        }
+      }, 2010);
     });
-
-    setTimeout(() => {
-      const moduleId = document.querySelectorAll('#moduleId');
-      for (let i = 0; i < moduleId.length; i++) {
-        moduleId[i].dispatchEvent(new Event('change'));
-      }
-    }, 1010);
-
-    setTimeout(() => {
-      const submoduleId = document.querySelectorAll('#submoduleId');
-      for (let i = 0; i < submoduleId.length; i++) {
-        submoduleId[i].dispatchEvent(new Event('change'));
-      }
-    }, 2010);
-  });
-}
+  }
 
   editAssessmentSession(assessmentId: any) {
     const isSessionEdit = true
     if (isSessionEdit) {
       this.assessmentData.get('radio').setValue('session');
-  }
-  this.service.editAssessmentSession(assessmentId).subscribe(response => {
-    console.log(response);
-    this.assessmentData.patchValue({
-      assessmentId: response.SESSIONASSESSMENTMASTERID, // Use SESSIONASSESSMENTMASTERID as primary key for sessions
-      moduleId: response.MODULEID,
-      submoduleId: response.SUBMODULEID,
-      scheduleForId: response.SCHEDULEFORID,
-      sessionId: response.SESSIONID, // Remove this line to ensure session radio button is selected by default
-      question: response.QUESTION,
-      option1: response.OPTION1,
-      option2: response.OPTION2,
-      option3: response.OPTION3,
-      option4: response.OPTION4,
-      answer: response.ANSWER
+    }
+    this.service.editAssessmentSession(assessmentId).subscribe(response => {
+      console.log(response);
+      this.assessmentData.patchValue({
+        assessmentId: response.SESSIONASSESSMENTMASTERID, // Use SESSIONASSESSMENTMASTERID as primary key for sessions
+        moduleId: response.MODULEID,
+        submoduleId: response.SUBMODULEID,
+        scheduleForId: response.SCHEDULEFORID,
+        sessionId: response.SESSIONID, // Remove this line to ensure session radio button is selected by default
+        question: response.QUESTION,
+        option1: response.OPTION1,
+        option2: response.OPTION2,
+        option3: response.OPTION3,
+        option4: response.OPTION4,
+        answer: response.ANSWER
+      });
+
+      setTimeout(() => {
+        const moduleId = document.querySelectorAll('#moduleId');
+        for (let i = 0; i < moduleId.length; i++) {
+          moduleId[i].dispatchEvent(new Event('change'));
+        }
+      }, 1010);
+
+      setTimeout(() => {
+        const submoduleId = document.querySelectorAll('#submoduleId');
+        for (let i = 0; i < submoduleId.length; i++) {
+          submoduleId[i].dispatchEvent(new Event('change'));
+        }
+      }, 2010);
+
+
+      setTimeout(() => {
+        const scheduleForId = document.querySelectorAll('#scheduleForId');
+        for (let i = 0; i < scheduleForId.length; i++) {
+          scheduleForId[i].dispatchEvent(new Event('change'));
+        }
+      }, 2110);
+
     });
-
-    setTimeout(() => {
-      const moduleId = document.querySelectorAll('#moduleId');
-      for (let i = 0; i < moduleId.length; i++) {
-        moduleId[i].dispatchEvent(new Event('change'));
-      }
-    }, 1010);
-
-    setTimeout(() => {
-      const submoduleId = document.querySelectorAll('#submoduleId');
-      for (let i = 0; i < submoduleId.length; i++) {
-        submoduleId[i].dispatchEvent(new Event('change'));
-      }
-    }, 2010);
-   
-    
-          setTimeout(() => {
-            const scheduleForId = document.querySelectorAll('#scheduleForId');
-            for (let i = 0; i < scheduleForId.length; i++) {
-              scheduleForId[i].dispatchEvent(new Event('change'));
-            }
-          }, 2110);
-
-  });
-}
+  }
 
 
 
-//for ModuleList
+  //for ModuleList
   getModuleList() {
     this.subModuleService.getModuleList().subscribe((responseData: any) => {
       this.ModuleList = responseData;
@@ -179,16 +205,16 @@ ngOnInit() {
     });
   }
 
- 
+
 
   //get subModuleByModuleId
   public getSubModuleByModuleId(event: any) {
-   const moduleId=event.target.value
+    const moduleId = event.target.value
     this.dashboardService.getSubModuleByModuleId(moduleId).subscribe({
       next: (response) => {
         this.subModuleList = response.body;
         console.log(this.subModuleList);
-        
+
       },
       error: (error) => {
         console.log(error);
@@ -200,7 +226,7 @@ ngOnInit() {
   //for Scheduleforlist
 
   getSchList(event: any) {
-    
+
     const submoduleId = parseInt(
       (event.target as HTMLSelectElement).value,
       10
@@ -209,13 +235,13 @@ ngOnInit() {
       .getSchListById(submoduleId)
       .subscribe((data: any) => {
         console.log(data);
-        
+
         this.schedulelist = data;
       });
 
   }
-//for Session List
-  getSessionList(event: any){
+  //for Session List
+  getSessionList(event: any) {
     const scheduleForId = parseInt(
       (event.target as HTMLSelectElement).value,
       10
@@ -224,7 +250,7 @@ ngOnInit() {
       .getSessionByscheduleForId(scheduleForId)
       .subscribe((data: any) => {
         console.log(data.body);
-        
+
         this.sessionList = data.body;
       });
 
@@ -246,7 +272,7 @@ ngOnInit() {
         if (result.isConfirmed) {
           // Check if it's a session or schedule
           const isSession = this.assessmentData.get('radio').value === 'session';
-      
+
           if (isSession) {
             this.saveAssessmentSession();
           } else {
@@ -263,12 +289,12 @@ ngOnInit() {
       this.assessmentData.markAllAsTouched();
     }
   }
-  
+
   private saveAssessment(): void {
     this.service.saveAssessment(this.assessmentData.value).subscribe({
       next: (response) => {
         const message = this.assessmentData.get('assessmentId').value === '' ? 'Assessment Schedule Saved Successfully' : 'Updated Successfully';
-  
+
         Swal.fire({
           icon: 'success',
           title: message,
@@ -284,12 +310,12 @@ ngOnInit() {
       }
     });
   }
-  
+
   private saveAssessmentSession(): void {
     this.service.saveAssessmentSession(this.assessmentData.value).subscribe({
       next: (response) => {
         const message = this.assessmentData.get('assessmentId').value === '' ? 'Session Assessment Saved Successfully' : 'Updated Successfully';
-  
+
         Swal.fire({
           icon: 'success',
           title: message,
@@ -321,9 +347,9 @@ ngOnInit() {
 
 
 
-   //iInserting record through  uploading xl file
+  //iInserting record through  uploading xl file
 
-   onFileSelected(event: any) {
+  onFileSelected(event: any) {
     this.selectedFile = event.target.files[0]; // Store the selected file
 
     console.log('Selected file:', this.selectedFile);
@@ -353,8 +379,8 @@ ngOnInit() {
   }
 
   downloadExcel() {
-  
-       this.service.downloadScheduleSessionExcel().subscribe((data: any) => {
+
+    this.service.downloadScheduleSessionExcel().subscribe((data: any) => {
       const blob = new Blob([data], {
         type:
           'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
@@ -373,8 +399,8 @@ ngOnInit() {
       window.URL.revokeObjectURL(url);
     });
   }
-    
-  
+
+
 
   // normal field validation message
 
@@ -385,43 +411,43 @@ ngOnInit() {
     const radio = this.assessmentData.value.radio;
     const sessionId = this.assessmentData.value.sessionId;
     console.log(`${moduleId},${subModuleId},${scheduleId},${sessionId}`);
-    
-    if(moduleId == ''){
+
+    if (moduleId == '') {
       this.showUploadValidationMessage = true; // Show validation message
 
       this.uploadValidationMessage = 'Please select module before import file';
 
       return;
     }
-    if(subModuleId == ''){
+    if (subModuleId == '') {
       this.showUploadValidationMessage = true; // Show validation message
 
       this.uploadValidationMessage = 'Please select sub module before import file';
 
       return;
     }
-    if(scheduleId == ''){
+    if (scheduleId == '') {
       this.showUploadValidationMessage = true; // Show validation message
 
       this.uploadValidationMessage = 'Please select schedule before import file';
 
       return;
     }
-    if(radio == ''){
+    if (radio == '') {
       this.showUploadValidationMessage = true; // Show validation message
 
       this.uploadValidationMessage = 'Please select one option before import file';
 
       return;
     }
-    if(this.assessmentData.value.radio == 'session' && sessionId == ''){
+    if (this.assessmentData.value.radio == 'session' && sessionId == '') {
       this.showUploadValidationMessage = true; // Show validation message
 
       this.uploadValidationMessage = 'Please select session before import file';
 
       return;
     }
-    
+
     // Check if a file is selected
 
     if (!this.selectedFile) {
@@ -443,28 +469,28 @@ ngOnInit() {
       return;
 
     }
-  
+
     // Proceed with import
 
-    this.importData(moduleId,subModuleId,scheduleId,sessionId);
+    this.importData(moduleId, subModuleId, scheduleId, sessionId);
   }
 
-  importData(moduleId : any,subModuleId : any,scheduleId : any,sessionId : any) {
+  importData(moduleId: any, subModuleId: any, scheduleId: any, sessionId: any) {
 
     if (this.selectedFile) {
       const formData = new FormData();
-      formData.append('moduleId' , moduleId);
-      formData.append('subModuleId' , subModuleId);
+      formData.append('moduleId', moduleId);
+      formData.append('subModuleId', subModuleId);
       formData.append('scheduleId', scheduleId);
-      if(this.assessmentData.get('radio').value === 'session' && sessionId != null){
-      formData.append('sessionId', sessionId);
+      if (this.assessmentData.get('radio').value === 'session' && sessionId != null) {
+        formData.append('sessionId', sessionId);
       }
       formData.append('file', this.selectedFile);
       formData.forEach((item: any) => {
         console.log(`${item}`);
       });
-      
-      
+
+
       this.service.importScheduleSessionExcel(formData).subscribe(
         (data: any) => {
           console.log('Importing file:', this.selectedFile);
@@ -476,8 +502,8 @@ ngOnInit() {
           Swal.fire('Error', 'Invalid Data format found. Please Check Your Excel and try again', 'error');
         }
       );
-      
-      
+
+
 
       // Clear the selected file reference
 
@@ -501,7 +527,23 @@ ngOnInit() {
     }
   }
 
-  
+
+  isChecked: boolean = false;
+
+  onToggleChange(event: any): void {
+    this.isChecked = event.target.checked;
+    if (this.isChecked) {
+      console.log(1); // Log 1 if checked
+    } else {
+      console.log(0); // Log 0 if unchecked
+    }
+  }
+
+
+
+
+
+
 
 
 }

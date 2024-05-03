@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./add-assesment-config.component.css']
 })
 export class AddAssesmentConfigComponent {
+
   configForm: FormGroup;
   modules: any[] = [];
   submodules: any[] = [];
@@ -106,7 +107,7 @@ export class AddAssesmentConfigComponent {
   setScheduleList(event: any, scheduleForId: any) {
     const noOfQuestions: string = event.target.value;
     if(Number.parseInt(noOfQuestions) <= 0){
-      Swal.fire('You can not enter negetive number or zero');
+      Swal.fire('You can not enter negative number or zero');
       event.target.value = '';
     }else{
     if (noOfQuestions.length > 0) {
@@ -122,7 +123,7 @@ export class AddAssesmentConfigComponent {
   setSessionList(event: any, sessionId: any) {
     const noOfQuestions = event.target.value;
     if(Number.parseInt(noOfQuestions) <= 0){
-      Swal.fire('You can not enter negetive number or zero');
+      Swal.fire('You can not enter negative number or zero');
       event.target.value = '';
     }else{
     if (noOfQuestions.length > 0) {
@@ -134,6 +135,56 @@ export class AddAssesmentConfigComponent {
     }
   }
   }
+
+  setPassPercentScheduleList(event: any, scheduleForId: any) {
+    const passingPercentage: string = event.target.value;
+    if (Number.parseInt(passingPercentage) < 0 || Number.parseInt(passingPercentage) > 100) {
+      Swal.fire('Please enter a valid pass percentage between 0 and 100');
+      event.target.value = '';
+      return;
+    }
+  
+    if (passingPercentage.length > 0) {
+      const existingIndex = this.scheduleWiseList.findIndex((item :any) => item.scheduleForId === scheduleForId);
+      if (existingIndex !== -1) {
+        this.scheduleWiseList[existingIndex].passingPercentage = passingPercentage;
+      } else {
+        this.scheduleWiseList.push({
+          "scheduleForId": scheduleForId,
+          "numberOfQuestions": '',
+          "passingPercentage": passingPercentage
+        });
+      }
+      this.configForm.value.scheduleWiseList = this.scheduleWiseList;
+    }
+  }
+  
+  setPassPercentSessionList(event: any, sessionId: any) {
+    const passingPercentage: string = event.target.value;
+    if (Number.parseInt(passingPercentage) < 0 || Number.parseInt(passingPercentage) > 100) {
+      Swal.fire('Please enter a valid pass percentage between 0 and 100');
+      event.target.value = '';
+      return;
+    }
+  
+    if (passingPercentage.length > 0) {
+      const existingIndex = this.sessionWiseList.findIndex((item :any) => item.sessionId === sessionId);
+      if (existingIndex !== -1) {
+        this.sessionWiseList[existingIndex].passingPercentage = passingPercentage;
+      } else {
+        this.sessionWiseList.push({
+          "sessionId": sessionId,
+          "numberOfQuestions": '',
+          "passingPercentage": passingPercentage
+        });
+      }
+      this.configForm.value.sessionWiseList = this.sessionWiseList;
+    }
+  }
+  
+  
+  
+  
 
   onSubmit() {
     let errorFlag = 0;
