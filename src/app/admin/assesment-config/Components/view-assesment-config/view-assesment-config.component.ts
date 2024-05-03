@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { AssesmentConfigService } from '../../Services/assesment-config.service';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -40,12 +40,14 @@ export class ViewAssesmentConfigComponent {
   constructor(private fb: FormBuilder, private assessmentConfigService: AssesmentConfigService) {
     this.schConfigForm = this.fb.group({
 
-      "numberOfQuestions": ['']
+      "numberOfQuestions": ['',Validators.required],
+      "passingPercentage" : ['',Validators.required]
     });
 
     this.sessConfigForm = this.fb.group({
 
-      "numberOfQuestions": [''],
+      "numberOfQuestions": ['',Validators.required],
+      "passingPercentage" : ['',Validators.required]
     });
   }
   ngOnInit() {
@@ -103,6 +105,7 @@ export class ViewAssesmentConfigComponent {
       this.scheduleConfigDetails.schdeuleFor = data.SCHEDULEFOR;
       this.schConfigForm.patchValue({
         "numberOfQuestions": data.NOOFQUESTION,
+        "passingPercentage" : data.PASSINGPERCENTAGE
       });
     });
   }
@@ -111,12 +114,27 @@ export class ViewAssesmentConfigComponent {
     console.log(id);
 
     console.log('schFormSubmit works');
-
+    let errorFlag = 0;
+    const numberOfQuestions = this.schConfigForm.get('numberOfQuestions');
+    const  passingPercentage = this.schConfigForm.get('passingPercentage');
+    
+      if (numberOfQuestions?.invalid && errorFlag === 0) {
+        errorFlag = 1;
+        console.log('error happened');
+        numberOfQuestions.markAsTouched();
+      }
+      if(passingPercentage?.invalid && errorFlag === 0){
+        errorFlag = 1;
+        console.log('error happened');
+        passingPercentage.markAsTouched();
+      }
+      if(errorFlag == 0){
     this.assessmentConfigService.updateSchConfig(id, this.schConfigForm.value).subscribe((data: any) => {
       Swal.fire('Success', 'Successfully Updated!', 'success');
       this.getAllScheduleConfigList();
 
-    })
+    });
+  }
 
   }
 
@@ -168,6 +186,7 @@ export class ViewAssesmentConfigComponent {
       this.sessionConfigDetails.sessionName = data.SESSIONNAME;
       this.sessConfigForm.patchValue({
         "numberOfQuestions": data.NOOFQUESTION,
+        "passingPercentage" : data.PASSINGPERCENTAGE
       });
 
 
@@ -177,10 +196,26 @@ export class ViewAssesmentConfigComponent {
   sessFormSubmit(id: any) {
     console.log(id);
     console.log('sessFormSubmit works');
+    let errorFlag = 0;
+    const numberOfQuestions = this.sessConfigForm.get('numberOfQuestions');
+    const  passingPercentage = this.sessConfigForm.get('passingPercentage');
+    
+      if (numberOfQuestions?.invalid && errorFlag === 0) {
+        errorFlag = 1;
+        console.log('error happened');
+        numberOfQuestions.markAsTouched();
+      }
+      if(passingPercentage?.invalid && errorFlag === 0){
+        errorFlag = 1;
+        console.log('error happened');
+        passingPercentage.markAsTouched();
+      }
+      if(errorFlag == 0){
     this.assessmentConfigService.updateSessConfig(id, this.sessConfigForm.value).subscribe((data: any) => {
       Swal.fire('Success', 'Successfully Updated!', 'success');
       this.getAllSessionConfigList();
-    })
+    });
+  }
   }
 
   deleteSessConfig(id: any) {
