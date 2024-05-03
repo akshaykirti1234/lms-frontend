@@ -14,4 +14,56 @@ input.ng-valid.ng-touched,select.ng-valid.ng-touched{
     border-color: green;
 }
 
+/*-------------------FANCY BUTTON--------------------*/
+.on-off-toggle {
+    position: relative;
+    display: inline-block;
+    width: 40px; /* Width of the toggle button */
+    height: 20px; /* Height of the toggle button */
+    margin-right: 10px; /* Margin between the label and the button */
+  }
   
+  .on-off-toggle input {
+    display: none;
+  }
+  
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 20px; /* Half of the height to make it round */
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 16px; /* Height of the inner circle */
+    width: 16px; /* Width of the inner circle */
+    left: 2px; /* Distance from the left to center the circle */
+    bottom: 2px; /* Distance from the bottom to center the circle */
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%; /* Make it round */
+  }
+  
+  input:checked + .slider {
+    background-color: #2196F3; /* Color when checked */
+  }
+  
+  input:checked + .slider:before {
+    transform: translateX(20px); /* Move the inner circle to the right */
+  }
+  
+  /* Rounded sliders */
+  .slider.round {
+    border-radius: 20px; /* Half of the height to make it round */
+  }
+  
+  .slider.round:before {
+    border-radius: 50%; /* Make the inner circle round */
+  }
