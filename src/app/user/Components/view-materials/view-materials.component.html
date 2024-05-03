@@ -10,44 +10,58 @@
             <div class="card-header">
                 <h3 class="text-center">Assessment</h3>
             </div>
-            <div class="card-body">
-                <form [formGroup]="questionForm">
-                    <p>Q.{{ currentQuestionIndex + 1 }} : {{ questionarList[currentQuestionIndex].question }}</p>
-                    <div class="options">
-                        <div class="form-check mt-5">
-                            <input class="form-check-input" type="radio" [formControlName]="'option'"
-                                [value]="questionarList[currentQuestionIndex].option1">
-                            <label class="form-check-label"
-                                for="option1">{{questionarList[currentQuestionIndex].option1}}</label>
+            <div class="card-body d-flex gap-5 justify-content-between">
+                <div>
+                    <form [formGroup]="questionForm">
+                        <p>Q.{{ currentQuestionIndex + 1 }} : {{ questionarList[currentQuestionIndex].question }}</p>
+                        <div class="options">
+                            <div class="form-check mt-5">
+                                <input class="form-check-input" type="radio" [formControlName]="'option'"
+                                    [value]="questionarList[currentQuestionIndex].option1">
+                                <label class="form-check-label"
+                                    for="option1">{{questionarList[currentQuestionIndex].option1}}</label>
+                            </div>
+                            <div class="form-check mt-5">
+                                <input class="form-check-input" type="radio" [formControlName]="'option'"
+                                    [value]="questionarList[currentQuestionIndex].option2">
+                                <label class="form-check-label"
+                                    for="option2">{{questionarList[currentQuestionIndex].option2}}</label>
+                            </div>
+                            <div class="form-check mt-5">
+                                <input class="form-check-input" type="radio" [formControlName]="'option'"
+                                    [value]="questionarList[currentQuestionIndex].option3">
+                                <label class="form-check-label"
+                                    for="option3">{{questionarList[currentQuestionIndex].option3}}</label>
+                            </div>
+                            <div class="form-check mt-5">
+                                <input class="form-check-input" type="radio" [formControlName]="'option'"
+                                    [value]="questionarList[currentQuestionIndex].option4">
+                                <label class="form-check-label"
+                                    for="option4">{{questionarList[currentQuestionIndex].option4}}</label>
+                            </div>
                         </div>
-                        <div class="form-check mt-5">
-                            <input class="form-check-input" type="radio" [formControlName]="'option'"
-                                [value]="questionarList[currentQuestionIndex].option2">
-                            <label class="form-check-label"
-                                for="option2">{{questionarList[currentQuestionIndex].option2}}</label>
+                        <div class="buttons mt-5">
+                            <button type="button" class="btn btn-danger" (click)="previousQuestion()"
+                                *ngIf="currentQuestionIndex > 0">Back</button>
+                            <button type="button" class="btn btn-primary m-lg-2" (click)="nextQuestion()"
+                                *ngIf="currentQuestionIndex < questionarList.length - 1">Next</button>
+                            <button type="button" class="btn btn-success m-lg-2" (click)="submitAssessment()"
+                                *ngIf="currentQuestionIndex === questionarList.length - 1">Submit</button>
                         </div>
-                        <div class="form-check mt-5">
-                            <input class="form-check-input" type="radio" [formControlName]="'option'"
-                                [value]="questionarList[currentQuestionIndex].option3">
-                            <label class="form-check-label"
-                                for="option3">{{questionarList[currentQuestionIndex].option3}}</label>
-                        </div>
-                        <div class="form-check mt-5">
-                            <input class="form-check-input" type="radio" [formControlName]="'option'"
-                                [value]="questionarList[currentQuestionIndex].option4">
-                            <label class="form-check-label"
-                                for="option4">{{questionarList[currentQuestionIndex].option4}}</label>
-                        </div>
+                    </form>
+                </div>
+
+                <div class="question-map ">
+                    <!-- Map-like design for question index markers -->
+                    <div class="question-marker" *ngFor="let question of questionarList; let i = index" [ngClass]="{
+                           'not-visited': !questionStatusList[i] || questionStatusList[i] === 'not-visited',
+                           'skipped': questionStatusList[i] === 'skipped',
+                           'answered': questionStatusList[i] === 'answered'
+                         }" (click)="showQuestion(question)">
+                        {{ i + 1 }}
                     </div>
-                    <div class="buttons mt-5">
-                        <button type="button" class="btn btn-danger" (click)="previousQuestion()"
-                            *ngIf="currentQuestionIndex > 0">Back</button>
-                        <button type="button" class="btn btn-primary m-lg-2" (click)="nextQuestion()"
-                            *ngIf="currentQuestionIndex < questionarList.length - 1">Next</button>
-                        <button type="button" class="btn btn-success m-lg-2" (click)="submitAssessment()"
-                            *ngIf="currentQuestionIndex === questionarList.length - 1">Submit</button>
-                    </div>
-                </form>
+                </div>
+
             </div>
         </div>
     </div>

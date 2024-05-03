@@ -11,6 +11,7 @@ import Swal from 'sweetalert2';
   templateUrl: './view-materials.component.html',
   styleUrls: ['./view-materials.component.css']
 })
+
 export class ViewMaterialsComponent implements OnInit, OnDestroy {
 
   public firstRecord: any;
@@ -224,6 +225,54 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
 
     doc.save('Certificate.pdf');
   }
+
+
+
+  // Method to show a specific question
+  showQuestion(question: any) {
+    console.log("showQuestion method called");
+
+    // Find the index of the selected question in the questionarList array
+    const selectedQuestionIndex = this.questionarList.findIndex((q: any) => q === question);
+
+    if (selectedQuestionIndex !== -1) {
+      // Set the currentQuestionIndex to the selected question index
+      this.currentQuestionIndex = selectedQuestionIndex;
+
+      // Retrieve the answer for the selected question, if it exists
+      const selectedQuestionId = this.questionarList[selectedQuestionIndex].sessionAssessmentMasterId;
+      const selectedAnswer = this.givenQuestionAnswer.find(qa => qa.sessionAssessmentMasterId === selectedQuestionId);
+
+      // Set the option value in the form to the selected question's answer, if available
+      if (selectedAnswer) {
+        this.questionForm.get("option").setValue(selectedAnswer.option);
+      } else {
+        // If no answer exists for the selected question, keep the option value null
+        this.questionForm.get("option").setValue(null);
+      }
+
+      // Check if the selected question is skipped and update its status to 'skipped' if needed
+      console.log("Current question status:", this.questionStatusList[selectedQuestionIndex]);
+      if (this.questionStatusList[selectedQuestionIndex] === 'skipped') {
+        console.log("Updating question status to 'skipped'");
+        console.log(selectedQuestionIndex);
+        this.updateQuestionStatus(selectedQuestionIndex, 'skipped');
+      }
+    }
+  }
+
+  questionStatusList: string[] = [];
+
+  updateQuestionStatus(index: number, status: string) {
+    console.log("Updating question status for index:", index, "with status:", status);
+    if (this.questionStatusList[index] !== 'answered') {
+      console.log("Previous status:", this.questionStatusList[index]);
+      this.questionStatusList[index] = status;
+      console.log("Updated status:", this.questionStatusList[index]);
+    }
+  }
+
+
   // ********************************************************************
 
   public questionForm: any;
@@ -239,53 +288,77 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
     });
   }
 
-
   previousQuestion() {
+    console.log("Moving to previous question...");
+
+    // Get the ID of the current question
+    const currentQuestionId = this.questionarList[this.currentQuestionIndex].sessionAssessmentMasterId;
+
+    // Check if an option is selected for the current question
+    if (this.questionForm.get("option").value) {
+      // If an option is selected, update the status of the current question to 'answered'
+      this.updateQuestionStatus(this.currentQuestionIndex, 'skipped');
+    } else {
+      // If no option is selected, update the status of the current question to 'skipped'
+      this.updateQuestionStatus(this.currentQuestionIndex, 'skipped');
+    }
+
+    // Move to the previous question if available
     if (this.currentQuestionIndex > 0) {
       this.currentQuestionIndex--;
 
-      const currentQuestionId = this.questionarList[this.currentQuestionIndex].sessionAssessmentMasterId;
-
-      const currentAnswer = this.givenQuestionAnswer.find(qa => qa.sessionAssessmentMasterId === currentQuestionId);
-
-      if (currentAnswer) {
-        console.log("Answer found for previous question");
-        this.questionForm.get("option").setValue(currentAnswer.option);
+      // Retrieve the answer for the previous question, if available, and set its option value in the form
+      const previousQuestionId = this.questionarList[this.currentQuestionIndex].sessionAssessmentMasterId;
+      const previousAnswer = this.givenQuestionAnswer.find(qa => qa.sessionAssessmentMasterId === previousQuestionId);
+      if (previousAnswer) {
+        this.questionForm.get("option").setValue(previousAnswer.option);
       } else {
-        console.log("No answer found for previous question");
         this.questionForm.get("option").setValue(null);
       }
-
-      console.log(this.questionarList[this.currentQuestionIndex]);
     } else {
       console.log("Already at the first question.");
     }
+
+    // Update the status of the current question to 'not-visited'
+    if (this.currentQuestionIndex < this.questionStatusList.length) {
+      this.updateQuestionStatus(this.currentQuestionIndex, 'not-visited');
+    }
   }
+
+
 
   nextQuestion() {
     const currentQuestionId = this.questionarList[this.currentQuestionIndex].sessionAssessmentMasterId;
 
-    // Find the index of the current answer in givenQuestionAnswer array
-    const currentAnswerIndex = this.givenQuestionAnswer.findIndex(qa => qa.sessionAssessmentMasterId === currentQuestionId);
+    // Get the value of the selected option
+    const selectedOption = this.questionForm.get("option").value;
 
-    // Create a new answer object with the current question ID and selected option
-    const newAnswer = {
-      userId: sessionStorage.getItem('userId'),
-      sessionAssessmentMasterId: currentQuestionId,
-      option: this.questionForm.get("option").value
-    };
+    console.log(selectedOption);
 
-    if (currentAnswerIndex !== -1) {
-      // If an answer for the current question already exists, update it
-      this.givenQuestionAnswer[currentAnswerIndex] = newAnswer;
-      console.log("Answer updated for question", currentQuestionId);
+    // Check if the selected option is not null or empty
+    if (selectedOption) {
+      console.log("In side selected ");
+      // Create a new answer object with the current question ID and selected option
+      const newAnswer = {
+        userId: sessionStorage.getItem('userId'),
+        sessionAssessmentMasterId: currentQuestionId,
+        option: selectedOption
+      };
+
+      // Update or add the new answer to the givenQuestionAnswer array
+      const currentAnswerIndex = this.givenQuestionAnswer.findIndex(qa => qa.sessionAssessmentMasterId === currentQuestionId);
+      if (currentAnswerIndex !== -1) {
+        this.givenQuestionAnswer[currentAnswerIndex] = newAnswer;
+      } else {
+        this.givenQuestionAnswer.push(newAnswer);
+      }
+
+      // Update the status of the current question to 'answered'
+      this.updateQuestionStatus(this.currentQuestionIndex, 'answered');
     } else {
-      // If no answer exists for the current question, add the new answer to the array
-      this.givenQuestionAnswer.push(newAnswer);
-      console.log("New answer added for question", currentQuestionId);
+      // If no option is selected, update the status of the current question to 'skipped'
+      this.updateQuestionStatus(this.currentQuestionIndex, 'skipped');
     }
-
-    console.log(this.givenQuestionAnswer);
 
     // Move to the next question
     if (this.currentQuestionIndex < this.questionarList.length - 1) {
@@ -308,6 +381,8 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
       this.questionForm.get("option").setValue(null);
     }
   }
+
+
 
   submitAssessment() {
     // Push the answer for the last question into givenQuestionAnswer array
@@ -337,6 +412,7 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
         console.log(response);
         console.log(response.body);
         this.givenQuestionAnswer = [];
+        this.questionStatusList = [];
 
         const icon = response.body < 60 ? 'warning' : 'success';
         const title = response.body < 60 ? `Failed` : `Passed`;
