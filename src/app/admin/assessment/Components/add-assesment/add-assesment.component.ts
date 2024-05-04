@@ -70,22 +70,55 @@ export class AddAssesmentComponent {
       }
     });
     
+    // this.assessmentData.get('moduleId').valueChanges.subscribe((moduleId: any) => {
+    //   this.assessmentData.get('submoduleId').setValue('');
+    //   this.assessmentData.get('scheduleForId').setValue('');
+    //   this.assessmentData.get('sessionId').setValue('');
+    //   this.assessmentData.get('submoduleId').enable();
+    // });
+
+    // this.assessmentData.get('submoduleId').valueChanges.subscribe((submoduleId: any) => {
+    //   this.assessmentData.get('scheduleForId').setValue('');
+    //   this.assessmentData.get('sessionId').setValue('');
+    //   this.assessmentData.get('scheduleForId').enable();
+    // });
+
+    // this.assessmentData.get('scheduleForId').valueChanges.subscribe((scheduleForId: any) => {
+    //   this.assessmentData.get('sessionId').setValue('');
+    //   this.assessmentData.get('sessionId').enable();
+    // });
+
     this.assessmentData.get('moduleId').valueChanges.subscribe((moduleId: any) => {
-      this.assessmentData.get('submoduleId').setValue('');
-      this.assessmentData.get('scheduleForId').setValue('');
-      this.assessmentData.get('sessionId').setValue('');
-      this.assessmentData.get('submoduleId').enable();
+      if (moduleId === '') {
+        this.assessmentData.get('submoduleId').setValue('');
+        this.assessmentData.get('scheduleForId').setValue('');
+        this.assessmentData.get('sessionId').setValue('');
+        this.assessmentData.get('submoduleId').disable();
+        this.assessmentData.get('scheduleForId').disable();
+        this.assessmentData.get('sessionId').disable();
+      } else {
+        this.assessmentData.get('submoduleId').enable();
+      }
     });
 
     this.assessmentData.get('submoduleId').valueChanges.subscribe((submoduleId: any) => {
-      this.assessmentData.get('scheduleForId').setValue('');
-      this.assessmentData.get('sessionId').setValue('');
-      this.assessmentData.get('scheduleForId').enable();
+      if (submoduleId === '') {
+        this.assessmentData.get('scheduleForId').setValue('');
+        this.assessmentData.get('sessionId').setValue('');
+        this.assessmentData.get('scheduleForId').disable();
+        this.assessmentData.get('sessionId').disable();
+      } else {
+        this.assessmentData.get('scheduleForId').enable();
+      }
     });
 
     this.assessmentData.get('scheduleForId').valueChanges.subscribe((scheduleForId: any) => {
-      this.assessmentData.get('sessionId').setValue('');
-      this.assessmentData.get('sessionId').enable();
+      if (scheduleForId === '') {
+        this.assessmentData.get('sessionId').setValue('');
+        this.assessmentData.get('sessionId').disable();
+      } else {
+        this.assessmentData.get('sessionId').enable();
+      }
     });
   
 
