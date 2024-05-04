@@ -57,7 +57,7 @@ export class AddAssesmentComponent {
       radio: ['schedule', [Validators.required]],
       bulkUploadMode: [false]
     });
-    
+
     this.assessmentData.get('bulkUploadMode')!.valueChanges.subscribe((value: any) => {
       if (value) {
         console.log(1); // Log 1 if checked
@@ -70,8 +70,28 @@ export class AddAssesmentComponent {
       }
     });
     
-    
-    
+    this.assessmentData.get('moduleId').valueChanges.subscribe((moduleId: any) => {
+      this.assessmentData.get('submoduleId').setValue('');
+      this.assessmentData.get('scheduleForId').setValue('');
+      this.assessmentData.get('sessionId').setValue('');
+      this.assessmentData.get('submoduleId').enable();
+    });
+
+    this.assessmentData.get('submoduleId').valueChanges.subscribe((submoduleId: any) => {
+      this.assessmentData.get('scheduleForId').setValue('');
+      this.assessmentData.get('sessionId').setValue('');
+      this.assessmentData.get('scheduleForId').enable();
+    });
+
+    this.assessmentData.get('scheduleForId').valueChanges.subscribe((scheduleForId: any) => {
+      this.assessmentData.get('sessionId').setValue('');
+      this.assessmentData.get('sessionId').enable();
+    });
+  
+
+
+
+
 
 
   }
@@ -122,8 +142,8 @@ export class AddAssesmentComponent {
       this.assessmentData.patchValue({
         assessmentId: response.ASSESSMENTMASTERID,
         moduleId: response.MODULEID,
-        submoduleId: response.SUBMODULEID,
-        scheduleForId: response.SCHEDULEFORID,
+        //submoduleId: response.SUBMODULEID,
+        //scheduleForId: response.SCHEDULEFORID,
         question: response.QUESTION,
         option1: response.OPTION1,
         option2: response.OPTION2,
@@ -137,6 +157,9 @@ export class AddAssesmentComponent {
         for (let i = 0; i < moduleId.length; i++) {
           moduleId[i].dispatchEvent(new Event('change'));
         }
+        this.assessmentData.patchValue({
+          submoduleId: response.SUBMODULEID
+        });
       }, 1010);
 
       setTimeout(() => {
@@ -144,6 +167,9 @@ export class AddAssesmentComponent {
         for (let i = 0; i < submoduleId.length; i++) {
           submoduleId[i].dispatchEvent(new Event('change'));
         }
+        this.assessmentData.patchValue({
+          scheduleForId: response.SCHEDULEFORID
+        });
       }, 2010);
     });
   }
@@ -158,9 +184,9 @@ export class AddAssesmentComponent {
       this.assessmentData.patchValue({
         assessmentId: response.SESSIONASSESSMENTMASTERID, // Use SESSIONASSESSMENTMASTERID as primary key for sessions
         moduleId: response.MODULEID,
-        submoduleId: response.SUBMODULEID,
-        scheduleForId: response.SCHEDULEFORID,
-        sessionId: response.SESSIONID, // Remove this line to ensure session radio button is selected by default
+        //submoduleId: response.SUBMODULEID,
+        //scheduleForId: response.SCHEDULEFORID,
+        //sessionId: response.SESSIONID, // Remove this line to ensure session radio button is selected by default
         question: response.QUESTION,
         option1: response.OPTION1,
         option2: response.OPTION2,
@@ -174,6 +200,9 @@ export class AddAssesmentComponent {
         for (let i = 0; i < moduleId.length; i++) {
           moduleId[i].dispatchEvent(new Event('change'));
         }
+        this.assessmentData.patchValue({
+          submoduleId: response.SUBMODULEID
+        });
       }, 1010);
 
       setTimeout(() => {
@@ -181,6 +210,9 @@ export class AddAssesmentComponent {
         for (let i = 0; i < submoduleId.length; i++) {
           submoduleId[i].dispatchEvent(new Event('change'));
         }
+        this.assessmentData.patchValue({
+          scheduleForId: response.SCHEDULEFORID
+        });
       }, 2010);
 
 
@@ -189,7 +221,17 @@ export class AddAssesmentComponent {
         for (let i = 0; i < scheduleForId.length; i++) {
           scheduleForId[i].dispatchEvent(new Event('change'));
         }
+        this.assessmentData.patchValue({
+          sessionId: response.SESSIONID
+        });
       }, 2110);
+
+      setTimeout(() => {
+        const sessionId = document.querySelectorAll('#sessionId');
+        for (let i = 0; i < sessionId.length; i++) {
+          sessionId[i].dispatchEvent(new Event('change'));
+        }
+      }, 2210);
 
     });
   }
@@ -209,7 +251,7 @@ export class AddAssesmentComponent {
 
   //get subModuleByModuleId
   public getSubModuleByModuleId(event: any) {
-    const moduleId = event.target.value
+    const moduleId = event.target.value;
     this.dashboardService.getSubModuleByModuleId(moduleId).subscribe({
       next: (response) => {
         this.subModuleList = response.body;

@@ -43,7 +43,7 @@
                     <div class="col-md-3">
                         <label for="">Schedule For <span class="text-danger">*</span></label>
                         <select class="form-select" formControlName="scheduleForId" id="scheduleForId" (change)="getSessionList($event)">
-                            <option value="" selected disabled>-Select-</option>
+                            <option value="">-Select-</option>
                             <option class="form-select" *ngFor="let schedule of schedulelist"
                                 [value]="schedule.SCHEDULEFORID">
                                 {{ schedule.SCHEDULEFOR }}
@@ -61,7 +61,7 @@
                     <div class="col-md-3" *ngIf="assessmentData.get('radio').value === 'session'">
                         <label for="sessionId">Session For <span class="text-danger">*</span></label>
                         <select class="form-select" formControlName="sessionId" id="sessionId">
-                            <option value="" selected disabled>-Select-</option>
+                            <option value="">-Select-</option>
                             <option class="form-select" *ngFor="let session of sessionList"
                                 [value]="session.sessionId">
                                 {{ session.sessionName }}
@@ -244,4 +244,4 @@
     </div>
 
 </div>
-
+{{assessmentData.value |json}}
