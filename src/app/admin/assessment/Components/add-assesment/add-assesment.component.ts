@@ -70,23 +70,7 @@ export class AddAssesmentComponent {
       }
     });
     
-    // this.assessmentData.get('moduleId').valueChanges.subscribe((moduleId: any) => {
-    //   this.assessmentData.get('submoduleId').setValue('');
-    //   this.assessmentData.get('scheduleForId').setValue('');
-    //   this.assessmentData.get('sessionId').setValue('');
-    //   this.assessmentData.get('submoduleId').enable();
-    // });
-
-    // this.assessmentData.get('submoduleId').valueChanges.subscribe((submoduleId: any) => {
-    //   this.assessmentData.get('scheduleForId').setValue('');
-    //   this.assessmentData.get('sessionId').setValue('');
-    //   this.assessmentData.get('scheduleForId').enable();
-    // });
-
-    // this.assessmentData.get('scheduleForId').valueChanges.subscribe((scheduleForId: any) => {
-    //   this.assessmentData.get('sessionId').setValue('');
-    //   this.assessmentData.get('sessionId').enable();
-    // });
+  
 
     this.assessmentData.get('moduleId').valueChanges.subscribe((moduleId: any) => {
       if (moduleId === '') {
@@ -98,6 +82,7 @@ export class AddAssesmentComponent {
         this.assessmentData.get('sessionId').disable();
       } else {
         this.assessmentData.get('submoduleId').enable();
+        this.assessmentData.get('scheduleForId').disable();
       }
     });
 
@@ -109,6 +94,7 @@ export class AddAssesmentComponent {
         this.assessmentData.get('sessionId').disable();
       } else {
         this.assessmentData.get('scheduleForId').enable();
+        this.assessmentData.get('sessionId').disable();
       }
     });
 
@@ -284,6 +270,11 @@ export class AddAssesmentComponent {
 
   //get subModuleByModuleId
   public getSubModuleByModuleId(event: any) {
+
+    this.assessmentData.patchValue({
+        scheduleForId :'',
+        sessionId: ''
+     });
     const moduleId = event.target.value;
     this.dashboardService.getSubModuleByModuleId(moduleId).subscribe({
       next: (response) => {
@@ -301,7 +292,9 @@ export class AddAssesmentComponent {
   //for Scheduleforlist
 
   getSchList(event: any) {
-
+    this.assessmentData.patchValue({
+      sessionId: ''
+   });
     const submoduleId = parseInt(
       (event.target as HTMLSelectElement).value,
       10
