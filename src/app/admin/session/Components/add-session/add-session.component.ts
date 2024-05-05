@@ -32,8 +32,8 @@ export class AddSessionComponent {
       sessionName: ['', Validators.required],
       subModuleId: ['', Validators.required],
       scheduleForId: ['', Validators.required],
-      video: ['', Validators.required],
-      document: ['', Validators.required],
+      video: ['',Validators.required],
+      document: ['',Validators.required],
       description: ['', Validators.required],
       isLastSession: [false],
       createdOn: [''],
@@ -49,10 +49,24 @@ export class AddSessionComponent {
         const secondDropdownControl = this.sessionForm.get('scheduleForId');
         if (this.showSelectScheduleFor) {
           secondDropdownControl?.setValue('');
+          
         } else {
           this.showSelectScheduleFor = true;
         }
       });
+
+      this.setScheduleDropDown();
+  }
+
+  private setScheduleDropDown() {
+    this.sessionForm.get('subModuleId')!.valueChanges.subscribe((subModuleId: any) => {
+      if (subModuleId === '' || subModuleId === null) {
+        this.sessionForm.get('scheduleForId')!.setValue('');
+        this.sessionForm.get('scheduleForId')!.disable();
+      } else {
+        this.sessionForm.get('scheduleForId')!.enable();
+      }
+    });
   }
 
   ngOnInit() {
@@ -264,16 +278,17 @@ export class AddSessionComponent {
       console.log('error happened');
       sessionName.markAsTouched();
     }
-    if (video?.invalid && errorFlag === 0) {
+    if (video?.invalid && documentId?.invalid && errorFlag === 0) {
       errorFlag = 1;
-      console.log('error happened');
+      Swal.fire('You have to upload either Video or Document.');
       video.markAsTouched();
-    }
-    if (documentId?.invalid && errorFlag === 0) {
-      errorFlag = 1;
-      console.log('error happened');
       documentId.markAsTouched();
     }
+    // if (documentId?.invalid && errorFlag === 0) {
+    //   errorFlag = 1;
+    //   console.log('error happened');
+    //   documentId.markAsTouched();
+    // }
     if (description?.invalid && errorFlag === 0) {
       errorFlag = 1;
       console.log('error happened');
@@ -370,5 +385,11 @@ export class AddSessionComponent {
         this.router.navigate(['/admin/session/viewSession']);
       }
     });
+  }
+
+
+  resetForm(){
+    this.setScheduleDropDown();
+    this.isConditionSatisfied = false;
   }
 }
