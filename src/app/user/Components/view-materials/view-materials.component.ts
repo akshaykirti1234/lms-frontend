@@ -325,7 +325,7 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
     });
   }
 
-  // previousQuestion() {
+  //previousQuestion() {
   //   console.log("Moving to previous question...");
 
   //   // Get the ID of the current question
@@ -676,6 +676,20 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
   @HostListener('dragstart', ['$event'])
   onDragStart(event: Event): void {
     event.preventDefault();
+  }
+
+  // ***********************************************************************
+  //  Assessment Details
+  // ***********************************************************************
+
+  resultStatus: any[] = [];
+  getResultStatus(sessionId: any, scheduleForId: any) {
+    let userId = sessionStorage.getItem('userId');
+    //this.getSessionByscheduleForId(scheduleForId)
+    this.dashboardService.getResultStatusBySessionIdUserId(sessionId, userId).subscribe(data => {
+      this.resultStatus = data as any[];
+      console.log(this.resultStatus);
+    })
   }
 
 }
