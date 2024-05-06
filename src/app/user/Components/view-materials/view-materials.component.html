@@ -146,7 +146,13 @@
                         title="You have already completed this questionnaire"></i>
                 </div>
             </div>
-
+            <div *ngIf="file.hasQuestions" [ngClass]="{'disabled': !file.accessStatus}" style="cursor: pointer;">
+                <a href="" class="dropdown-item profile-anchor" data-bs-toggle="modal"
+                    data-bs-target="#assessmentDeatilsModal"
+                    (click)="getResultStatus(file.sessionId ,file.scheduleFor.scheduleForId)">
+                    View Assessment Details
+                </a>
+            </div>
         </div>
         <!-- Conditionally display "Download PDF" section if all questionnaires have been passed -->
         <div *ngIf="allQuestionnairesPassed()">
@@ -157,3 +163,31 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="assessmentDeatilsModal" tabindex="-1" aria-labelledby="assessmentDeatilsModal"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h3 class="modal-title" id="assessmentDetailsModal" class="text-success text-center">Assessment Details
+                </h3>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h6>{{ resultStatus[0]?.sessionMaster.sessionName }}</h6>
+                <ul>
+                    <ng-container *ngFor="let result of resultStatus; let i = index">
+                        <li
+                            [ngClass]="{'text-success': result.percentage >= 60, 'text-danger': result.percentage < 60}">
+                            Attempt {{ i + 1 }} - {{ result.percentage }}%
+                            <span *ngIf="result.percentage > 60">✓</span>
+                            <span *ngIf="result.percentage <= 60">✗</span>
+                        </li>
+                    </ng-container>
+
+                    <ng-container *ngIf="resultStatus && resultStatus.length === 0">
+                        <li class="text-danger">No attempts</li>
+                    </ng-container>
+                </ul>
+            </div>
+        </div>
+    </div>
