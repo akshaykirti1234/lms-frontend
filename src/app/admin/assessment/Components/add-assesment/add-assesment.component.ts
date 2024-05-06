@@ -325,6 +325,83 @@ export class AddAssesmentComponent {
   }
 
 
+  // public saveForm(): void {
+  //   if (this.assessmentData.valid) {
+  //     Swal.fire({
+  //       title: this.assessmentData.get('assessmentId').value === '' ? 'Do you want to save?' : 'Do you want to Update?',
+  //       text: '',
+  //       icon: 'warning',
+  //       showCancelButton: true,
+  //       cancelButtonText: 'No',
+  //       confirmButtonColor: '#3085d6',
+  //       cancelButtonColor: '#d33',
+  //       confirmButtonText: 'Yes'
+  //     }).then((result) => {
+  //       if (result.isConfirmed) {
+  //         // Check if it's a session or schedule
+  //         const isSession = this.assessmentData.get('radio').value === 'session';
+
+  //         if (isSession) {
+  //           this.saveAssessmentSession();
+  //         } else {
+  //           this.saveAssessment();
+  //         }
+  //       }
+  //     });
+  //   } else {
+  //     Swal.fire({
+  //       icon: 'error',
+  //       title: 'Please fill the fields correctly!',
+  //       text: ''
+  //     });
+  //     this.assessmentData.markAllAsTouched();
+  //   }
+  // }
+
+  // private saveAssessment(): void {
+  //   this.service.saveAssessment(this.assessmentData.value).subscribe({
+  //     next: (response) => {
+  //       const message = this.assessmentData.get('assessmentId').value === '' ? 'Assessment Schedule Saved Successfully' : 'Updated Successfully';
+
+  //       Swal.fire({
+  //         icon: 'success',
+  //         title: message,
+  //       }).then(() => {
+  //         this.assessmentData.reset(); // Reset the form to clear all fields
+  //       });
+  //     },
+  //     error: (error) => {
+  //       Swal.fire({
+  //         icon: 'error',
+  //         title: 'Something Went Wrong!',
+  //       });
+  //     }
+  //   });
+  // }
+
+  // private saveAssessmentSession(): void {
+  //   this.service.saveAssessmentSession(this.assessmentData.value).subscribe({
+  //     next: (response) => {
+  //       const message = this.assessmentData.get('assessmentId').value === '' ? 'Session Assessment Saved Successfully' : 'Updated Successfully';
+
+  //       Swal.fire({
+  //         icon: 'success',
+  //         title: message,
+  //       }).then(() => {
+  //         this.assessmentData.reset(); // Reset the form to clear all fields
+  //       });
+  //     },
+  //     error: (error) => {
+  //       Swal.fire({
+  //         icon: 'error',
+  //         title: 'Something Went Wrong!',
+  //       });
+  //     }
+  //   });
+  // }
+
+  ////////////////////////////////////////////////////////////////////////
+
   public saveForm(): void {
     if (this.assessmentData.valid) {
       Swal.fire({
@@ -356,9 +433,9 @@ export class AddAssesmentComponent {
       });
       this.assessmentData.markAllAsTouched();
     }
-  }
+}
 
-  private saveAssessment(): void {
+private saveAssessment(): void {
     this.service.saveAssessment(this.assessmentData.value).subscribe({
       next: (response) => {
         const message = this.assessmentData.get('assessmentId').value === '' ? 'Assessment Schedule Saved Successfully' : 'Updated Successfully';
@@ -367,8 +444,12 @@ export class AddAssesmentComponent {
           icon: 'success',
           title: message,
         }).then(() => {
-          this.assessmentData.reset(); // Reset the form to clear all fields
+          if (this.assessmentData.get('assessmentId').value !== '') {
+            this.router.navigate(['/admin/assessment/viewAssessment']);
+          }
+         
         });
+        this.assessmentData.reset(); // Reset the form to clear all fields
       },
       error: (error) => {
         Swal.fire({
@@ -377,9 +458,9 @@ export class AddAssesmentComponent {
         });
       }
     });
-  }
+}
 
-  private saveAssessmentSession(): void {
+private saveAssessmentSession(): void {
     this.service.saveAssessmentSession(this.assessmentData.value).subscribe({
       next: (response) => {
         const message = this.assessmentData.get('assessmentId').value === '' ? 'Session Assessment Saved Successfully' : 'Updated Successfully';
@@ -388,8 +469,12 @@ export class AddAssesmentComponent {
           icon: 'success',
           title: message,
         }).then(() => {
-          this.assessmentData.reset(); // Reset the form to clear all fields
+          if (this.assessmentData.get('assessmentId').value !== '') {
+            this.router.navigate(['/admin/assessment/viewAssessment']);
+          }
+          
         });
+        this.assessmentData.reset(); // Reset the form to clear all fields
       },
       error: (error) => {
         Swal.fire({
@@ -398,7 +483,12 @@ export class AddAssesmentComponent {
         });
       }
     });
-  }
+}
+
+
+
+
+
 
   onRadioChange() {
     const radioValue = this.assessmentData.get('radio').value;

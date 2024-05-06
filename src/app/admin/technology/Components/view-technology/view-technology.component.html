@@ -21,7 +21,8 @@
                                 totalItems: count
                                 }; let i = index;">
 
-                            <td>{{i+1}}</td>
+                            <!-- <td>{{i+1}}</td> -->
+                            <td>{{ (page - 1) * tableSize + i + 1 }}</td>
                             <td>{{technology.techName}}</td>
                             <td>
                                 <div class="d-flex gap-2">
