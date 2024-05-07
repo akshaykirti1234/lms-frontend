@@ -445,11 +445,22 @@ private saveAssessment(): void {
           title: message,
         }).then(() => {
           if (this.assessmentData.get('assessmentId').value !== '') {
+            // Swal.fire(
+            //   'Data Updated!',
+            //   'Your data has been updated successfully.',
+            //   'success'
+            // );
             this.router.navigate(['/admin/assessment/viewAssessment']);
-          }
-         
+          } 
+          // else {
+          //   Swal.fire(
+          //     'Data Saved!',
+          //     'Your data has been saved successfully.',
+          //     'success'
+          //   );
+          // }
+          this.assessmentData.reset(); // Reset the form to clear all fields
         });
-        this.assessmentData.reset(); // Reset the form to clear all fields
       },
       error: (error) => {
         Swal.fire({
@@ -470,11 +481,22 @@ private saveAssessmentSession(): void {
           title: message,
         }).then(() => {
           if (this.assessmentData.get('assessmentId').value !== '') {
+            // Swal.fire(
+            //   'Data Updated!',
+            //   'Your data has been updated successfully.',
+            //   'success'
+            // );
             this.router.navigate(['/admin/assessment/viewAssessment']);
-          }
-          
+          } 
+          // else {
+          //   Swal.fire(
+          //     'Data Saved!',
+          //     'Your data has been saved successfully.',
+          //     'success'
+          //   );
+          // }
+          this.assessmentData.reset(); // Reset the form to clear all fields
         });
-        this.assessmentData.reset(); // Reset the form to clear all fields
       },
       error: (error) => {
         Swal.fire({
