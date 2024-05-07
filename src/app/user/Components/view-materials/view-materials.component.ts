@@ -398,7 +398,7 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
 
     // Update the status of the current question to 'not-visited'
     if (this.currentQuestionIndex < this.questionStatusList.length) {
-      this.updateQuestionStatus(this.currentQuestionIndex, 'not-visited');
+      this.updateQuestionStatus(this.currentQuestionIndex, 'skipped');
     }
   }
 
