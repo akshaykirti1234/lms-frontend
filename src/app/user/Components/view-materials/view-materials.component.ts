@@ -363,6 +363,7 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
   // }
   previousQuestion() {
     console.log("Moving to previous question...");
+    console.log(this.givenQuestionAnswer);
 
     // Get the ID of the current question
     const currentQuestionId = this.questionarList[this.currentQuestionIndex].sessionAssessmentMasterId;
@@ -371,6 +372,21 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
     if (this.questionForm.get("option").value) {
       // If an option is selected, update the status of the current question to 'answered'
       this.updateQuestionStatus(this.currentQuestionIndex, 'answered');
+
+      // Create a new answer object with the current question ID and selected option
+      const newAnswer = {
+        userId: sessionStorage.getItem('userId'),
+        sessionAssessmentMasterId: currentQuestionId,
+        option: this.questionForm.get("option").value
+      };
+
+      // Update or add the new answer to the givenQuestionAnswer array
+      const currentAnswerIndex = this.givenQuestionAnswer.findIndex(qa => qa.sessionAssessmentMasterId === currentQuestionId);
+      if (currentAnswerIndex !== -1) {
+        this.givenQuestionAnswer[currentAnswerIndex] = newAnswer;
+      } else {
+        this.givenQuestionAnswer.push(newAnswer);
+      }
     } else {
       // If no option is selected, update the status of the current question to 'skipped'
       this.updateQuestionStatus(this.currentQuestionIndex, 'skipped');
@@ -401,6 +417,7 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
       this.updateQuestionStatus(this.currentQuestionIndex, 'skipped');
     }
   }
+
 
 
 
@@ -461,6 +478,7 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
   // }
   nextQuestion() {
     const currentQuestionId = this.questionarList[this.currentQuestionIndex].sessionAssessmentMasterId;
+    console.log(this.givenQuestionAnswer);
 
     // Get the value of the selected option
     const selectedOption = this.questionForm.get("option").value;

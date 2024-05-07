@@ -24,7 +24,7 @@
                 currentPage: page,
                 totalItems: count
               }; let i = index;">
-                        <td>{{ i + 1 }}</td>
+                        <td>{{ (page - 1) * tableSize + i + 1 }}</td>
                         <td>{{ user.FULLNAME }}</td>
                         <td>{{ user.CONTACTNO }}</td>
                         <td>{{ user.EMAILID}}</td>
