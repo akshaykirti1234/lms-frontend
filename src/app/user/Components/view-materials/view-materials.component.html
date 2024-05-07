@@ -51,7 +51,7 @@
                     </form>
                 </div>
 
-                <div class="question-map ">
+                <div class="question-map">
                     <!-- Map-like design for question index markers -->
                     <div class="question-marker" *ngFor="let question of questionarList; let i = index" [ngClass]="{
                            'not-visited': !questionStatusList[i] || questionStatusList[i] === 'not-visited',

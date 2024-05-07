@@ -264,6 +264,32 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
   showQuestion(question: any) {
     console.log("showQuestion method called");
 
+    // If there is a current question and an option is selected, add it to the givenQuestionAnswer array
+    if (this.questionarList[this.currentQuestionIndex] && this.questionForm.get("option").value) {
+      const currentQuestionId = this.questionarList[this.currentQuestionIndex].sessionAssessmentMasterId;
+      const selectedOption = this.questionForm.get("option").value;
+
+      const newAnswer = {
+        userId: sessionStorage.getItem('userId'),
+        sessionAssessmentMasterId: currentQuestionId,
+        option: selectedOption
+      };
+
+      const currentAnswerIndex = this.givenQuestionAnswer.findIndex(qa => qa.sessionAssessmentMasterId === currentQuestionId);
+      if (currentAnswerIndex !== -1) {
+        this.givenQuestionAnswer[currentAnswerIndex] = newAnswer;
+      } else {
+        this.givenQuestionAnswer.push(newAnswer);
+      }
+
+      // Update the status of the current question to 'answered'
+      this.updateQuestionStatus(this.currentQuestionIndex, 'answered');
+    } else if (this.questionarList[this.currentQuestionIndex]) {
+      // If no option is selected, update the status of the current question to 'skipped'
+      this.updateQuestionStatus(this.currentQuestionIndex, 'skipped');
+    }
+
+
     // Find the index of the selected question in the questionarList array
     const selectedQuestionIndex = this.questionarList.findIndex((q: any) => q === question);
 
