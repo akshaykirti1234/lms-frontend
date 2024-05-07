@@ -59,7 +59,7 @@
           <div class="col-md-6">
             <div class="form-group">
               <label for="video">Video :</label>
-              <span class="text-danger">*</span>
+              <!-- <span class="text-danger">*</span> -->
               <input type="file" id="video" class="form-control" (change)="validateAndUploadFile($event)"
                 accept=".mp4" />
               <div *ngIf="sessionForm.get('video')?.invalid && sessionForm.get('video')?.touched">
@@ -75,7 +75,7 @@
           <div class="col-md-6">
             <div class="form-group">
               <label for="document">Document:</label>
-              <span class="text-danger">*</span>
+              <!-- <span class="text-danger">*</span> -->
               <input type="file" id="document" class="form-control" (change)="validateAndUploadDoc($event)" />
               <div *ngIf="sessionForm.get('document')?.invalid && sessionForm.get('document')?.touched">
                 <p class="text-danger">Please Select Document</p>
@@ -107,7 +107,7 @@
         <div *ngIf="id === 0" class="text-center mb-5">
           <button type="submit" class="btn btn-primary">
             Submit</button>&nbsp;
-          <button class="btn btn-danger" type="reset">Reset</button>
+          <button class="btn btn-danger" type="reset" (click)="resetForm()">Reset</button>
         </div>
 
         <div *ngIf="id > 0" class="text-center mb-5">

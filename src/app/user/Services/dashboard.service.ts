@@ -55,5 +55,12 @@ export class DashboardService {
     return this.http.post("http://localhost:8085/api/sessionResult/saveSessionResult/", sessionResultPayload, { observe: 'response' });
   }
 
+  getResultStatus(userId: any) {
+    return this.http.post("http://localhost:8085/api/sessionResultStatus/getSessionResult/" + `${userId}`, { observe: 'response' });
+  }
+
+  getResultStatusBySessionIdUserId(sessionId: any, userId: any) {
+    return this.http.post("http://localhost:8085/api/sessionResultStatus/getSessionResultBySessionIdUserId/" + `${sessionId}/` + `${userId}`, { observe: 'response' });
+  }
 
 }

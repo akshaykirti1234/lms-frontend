@@ -29,7 +29,7 @@
               ; 
               let i = index;">
               <!-- <tr *ngFor="let session of sessionList;let i = index"> -->
-                                <td>{{ i + 1 }}</td>
+                                <td>{{ (page - 1) * tableSize + i + 1 }}</td>
                                 <td>{{ session.sessionname }}</td>
                                 <td>{{ session.submodulename }}</td>
                                 <td>{{ session.schedulefor }}</td>
