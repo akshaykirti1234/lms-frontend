@@ -10,6 +10,10 @@ export class AssesmentConfigService {
 
   //schedule service config
 
+  getScheduleForSchConfig(subModule : any) {
+    return this.http.get(`http://localhost:8085/scheduleForAssessmentSetting/${subModule}`);
+  }
+
   saveAssesmentSetting(formData: any) {
     return this.http.post('http://localhost:8085/assessmentSetting', formData);
   }
@@ -32,6 +36,10 @@ export class AssesmentConfigService {
 
 
   //session config service
+
+  getSessionForSessionConfig(scheduleForId : any){
+    return this.http.get(`http://localhost:8085/sessionForAssessmentSetting/${scheduleForId}`);
+  }
 
   saveAssessmentSessionSetting(formData: any) {
     return this.http.post('http://localhost:8085/sessionAssessmentSetting', formData);

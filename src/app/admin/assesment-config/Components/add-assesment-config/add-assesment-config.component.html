@@ -40,7 +40,7 @@
                   </div>
                 </div>
               
-                <div *ngIf="configForm.get('radio')!.value === 'schedule'">
+                <div *ngIf="configForm.get('radio')!.value === 'schedule'  && schedules.length > 0">
                   <table class="table table-bordered mt-2">
                     <thead>
                       <tr>
@@ -62,8 +62,11 @@
                     </tbody>
                   </table>
                 </div>
+                <div class="alert alert-danger h4 text-center" *ngIf="configForm.get('radio')!.value === 'schedule'  && schedules.length == 0">
+                  No Data Found
+                </div>
               
-                <div *ngIf="configForm.get('radio')!.value === 'session'">
+                <div *ngIf="configForm.get('radio')!.value === 'session' && schedules.length > 0">
                     <label class="form-label" for="schedule">Schedule<span class="text-danger">*</span></label>
                     <select class="form-select" id="schedule" formControlName="schedule" (change)="onScheduleChange($event)">
                       <option value="">Select Schedule</option>
@@ -73,7 +76,11 @@
                       <p class="text-danger">Please Select Schedule</p>
                     </div>
                   </div>
-                <div *ngIf="configForm.get('schedule')!.value">
+                  <div class="alert alert-danger h4 text-center" *ngIf="configForm.get('radio')!.value === 'session' && (schedules.length == 0 && sessions.length == 0)">
+                    No Data Found
+                  </div>
+                <div *ngIf="configForm.get('schedule')!.value && sessions.length > 0">
+                  
                     <table class="table table-bordered mt-2">
                       <thead>
                         <tr>
@@ -81,6 +88,7 @@
                           <th>Session Name</th>
                           <th>No of Questions</th>
                           <th>Pass Percentage</th>
+                         
                         </tr>
                       </thead>
                       <tbody>
@@ -92,6 +100,9 @@
                         </tr>
                       </tbody>
                     </table>
+                  </div>
+                  <div class="alert alert-danger h4 text-center" *ngIf="configForm.get('radio')!.value === 'session' && (isScheduleDropdownSelected && schedules.length > 0 && sessions.length == 0)">
+                    No Session Data Found 
                   </div>
                   <div class="text-center mt-2">
                     <button class="btn btn-primary" type="submit">Submit</button>

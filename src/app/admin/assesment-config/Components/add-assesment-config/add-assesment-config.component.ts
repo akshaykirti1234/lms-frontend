@@ -21,6 +21,7 @@ export class AddAssesmentConfigComponent {
   scheduleDropdown: any[] = [];
   scheduleWiseList: any = [];
   sessionWiseList: any = [];
+  isScheduleDropdownSelected : boolean = false;
 
   constructor(private fb: FormBuilder,
     private moduleService: ModuleserviceService,
@@ -45,6 +46,32 @@ export class AddAssesmentConfigComponent {
         this.configForm.get('schedule')?.updateValueAndValidity();
       }
     });
+
+    this.configForm.get('module')!.valueChanges.subscribe((moduleId: any) => {
+      if (moduleId === '') {
+        this.configForm.get('subModule')!.setValue('');
+        this.configForm.get('schedule')!.setValue('');
+        this.configForm.get('session')!.setValue('');
+        this.configForm.get('subModule')!.disable();
+        this.configForm.get('schedule')!.disable();
+        this.configForm.get('session')!.disable();
+      } else {
+        this.configForm.get('subModule')!.enable();
+        this.configForm.get('schedule')!.disable();
+      }
+    });
+
+    this.configForm.get('subModule')!.valueChanges.subscribe((submoduleId: any) => {
+      if (submoduleId === '') {
+        this.configForm.get('schedule')!.setValue('');
+        this.configForm.get('session')!.setValue('');
+        this.configForm.get('schedule')!.disable();
+        this.configForm.get('session')!.disable();
+      } else {
+        this.configForm.get('schedule')!.enable();
+        this.configForm.get('session')!.disable();
+      }
+    });
   }
 
   ngOnInit() {
@@ -66,19 +93,40 @@ export class AddAssesmentConfigComponent {
 
   onSubModuleChange(event: any) {
     const subModuleId = event.target.value;
+    if (this.configForm.get('radio')!.value === 'schedule') {
+      this.assessmentConfigService.getScheduleForSchConfig(subModuleId).subscribe((data : any)=>{
+        console.log(data.length);
+        this.schedules = data;
+      },(error : any)=> {
+        console.log(error);
+        
+      })
+  }
+  else if(this.configForm.get('radio')!.value === 'session'){
+
     this.dashboardService.getScheduleBySubModuleId(subModuleId).subscribe((data: any) => {
       this.schedules = data.body;
-
+    },(error : any)=> {
+      console.log(error);
+      this.schedules = [];
+      
     })
+    
+  }
+
+  
 
   }
 
   onScheduleChange(event: any) {
     const scheduleId = event.target.value;
-    this.dashboardService.getSessionByscheduleForId(scheduleId).subscribe((data: any) => {
-      this.sessions = data.body;
-
-    })
+    this.isScheduleDropdownSelected = true;
+    this.assessmentConfigService.getSessionForSessionConfig(scheduleId).subscribe((data : any)=>{
+      this.sessions = data;
+    });
+    // this.dashboardService.getSessionByscheduleForId(scheduleId).subscribe((data: any) => {
+    //   this.sessions = data.body;
+    // })
 
   }
 
@@ -87,12 +135,25 @@ export class AddAssesmentConfigComponent {
       this.configForm.value.scheduleWiseList = '';
       this.scheduleWiseList = [];
       // Fetch and display schedule dropdown list for the selected submodule
-      const selectedSubmoduleId = this.configForm.get('submodule')!.value;
+      const selectedSubmoduleId = this.configForm.get('subModule')!.value;
       if (selectedSubmoduleId) {
-        this.scheduleDropdown = this.schedules.filter(schedule => schedule.submoduleId === selectedSubmoduleId);
+        this.dashboardService.getScheduleBySubModuleId(selectedSubmoduleId).subscribe((data: any) => {
+          this.schedules = data.body;
+        })
+        //this.scheduleDropdown = this.schedules.filter(schedule => schedule.submoduleId === selectedSubmoduleId);
       }
     } else {
       this.configForm.value.sessionWiseList = '';
+      const selectedSubmoduleId = this.configForm.get('subModule')!.value;
+      
+        this.assessmentConfigService.getScheduleForSchConfig(selectedSubmoduleId).subscribe((data : any)=>{
+          console.log(data.length);
+          this.schedules = data;
+        },(error : any)=> {
+          console.log(error);
+          
+        })
+      
       this.sessionWiseList = [];
       // Reset schedule dropdown list when radio changes
       this.scheduleDropdown = [];
