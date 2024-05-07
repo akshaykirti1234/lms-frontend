@@ -45,16 +45,25 @@
 }
 
 .question-map {
-  width: 50px;
+  min-width: 60px;
+  /* Set a minimum width */
+  width: auto;
   height: 100%;
   background-color: #f2f2f2;
   border: 1px solid #ccc;
   overflow-y: auto;
   border-radius: 10px;
+  display: flex;
+  /* Ensure flex layout */
+  flex-direction: column;
+  /* Align markers vertically */
+  align-items: center;
+  /* Center markers horizontally */
 }
 
 .question-marker {
-  /* width: 30px; */
+  width: 35px;
+  /* Adjust size of markers */
   height: 35px;
   border-radius: 50%;
   display: flex;
@@ -64,6 +73,7 @@
   margin: 5px;
   color: white;
 }
+
 
 .not-visited {
   background-color: gray;
