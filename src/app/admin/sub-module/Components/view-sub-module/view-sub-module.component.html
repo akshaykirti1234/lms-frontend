@@ -19,6 +19,7 @@
                     </thead>
 
                     <tbody>
+
                         <tr *ngFor="
                 let submodule of inductionList
                   | paginate
@@ -29,7 +30,7 @@
                       };
                 let i = index
               ">
-                            <td>{{ i + 1 }}</td>
+                            <td>{{ (page - 1) * tableSize + i + 1}}</td>
 
                             <td>{{ submodule.MODULENAME }}</td>
 
@@ -59,6 +60,10 @@
                 <pagination-controls previousLabel="Prev" nextLabel="Next"
                     (pageChange)="getTableDataChange($event)"></pagination-controls>
             </div>
+
+           
+
+           
         </div>
     </div>
 </div>

@@ -146,11 +146,12 @@
                         title="You have already completed this questionnaire"></i>
                 </div>
             </div>
-            <div *ngIf="file.hasQuestions" [ngClass]="{'disabled': !file.accessStatus}" style="cursor: pointer;">
+            <div *ngIf="file.hasQuestions" [ngClass]="{'disabled': !file.accessStatus}" style="cursor: pointer;"
+                class=" bg-light px-1 border rounded">
                 <a href="" class="dropdown-item profile-anchor" data-bs-toggle="modal"
                     data-bs-target="#assessmentDeatilsModal"
                     (click)="getResultStatus(file.sessionId ,file.scheduleFor.scheduleForId)">
-                    View Assessment Details
+                    <span>View Assessment Details</span>
                 </a>
             </div>
         </div>
@@ -177,10 +178,10 @@
                 <ul>
                     <ng-container *ngFor="let result of resultStatus; let i = index">
                         <li
-                            [ngClass]="{'text-success': result.percentage >= 60, 'text-danger': result.percentage < 60}">
+                            [ngClass]="{'text-success': result.statusOfResult == 1, 'text-danger': result.statusOfResult == 0}">
                             Attempt {{ i + 1 }} - {{ result.percentage }}%
-                            <span *ngIf="result.percentage > 60">✓</span>
-                            <span *ngIf="result.percentage <= 60">✗</span>
+                            <span *ngIf="result.statusOfResult == 1">✓</span>
+                            <span *ngIf="result.statusOfResult == 0">✗</span>
                         </li>
                     </ng-container>
 
