@@ -736,4 +736,14 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
     })
   }
 
+
+
+  // ***********************************************************************
+  //  Show Questions style
+  // ***********************************************************************
+  getSplitIndex(): number {
+    return Math.ceil(this.questionarList.length / 2);
+  }
+
+
 }

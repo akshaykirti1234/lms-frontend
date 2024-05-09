@@ -51,14 +51,37 @@
                     </form>
                 </div>
 
-                <div class="question-map">
-                    <!-- Map-like design for question index markers -->
+                <!-- <div class="question-map">
                     <div class="question-marker" *ngFor="let question of questionarList; let i = index" [ngClass]="{
                            'not-visited': !questionStatusList[i] || questionStatusList[i] === 'not-visited',
                            'skipped': questionStatusList[i] === 'skipped',
                            'answered': questionStatusList[i] === 'answered'
                          }" (click)="showQuestion(question)">
                         {{ i + 1 }}
+                    </div>
+                </div> -->
+                <div class="question-map">
+                    <div class="column">
+                        <!-- First column of question markers -->
+                        <div class="question-marker"
+                            *ngFor="let question of questionarList.slice(0, getSplitIndex()); let i = index" [ngClass]="{
+                            'not-visited': !questionStatusList[i] || questionStatusList[i] === 'not-visited',
+                            'skipped': questionStatusList[i] === 'skipped',
+                            'answered': questionStatusList[i] === 'answered'
+                            }" (click)="showQuestion(question)">
+                            {{ i + 1 }}
+                        </div>
+                    </div>
+                    <div class="column">
+                        <!-- Second column of question markers -->
+                        <div class="question-marker"
+                            *ngFor="let question of questionarList.slice(getSplitIndex()); let i = index" [ngClass]="{
+                            'not-visited': !questionStatusList[i + getSplitIndex()] || questionStatusList[i + getSplitIndex()] === 'not-visited',
+                            'skipped': questionStatusList[i + getSplitIndex()] === 'skipped',
+                            'answered': questionStatusList[i + getSplitIndex()] === 'answered'
+                            }" (click)="showQuestion(question)">
+                            {{ i + getSplitIndex() + 1 }}
+                        </div>
                     </div>
                 </div>
 
