@@ -76,7 +76,7 @@
                       <p class="text-danger">Please Select Schedule</p>
                     </div>
                   </div>
-                  <div class="alert alert-danger h4 text-center" *ngIf="configForm.get('radio')!.value === 'session' && (schedules.length == 0 && sessions.length == 0)">
+                  <div class="alert alert-danger h4 mt-2 text-center" *ngIf="configForm.get('radio')!.value === 'session' && (schedules.length == 0 && sessions.length == 0)">
                     No Data Found
                   </div>
                 <div *ngIf="configForm.get('schedule')!.value && sessions.length > 0">
@@ -101,7 +101,7 @@
                       </tbody>
                     </table>
                   </div>
-                  <div class="alert alert-danger h4 text-center" *ngIf="configForm.get('radio')!.value === 'session' && (isScheduleDropdownSelected && schedules.length > 0 && sessions.length == 0)">
+                  <div class="alert alert-danger h4 mt-2 text-center" *ngIf="configForm.get('radio')!.value === 'session' && (isScheduleDropdownSelected && schedules.length > 0 && sessions.length == 0)">
                     No Session Data Found 
                   </div>
                   <div class="text-center mt-2">
