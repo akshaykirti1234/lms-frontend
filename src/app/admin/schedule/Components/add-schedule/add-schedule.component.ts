@@ -114,10 +114,18 @@ export class AddScheduleComponent implements OnInit {
               });
             },
             error: (error) => {
+              if(error.status == 400){
+                Swal.fire({
+                  icon: 'error',
+                  title: 'You can not enter number of session less than previous data',
+                });
+              }
+              else{
               Swal.fire({
                 icon: 'error',
                 title: 'Something Went Wrong!',
               });
+            }
             }
           });
         }
