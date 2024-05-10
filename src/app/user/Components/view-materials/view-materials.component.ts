@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, ElementRef, HostListener, OnDestroy, OnIn
 import { ActivatedRoute, Router } from '@angular/router';
 import { DashboardService } from '../../Services/dashboard.service';
 import { FormBuilder } from '@angular/forms';
-import { of } from 'rxjs';
+import { of, scheduled } from 'rxjs';
 import jsPDF from 'jspdf';
 import Swal from 'sweetalert2';
 
@@ -23,6 +23,7 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
   public selectedPdf: any;
   public selectedVideo: any;
   public selectedQuestionar: any;
+  public selectedTopic: any;
   public authorName: any;
   public sessionName: any;
   public description: any;
@@ -139,6 +140,7 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
     this.selectedPdf = null;
     this.selectedVideo = null;
     this.selectedQuestionar = false;
+    this.selectedTopic = false;
     this.cdr.detectChanges();
 
     if (this.userInfoForm.get('startTime').value) {
@@ -168,6 +170,7 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
     if (!resultStatus) {
       this.selectedPdf = null;
       this.selectedVideo = null;
+      this.selectedTopic = false;
       this.selectedQuestionar = true;
       this.questionarList = [];
       this.dashboardService.getQuestionarBySessionId(sessionId).subscribe({
@@ -727,7 +730,7 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
   // ***********************************************************************
 
   resultStatus: any[] = [];
-  getResultStatus(sessionId: any, scheduleForId: any) {
+  getResultStatus(sessionId: any) {
     let userId = sessionStorage.getItem('userId');
     //this.getSessionByscheduleForId(scheduleForId)
     this.dashboardService.getResultStatusBySessionIdUserId(sessionId, userId).subscribe(data => {
@@ -743,6 +746,33 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
   // ***********************************************************************
   getSplitIndex(): number {
     return Math.ceil(this.questionarList.length / 2);
+  }
+
+
+  // ***********************************************************************
+  //  Topic
+  // ***********************************************************************
+
+  public topicName: String = '';
+
+  public getTopicByUserIdAndScheduleId(scheduleForId: any): void {
+    const userId = sessionStorage.getItem('userId');
+
+    this.selectedPdf = null;
+    this.selectedVideo = null;
+    this.selectedQuestionar = false;
+    this.questionarList = [];
+    this.selectedTopic = true;
+
+    this.dashboardService.getTopicByUserIdAndScheduleId(userId, scheduleForId).subscribe({
+      next: (data: any) => {
+        this.topicName = data.body.topicName;
+        console.log(data.body.topicName);
+      },
+      error: (err: any) => {
+        console.log(err.body);
+      }
+    });
   }
 
 

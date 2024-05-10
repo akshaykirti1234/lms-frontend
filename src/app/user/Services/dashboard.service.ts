@@ -63,4 +63,10 @@ export class DashboardService {
     return this.http.post("http://localhost:8085/api/sessionResultStatus/getSessionResultBySessionIdUserId/" + `${sessionId}/` + `${userId}`, { observe: 'response' });
   }
 
+  //get Topic By UserId And ScheduleId
+  public getTopicByUserIdAndScheduleId(userId: any, scheduleForId: any): Observable<any> {
+    console.log(userId + " " + scheduleForId);
+    return this.http.get(`http://localhost:8085/api/topic/getTopicByUserIdAndScheduleId/${userId}/${scheduleForId}`, { observe: 'response' });
+  }
+
 }
