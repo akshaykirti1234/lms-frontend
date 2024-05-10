@@ -141,7 +141,7 @@
             slice: 0:25) + "..." : firstRecord?.scheduleFor.scheduleForName }}
         </span>
         <div class="d-flex flex-column gap-1" *ngFor="let file of materialList" style="cursor: pointer;">
-            <div class="d-flex gap-1 border rounded" (click)="showMaterial(file.video, file)"
+            <div *ngIf="file.video" class="d-flex gap-1 border rounded" (click)="showMaterial(file.video, file)"
                 [ngClass]="{'disabled': !file.accessStatus}">
                 <div class="col-3">
                     <img src="https://addplaybuttontoimage.way4info.net/Images/Icons/22.png" width="50" alt=""
@@ -155,8 +155,9 @@
                 </div>
             </div>
 
-            <div (click)="showMaterial(file.document, file)" class="text-bg-secondary px-1 border rounded"
-                style="cursor: pointer;" [ngClass]="{'disabled': !file.accessStatus}">
+            <div *ngIf="file.document" (click)="showMaterial(file.document, file)"
+                class="text-bg-secondary px-1 border rounded" style="cursor: pointer;"
+                [ngClass]="{'disabled': !file.accessStatus}">
                 <span>{{ file.document }}</span>
             </div>
 
