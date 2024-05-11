@@ -5,6 +5,8 @@ import { FormBuilder } from '@angular/forms';
 import { of, scheduled } from 'rxjs';
 import jsPDF from 'jspdf';
 import Swal from 'sweetalert2';
+import { DomSanitizer } from '@angular/platform-browser';
+import { AudioRecordingServiceService } from 'src/app/commonService/audio-recording-service.service';
 
 @Component({
   selector: 'app-view-materials',
@@ -37,7 +39,21 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
   private userInfoForm: any;
   private questionAnswer: any;
   constructor(private activatedRout: ActivatedRoute, private dashboardService: DashboardService, private cdr: ChangeDetectorRef,
-    private elementRef: ElementRef, private fb: FormBuilder, private router: Router) { }
+    private elementRef: ElementRef, private fb: FormBuilder, private router: Router, private audioRecordingService: AudioRecordingServiceService,
+    private sanitizer: DomSanitizer) {
+    this.audioRecordingService
+      .recordingFailed()
+      .subscribe(() => (this.isRecording = false));
+    this.audioRecordingService
+      .getRecordedTime()
+      .subscribe(time => (this.recordedTime = time));
+    this.audioRecordingService.getRecordedBlob().subscribe(data => {
+      this.teste = data;
+      this.blobUrl = this.sanitizer.bypassSecurityTrustUrl(
+        URL.createObjectURL(data.blob)
+      );
+    });
+  }
 
 
   ngOnInit(): void {
@@ -52,6 +68,8 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.onEnded();
+    this.abortRecording();
+
   }
 
   public initUserInfoForm() {
@@ -753,7 +771,14 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
   //  Topic
   // ***********************************************************************
 
+  public topicMaster: any;
   public topicName: String = '';
+  public topicId: any;
+  public isRecording = false;
+  public recordedTime: any;
+  public blobUrl: any;
+  public teste: any;
+
 
   public getTopicByUserIdAndScheduleId(scheduleForId: any): void {
     const userId = sessionStorage.getItem('userId');
@@ -767,10 +792,69 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
     this.dashboardService.getTopicByUserIdAndScheduleId(userId, scheduleForId).subscribe({
       next: (data: any) => {
         this.topicName = data.body.topicName;
-        console.log(data.body.topicName);
+        this.topicId = data.body.topicId;
+        this.topicMaster = data.body;
       },
       error: (err: any) => {
         console.log(err.body);
+      }
+    });
+  }
+
+  startRecording() {
+    if (!this.isRecording) {
+      this.isRecording = true;
+      this.audioRecordingService.startRecording();
+    }
+  }
+
+  abortRecording() {
+    if (this.isRecording) {
+      this.isRecording = false;
+      this.audioRecordingService.abortRecording();
+    }
+  }
+
+  stopRecording() {
+    if (this.isRecording) {
+      this.audioRecordingService.stopRecording();
+      this.isRecording = false;
+    }
+  }
+
+  clearRecordedData() {
+    this.blobUrl = null;
+  }
+
+
+  upload(): void {
+    const date = new Date();
+    let userName = sessionStorage.getItem('fullName');
+    let scheduleForName = this.firstRecord?.scheduleFor.scheduleForName;
+    const formattedDate = date.toISOString().split('T')[0]; // Get YYYY-MM-DD format
+
+    let fileName = userName + "_" + scheduleForName + "_" + formattedDate + ".mp3";
+
+    const formData = new FormData();
+    formData.append('file', this.teste.blob, fileName);
+    formData.append('topicId', this.topicId);
+
+    this.dashboardService.saveRecordedTopic(formData).subscribe({
+      next: (data: any) => {
+        Swal.fire({
+          title: 'Success',
+          text: 'Uploaded successfully',
+          icon: 'success',
+        });
+        this.clearRecordedData();
+        window.location.reload();
+      },
+      error: (err: any) => {
+        Swal.fire({
+          title: 'Something went wrong',
+          icon: 'error',
+        });
+        this.clearRecordedData();
       }
     });
   }

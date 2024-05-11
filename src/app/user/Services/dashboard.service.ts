@@ -69,4 +69,10 @@ export class DashboardService {
     return this.http.get(`http://localhost:8085/api/topic/getTopicByUserIdAndScheduleId/${userId}/${scheduleForId}`, { observe: 'response' });
   }
 
+  //save user upload topic recording
+  public saveRecordedTopic(formData: any): Observable<any> {
+    console.log(formData);
+    return this.http.post(`http://localhost:8085/api/topic/saveRecordedTopic/`, formData, { observe: 'response' });
+  }
+
 }

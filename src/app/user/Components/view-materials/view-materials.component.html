@@ -135,11 +135,53 @@
     </div>
 
     <div class="p-2 col-lg-9 vh-100" *ngIf="selectedTopic">
-        {{topicName}}
+        <div class="container">
+            <div class="card m-5 shadow">
+                <div class="card-header text-center text-bg-primary">
+                    <h3>
+                        {{topicName}}
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <div *ngIf="topicMaster.videoPath">
+                        <div class="text-success fs-2 text-center">Already Uploaded</div>
+                    </div>
+                    <div *ngIf="!topicMaster.videoPath">
+                        <div id="waveform"></div>
+
+                        <button class="btn btn-primary" *ngIf="!isRecording && !blobUrl"
+                            (click)="startRecording()">Start
+                            Recording</button>
+
+                        <button class="btn btn-primary" *ngIf="isRecording && !blobUrl" (click)="stopRecording()">Stop
+                            Recording</button>
+
+
+
+                        <div *ngIf="isRecording && !blobUrl"> {{recordedTime}} </div>
+                        <div>
+                            <audio *ngIf="!isRecording && blobUrl" controls>
+                                <source [src]="blobUrl" type="audio/webm">
+                            </audio>
+                        </div>
+                        <div class="d-flex gap-3">
+                            <button class="btn btn-primary" *ngIf="!isRecording && blobUrl"
+                                (click)="clearRecordedData()">Clear
+                                Recording</button>
+
+
+                            <button class="btn btn-success" *ngIf="!isRecording && blobUrl"
+                                (click)="upload()">Confirm&Send
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <!-- ************************************************************************************************** -->
 
-    <div class="col-lg-3 d-flex gap-4 flex-column overflow-y-auto vh-100 ">
+    <div class="col-lg-3 d-flex gap-4 flex-column overflow-y-auto vh-100">
         <span class="text-center text-bg-primary p-1 rounded" title="{{ firstRecord?.scheduleFor.scheduleForName }}">
             {{ (firstRecord?.scheduleFor.scheduleForName?.length > 25) ? (firstRecord?.scheduleFor.scheduleForName |
             slice: 0:25) + "..." : firstRecord?.scheduleFor.scheduleForName }}
@@ -153,7 +195,8 @@
                 </div>
                 <div class="col-9 p-1 d-flex align-items-center">
                     <a [title]="file.sessionName" [ngClass]="{'disabled': !file.accessStatus}">
-                        {{ (file.sessionName?.length > 25) ? (file.sessionName | slice: 0:25) + "..." : file.sessionName
+                        {{ (file.sessionName?.length > 25) ? (file.sessionName | slice: 0:25) + "..." :
+                        file.sessionName
                         }}
                     </a>
                 </div>
@@ -189,8 +232,9 @@
                 <span>Download Certificate</span>
             </div>
         </div>
+        <!-- Conditionally display topic section if all questionnaires have been passed -->
         <div *ngIf="allQuestionnairesPassed()">
-            <div class="text-bg-danger px-1 border rounded text-center" style="cursor: pointer;"
+            <div class="text-bg-danger fs-3 px-1 border rounded text-center" style="cursor: pointer;"
                 (click)="getTopicByUserIdAndScheduleId(firstRecord?.scheduleFor.scheduleForId)">
                 <span>Topic</span>
             </div>
@@ -208,7 +252,8 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header text-center">
-                <h3 class="modal-title" id="assessmentDetailsModal" class="text-success text-center">Assessment Details
+                <h3 class="modal-title" id="assessmentDetailsModal" class="text-success text-center">Assessment
+                    Details
                 </h3>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -231,3 +276,4 @@
             </div>
         </div>
     </div>
+</div>
