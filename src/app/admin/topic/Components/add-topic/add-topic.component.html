@@ -1,1 +1,79 @@
-<p>add-topic works!</p>
+<div class="container">
+
+    <div class="card m-5 shadow">
+
+        <div class="card-header text-center text-bg-primary">
+
+            <h3>Add Topic</h3>
+
+        </div>
+
+        <div class="card-body">
+
+            <form [formGroup]="topicForm" (ngSubmit)="saveTopicForm()">
+
+                <div class="row">
+                    <input type="hidden" formControlName="topicId" class="form-control">
+                    <div class="form-group col-md-4">
+                        <label>User Name <span class="text-danger">*</span></label>
+                        <select class="form-control" formControlName="userId" id="userId">
+                            <option value="">-Select-</option>
+                            <option *ngFor="let user of userList" [value]="user['USERID']">
+                                {{ user["FULLNAME"] }}
+                            </option>
+                        </select>
+                        <div class="text-danger" *ngIf="topicForm.get('userId')?.invalid &&(topicForm.get('userId')?.touched ||
+                        topicForm.get('userId')?.dirty) ">
+                                    <div *ngIf="topicForm.get('userId')?.hasError('required')">
+                                        Please Select User Name
+                                    </div>
+                                </div> 
+
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label>Topic Name <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="topicName" formControlName="topicName">
+
+                        
+                        <div *ngIf="topicForm.get('topicName').invalid && (topicForm.get('topicName').dirty || topicForm.get('topicName').touched)"
+                            class="text-danger">
+                            <div *ngIf="topicForm.get('topicName').errors.required">
+                                Topic name is required.
+                            </div>
+                            <div *ngIf="topicForm.get('topicName').errors.pattern">
+                                Only letters and digits and sapce are allowed in the topic name
+                            </div> 
+                        </div>
+
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label>ReferTo <span class="text-danger">*</span></label>
+                        <textarea formControlName="referTo" class="form-control" id="referTo"></textarea>
+
+                        <div *ngIf="topicForm.get('referTo').invalid && (topicForm.get('referTo').dirty || topicForm.get('referTo').touched)"
+                        class="text-danger">
+                        <div *ngIf="topicForm.get('referTo').errors.required">
+                            ReferTo is required.
+                        </div>
+                        <div *ngIf="topicForm.get('referTo').errors.email">
+                            Please enter a valid email address.
+                        </div>
+                    </div>
+                    </div>
+                </div>
+
+
+               <div class="d-flex gap-2 justify-content-center mt-5">
+                    <button type="submit" class="btn btn-primary"> {{ topicForm.get('topicId').value ?
+                        'Update' : 'Submit' }}</button>
+                    <button *ngIf="!topicForm.get('topicId').value" type="reset" class="btn btn-danger">Reset</button>
+                    <button type="button" *ngIf="topicForm.get('topicId').value" class="btn btn-danger"
+                        (click)="cancel()">Cancel</button>
+                </div> 
+            </form>
+
+        </div>
+
+    </div>
+
+</div>

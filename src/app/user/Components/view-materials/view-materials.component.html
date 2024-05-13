@@ -132,8 +132,12 @@
                 </div>
             </div>
         </div>
-
     </div>
+
+    <div class="p-2 col-lg-9 vh-100" *ngIf="selectedTopic">
+        {{topicName}}
+    </div>
+    <!-- ************************************************************************************************** -->
 
     <div class="col-lg-3 d-flex gap-4 flex-column overflow-y-auto vh-100 ">
         <span class="text-center text-bg-primary p-1 rounded" title="{{ firstRecord?.scheduleFor.scheduleForName }}">
@@ -173,8 +177,7 @@
             <div *ngIf="file.hasQuestions" [ngClass]="{'disabled': !file.accessStatus}" style="cursor: pointer;"
                 class=" bg-light px-1 border rounded">
                 <a href="" class="dropdown-item profile-anchor" data-bs-toggle="modal"
-                    data-bs-target="#assessmentDeatilsModal"
-                    (click)="getResultStatus(file.sessionId ,file.scheduleFor.scheduleForId)">
+                    data-bs-target="#assessmentDeatilsModal" (click)="getResultStatus(file.sessionId)">
                     <span>View Assessment Details</span>
                 </a>
             </div>
@@ -186,8 +189,20 @@
                 <span>Download Certificate</span>
             </div>
         </div>
+        <div *ngIf="allQuestionnairesPassed()">
+            <div class="text-bg-danger px-1 border rounded text-center" style="cursor: pointer;"
+                (click)="getTopicByUserIdAndScheduleId(firstRecord?.scheduleFor.scheduleForId)">
+                <span>Topic</span>
+            </div>
+        </div>
     </div>
 </div>
+
+
+
+
+
+<!-- Modal -->
 <div class="modal fade" id="assessmentDeatilsModal" tabindex="-1" aria-labelledby="assessmentDeatilsModal"
     aria-hidden="true">
     <div class="modal-dialog">
