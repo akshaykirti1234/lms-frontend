@@ -172,10 +172,17 @@ export class AddAssesmentConfigComponent {
       event.target.value = '';
     }else{
     if (noOfQuestions.length > 0) {
-      this.scheduleWiseList.push({
-        "scheduleForId": scheduleForId,
-        "numberOfQuestions": noOfQuestions
-      });
+
+      const existingIndex = this.scheduleWiseList.findIndex((item :any) => item.scheduleForId === scheduleForId);
+      if (existingIndex !== -1) {
+        this.scheduleWiseList[existingIndex].numberOfQuestions = noOfQuestions;
+      } else {
+        this.scheduleWiseList.push({
+          "scheduleForId": scheduleForId,
+          "numberOfQuestions": noOfQuestions,
+          "passingPercentage": ''
+        });
+      }
       this.configForm.value.scheduleWiseList = this.scheduleWiseList;
     }
   }
@@ -187,11 +194,17 @@ export class AddAssesmentConfigComponent {
       Swal.fire('You can not enter negative number or zero');
       event.target.value = '';
     }else{
-    if (noOfQuestions.length > 0) {
-      this.sessionWiseList.push({
-        "sessionId": sessionId,
-        "numberOfQuestions": noOfQuestions,
-      });
+    if (noOfQuestions.length > 0) { 
+      const existingIndex = this.sessionWiseList.findIndex((item :any) => item.sessionId === sessionId);
+      if (existingIndex !== -1) {
+        this.sessionWiseList[existingIndex].numberOfQuestions = noOfQuestions;
+      } else {
+        this.sessionWiseList.push({
+          "sessionId": sessionId,
+          "numberOfQuestions": noOfQuestions,
+          "passingPercentage": ''
+        });
+      }
       this.configForm.value.sessionWiseList = this.sessionWiseList;
     }
   }

@@ -1,1 +1,50 @@
-<p>view-topic works!</p>
+
+<div class="container">
+    <div class="card">
+        <div class="card-header text-center text-bg-primary">
+            <h3>Topic Details</h3>
+        </div>
+        <div class="">
+            <div class="table-responsive p-1">
+                <table class="table table-striped table-bordered rounded">
+                    <thead class="table-success align-middle">
+                        <tr>
+                            <th>Sl.No</th>
+                            <th>User Name</th>
+                            <th>Topic Name</th>
+                            <th>ReferTo</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                            <tr *ngFor="let topic of topicList | paginate :{
+                                itemsPerPage : tableSize,
+                                currentPage : page ,
+                                totalItems: count
+                                }; let i = index;">
+                            <!-- <td>{{i+1}}</td> -->
+                            <td>{{ (page - 1) * tableSize + i + 1 }}</td>
+                            <td>{{topic.userMaster.fullName}}</td>
+                            <td>{{topic.topicName}}</td>
+                            <td>{{topic.referTo}}</td>
+                            <td>
+                                <div class="d-flex gap-2">
+                                    <i class="fa-solid fa-pen-to-square text-primary"
+                                        (click)="edit(topic.topicId)"></i>&nbsp;
+                                    <i class="fa-solid fa-trash text-danger"
+                                        (click)="delete(topic.topicId)"></i>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="d-flex justify-content-end" id="pagination" *ngIf="topicList">
+            <pagination-controls previousLabel="Prev" nextLabel="Next"
+                (pageChange)="getTableDataChange($event)"></pagination-controls>
+        </div>
+    </div>
+</div>
+
+
