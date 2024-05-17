@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ElementRef, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DashboardService } from '../../Services/dashboard.service';
 import { FormBuilder } from '@angular/forms';
@@ -40,20 +40,7 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
   private questionAnswer: any;
   constructor(private activatedRout: ActivatedRoute, private dashboardService: DashboardService, private cdr: ChangeDetectorRef,
     private elementRef: ElementRef, private fb: FormBuilder, private router: Router, private audioRecordingService: AudioRecordingServiceService,
-    private sanitizer: DomSanitizer) {
-    this.audioRecordingService
-      .recordingFailed()
-      .subscribe(() => (this.isRecording = false));
-    this.audioRecordingService
-      .getRecordedTime()
-      .subscribe(time => (this.recordedTime = time));
-    this.audioRecordingService.getRecordedBlob().subscribe(data => {
-      this.teste = data;
-      this.blobUrl = this.sanitizer.bypassSecurityTrustUrl(
-        URL.createObjectURL(data.blob)
-      );
-    });
-  }
+    private sanitizer: DomSanitizer) { }
 
 
   ngOnInit(): void {
@@ -68,8 +55,7 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.onEnded();
-    this.abortRecording();
-
+    this.stopRecording();
   }
 
   public initUserInfoForm() {
@@ -82,26 +68,6 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
     });
   }
 
-  // public getSessionByscheduleForId(scheduleForId: any) {
-  //   let userId = sessionStorage.getItem('userId');
-  //   this.dashboardService.getSessionByscheduleForIdAndUserId(scheduleForId, userId).subscribe({
-  //     next: (response) => {
-  //       this.materialList = response.body as any[];
-  //       console.log(response.body);
-  //       // Check if materialList is not empty and contains videos
-  //       if (this.materialList) {
-  //         const firstVideo = this.materialList.find((item: any) => item.video);
-  //         this.firstRecord = firstVideo;
-  //         if (firstVideo) {
-  //           this.showMaterial(firstVideo.video, firstVideo);
-  //         }
-  //       }
-  //     },
-  //     error: (error) => {
-  //       console.log(error);
-  //     }
-  //   });
-  // }
   public getSessionByscheduleForId(scheduleForId: any) {
     let userId = sessionStorage.getItem('userId');
     this.dashboardService.getSessionByscheduleForIdAndUserId(scheduleForId, userId).subscribe({
@@ -248,40 +214,6 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
   }
 
 
-
-  // // Method to show a specific question
-  // showQuestion(question: any) {
-  //   console.log("showQuestion method called");
-
-  //   // Find the index of the selected question in the questionarList array
-  //   const selectedQuestionIndex = this.questionarList.findIndex((q: any) => q === question);
-
-  //   if (selectedQuestionIndex !== -1) {
-  //     // Set the currentQuestionIndex to the selected question index
-  //     this.currentQuestionIndex = selectedQuestionIndex;
-
-  //     // Retrieve the answer for the selected question, if it exists
-  //     const selectedQuestionId = this.questionarList[selectedQuestionIndex].sessionAssessmentMasterId;
-  //     const selectedAnswer = this.givenQuestionAnswer.find(qa => qa.sessionAssessmentMasterId === selectedQuestionId);
-
-  //     // Set the option value in the form to the selected question's answer, if available
-  //     if (selectedAnswer) {
-  //       this.questionForm.get("option").setValue(selectedAnswer.option);
-  //     } else {
-  //       // If no answer exists for the selected question, keep the option value null
-  //       this.questionForm.get("option").setValue(null);
-  //     }
-
-  //     // Check if the selected question is skipped and update its status to 'skipped' if needed
-  //     console.log("Current question status:", this.questionStatusList[selectedQuestionIndex]);
-  //     if (this.questionStatusList[selectedQuestionIndex] === 'skipped') {
-  //       console.log("Updating question status to 'skipped'");
-  //       console.log(selectedQuestionIndex);
-  //       this.updateQuestionStatus(selectedQuestionIndex, 'skipped');
-  //     }
-  //   }
-  // }
-
   showQuestion(question: any) {
     console.log("showQuestion method called");
 
@@ -372,42 +304,6 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
     });
   }
 
-  //previousQuestion() {
-  //   console.log("Moving to previous question...");
-
-  //   // Get the ID of the current question
-  //   const currentQuestionId = this.questionarList[this.currentQuestionIndex].sessionAssessmentMasterId;
-
-  //   // Check if an option is selected for the current question
-  //   if (this.questionForm.get("option").value) {
-  //     // If an option is selected, update the status of the current question to 'answered'
-  //     this.updateQuestionStatus(this.currentQuestionIndex, 'skipped');
-  //   } else {
-  //     // If no option is selected, update the status of the current question to 'skipped'
-  //     this.updateQuestionStatus(this.currentQuestionIndex, 'skipped');
-  //   }
-
-  //   // Move to the previous question if available
-  //   if (this.currentQuestionIndex > 0) {
-  //     this.currentQuestionIndex--;
-
-  //     // Retrieve the answer for the previous question, if available, and set its option value in the form
-  //     const previousQuestionId = this.questionarList[this.currentQuestionIndex].sessionAssessmentMasterId;
-  //     const previousAnswer = this.givenQuestionAnswer.find(qa => qa.sessionAssessmentMasterId === previousQuestionId);
-  //     if (previousAnswer) {
-  //       this.questionForm.get("option").setValue(previousAnswer.option);
-  //     } else {
-  //       this.questionForm.get("option").setValue(null);
-  //     }
-  //   } else {
-  //     console.log("Already at the first question.");
-  //   }
-
-  //   // Update the status of the current question to 'not-visited'
-  //   if (this.currentQuestionIndex < this.questionStatusList.length) {
-  //     this.updateQuestionStatus(this.currentQuestionIndex, 'not-visited');
-  //   }
-  // }
   previousQuestion() {
     console.log("Moving to previous question...");
     console.log(this.givenQuestionAnswer);
@@ -466,63 +362,6 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
   }
 
 
-
-
-
-  // nextQuestion() {
-  //   const currentQuestionId = this.questionarList[this.currentQuestionIndex].sessionAssessmentMasterId;
-
-  //   // Get the value of the selected option
-  //   const selectedOption = this.questionForm.get("option").value;
-
-  //   console.log(selectedOption);
-
-  //   // Check if the selected option is not null or empty
-  //   if (selectedOption) {
-  //     console.log("In side selected ");
-  //     // Create a new answer object with the current question ID and selected option
-  //     const newAnswer = {
-  //       userId: sessionStorage.getItem('userId'),
-  //       sessionAssessmentMasterId: currentQuestionId,
-  //       option: selectedOption
-  //     };
-
-  //     // Update or add the new answer to the givenQuestionAnswer array
-  //     const currentAnswerIndex = this.givenQuestionAnswer.findIndex(qa => qa.sessionAssessmentMasterId === currentQuestionId);
-  //     if (currentAnswerIndex !== -1) {
-  //       this.givenQuestionAnswer[currentAnswerIndex] = newAnswer;
-  //     } else {
-  //       this.givenQuestionAnswer.push(newAnswer);
-  //     }
-
-  //     // Update the status of the current question to 'answered'
-  //     this.updateQuestionStatus(this.currentQuestionIndex, 'answered');
-  //   } else {
-  //     // If no option is selected, update the status of the current question to 'skipped'
-  //     this.updateQuestionStatus(this.currentQuestionIndex, 'skipped');
-  //   }
-
-  //   // Move to the next question
-  //   if (this.currentQuestionIndex < this.questionarList.length - 1) {
-  //     this.currentQuestionIndex++;
-
-  //     // Retrieve the answer for the next question, if it exists
-  //     const nextQuestionId = this.questionarList[this.currentQuestionIndex].sessionAssessmentMasterId;
-  //     const nextAnswer = this.givenQuestionAnswer.find(qa => qa.sessionAssessmentMasterId === nextQuestionId);
-
-  //     // Set the option value in the form to the next question's answer, if available
-  //     if (nextAnswer) {
-  //       this.questionForm.get("option").setValue(nextAnswer.option);
-  //     } else {
-  //       // If no answer exists for the next question, reset the option value
-  //       this.questionForm.get("option").setValue(null);
-  //     }
-  //   } else {
-  //     console.log("Already at the last question.");
-  //     // Clear the option value if already at the last question
-  //     this.questionForm.get("option").setValue(null);
-  //   }
-  // }
   nextQuestion() {
     const currentQuestionId = this.questionarList[this.currentQuestionIndex].sessionAssessmentMasterId;
     console.log(this.givenQuestionAnswer);
@@ -774,11 +613,6 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
   public topicMaster: any;
   public topicName: String = '';
   public topicId: any;
-  public isRecording = false;
-  public recordedTime: any;
-  public blobUrl: any;
-  public teste: any;
-
 
   public getTopicByUserIdAndScheduleId(scheduleForId: any): void {
     const userId = sessionStorage.getItem('userId');
@@ -794,6 +628,9 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
         this.topicName = data.body.topicName;
         this.topicId = data.body.topicId;
         this.topicMaster = data.body;
+        if (!this.topicMaster.videoPath) {
+          this.videoRecorder();
+        }
       },
       error: (err: any) => {
         console.log(err.body);
@@ -801,31 +638,105 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
     });
   }
 
-  startRecording() {
-    if (!this.isRecording) {
-      this.isRecording = true;
-      this.audioRecordingService.startRecording();
-    }
-  }
 
-  abortRecording() {
-    if (this.isRecording) {
-      this.isRecording = false;
-      this.audioRecordingService.abortRecording();
+  // ************************************Video recorder*************************
+  videoElement!: HTMLVideoElement;
+  recordVideoElement!: HTMLVideoElement;
+  mediaRecorder: any;
+  recordedBlobs!: Blob[];
+  isRecording: boolean = false;
+  downloadUrl!: string;
+  stream!: MediaStream;
+
+  @ViewChild('recordedVideo') recordVideoElementRef!: ElementRef;
+  @ViewChild('video') videoElementRef!: ElementRef;
+
+  startRecording() {
+    this.recordedBlobs = [];
+    let options: any = { mimeType: 'video/webm' };
+
+    try {
+      this.mediaRecorder = new MediaRecorder(this.stream, options);
+    } catch (err) {
+      console.log(err);
     }
+
+    this.mediaRecorder.start(); // collect 100ms of data
+    this.isRecording = !this.isRecording;
+    this.onDataAvailableEvent();
+    this.onStopRecordingEvent();
   }
 
   stopRecording() {
-    if (this.isRecording) {
-      this.audioRecordingService.stopRecording();
-      this.isRecording = false;
+    this.mediaRecorder.stop();
+    this.isRecording = !this.isRecording;
+    console.log('Recorded Blobs: ', this.recordedBlobs);
+    this.stream.getTracks().forEach(track => track.stop()); // Stop all tracks
+  }
+
+  playRecording() {
+    if (!this.recordedBlobs || !this.recordedBlobs.length) {
+      console.log('cannot play.');
+      return;
+    }
+    this.recordVideoElement.play();
+  }
+
+  onDataAvailableEvent() {
+    try {
+      this.mediaRecorder.ondataavailable = (event: any) => {
+        if (event.data && event.data.size > 0) {
+          this.recordedBlobs.push(event.data);
+        }
+      };
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  onStopRecordingEvent() {
+    try {
+      this.mediaRecorder.onstop = (event: Event) => {
+        const videoBuffer = new Blob(this.recordedBlobs, {
+          type: 'video/webm'
+        });
+        this.downloadUrl = window.URL.createObjectURL(videoBuffer); // you can download with <a> tag
+        this.recordVideoElement.src = this.downloadUrl;
+      };
+    } catch (error) {
+      console.log(error);
     }
   }
 
   clearRecordedData() {
-    this.blobUrl = null;
+    console.log("clearRecordData()");
+    this.recordedBlobs = [];
+    this.recordVideoElement.src = ''; // or null
+    // Reinitialize stream and MediaRecorder
+    if (this.stream) {
+      this.stream.getTracks().forEach(track => track.stop());
+    }
+    this.videoRecorder(); // Reinitialize the stream
+    this.mediaRecorder = null; // Reset the MediaRecorder object
+
   }
 
+  async videoRecorder() {
+    navigator.mediaDevices
+      .getUserMedia({
+        video: {
+          width: 360
+        },
+        audio: true // Request audio as well
+      })
+      .then(stream => {
+        this.videoElement = this.videoElementRef.nativeElement;
+        this.recordVideoElement = this.recordVideoElementRef.nativeElement;
+        this.videoElement.muted = true;
+        this.stream = stream;
+        this.videoElement.srcObject = this.stream;
+      });
+  }
 
   upload(): void {
     const date = new Date();
@@ -833,31 +744,43 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
     let scheduleForName = this.firstRecord?.scheduleFor.scheduleForName;
     const formattedDate = date.toISOString().split('T')[0]; // Get YYYY-MM-DD format
 
-    let fileName = userName + "_" + scheduleForName + "_" + formattedDate + ".mp3";
-
+    let fileName = userName + "_" + scheduleForName + "_" + formattedDate + ".mp4";
+    // let blobData = this.recordedBlobs[0];
+    // console.log(blobData);
     const formData = new FormData();
-    formData.append('file', this.teste.blob, fileName);
-    formData.append('topicId', this.topicId);
 
-    this.dashboardService.saveRecordedTopic(formData).subscribe({
-      next: (data: any) => {
-        Swal.fire({
-          title: 'Success',
-          text: 'Uploaded successfully',
-          icon: 'success',
-        });
-        this.clearRecordedData();
-        window.location.reload();
-      },
-      error: (err: any) => {
-        Swal.fire({
-          title: 'Something went wrong',
-          icon: 'error',
-        });
-        this.clearRecordedData();
-      }
-    });
+    // Check if this.recordedBlobs exists and if the first item is a Blob or File
+    if (this.recordedBlobs && this.recordedBlobs.length > 0 && this.recordedBlobs[0] instanceof Blob) {
+      formData.append('file', this.recordedBlobs[0], fileName);
+      formData.append('topicId', this.topicId);
+
+      this.dashboardService.saveRecordedTopic(formData).subscribe({
+        next: (data: any) => {
+          Swal.fire({
+            title: 'Success',
+            text: 'Uploaded successfully',
+            icon: 'success',
+          });
+          this.clearRecordedData();
+          // window.location.reload();
+          this.ngOnInit();
+        },
+        error: (err: any) => {
+          Swal.fire({
+            title: 'Something went wrong',
+            icon: 'error',
+          });
+          // this.clearRecordedData();
+        }
+      });
+    } else {
+      Swal.fire({
+        title: 'No valid data to upload',
+        text: 'Please record something before uploading.',
+        icon: 'warning',
+      });
+    }
+
   }
-
 
 }
