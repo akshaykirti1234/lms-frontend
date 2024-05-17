@@ -781,10 +781,14 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
             title: 'Success',
             text: 'Uploaded successfully',
             icon: 'success',
+          }).then((result) => {
+            if (result.isConfirmed) {
+              // This block will execute when the user clicks "OK"
+              this.clearRecordedData();
+              window.location.reload();
+              // this.ngOnInit(); // Uncomment if you prefer to reinitialize the component instead of reloading the page
+            }
           });
-          this.clearRecordedData();
-          // window.location.reload();
-          this.ngOnInit();
         },
         error: (err: any) => {
           Swal.fire({
