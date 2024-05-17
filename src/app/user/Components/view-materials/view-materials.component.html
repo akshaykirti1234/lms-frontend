@@ -153,22 +153,25 @@
                     </div>
                     <div *ngIf="!topicMaster.videoPath">
                         <div style="text-align:center">
-                            <video style="transform: scaleX(-1);" class="video" #video autoplay></video>
-                            <span class="m-1"></span>
-                            <video class="video" style="width:360 !important; display: none;" controls
-                                #recordedVideo></video>
+                            <div class="d-flex justify-content-center">
+                                <video style="transform: scaleX(-1); width:1200 !important;" class="video" #video
+                                    autoplay></video>
+                                <video class="video" style="width:600; display: none;" controls #recordedVideo></video>
+                            </div>
                             <br>
                             <div class="d-flex justify-content-center gap-3 mt-2">
-                                <button class="btn btn-primary btn-lg" *ngIf="!isRecording"
+                                <button class="btn btn-primary btn-lg" *ngIf="!isRecording && !startClicked "
                                     (click)="startRecording()">Start
                                     Recording</button>
                                 <button class="btn btn-warning btn-lg" *ngIf="isRecording"
                                     (click)="stopRecording()">Stop
                                     Recording</button>
-                                <button class="btn btn-primary btn-lg" *ngIf="!isRecording && recordedBlobs"
+                                <button class="btn btn-primary btn-lg"
+                                    *ngIf="!isRecording && recordedBlobs && !deleteClicked"
                                     (click)="clearRecordedData()">Delete
                                     Recording</button>
-                                <button class="btn btn-success btn-lg" *ngIf="!isRecording && recordedBlobs"
+                                <button class="btn btn-success btn-lg"
+                                    *ngIf="!isRecording && recordedBlobs && !deleteClicked"
                                     (click)="upload()">Confirm&Send
                                 </button>
                             </div>
@@ -235,7 +238,7 @@
         <div *ngIf="allQuestionnairesPassed()">
             <div class="text-bg-danger fs-3 px-1 border rounded text-center" style="cursor: pointer;"
                 (click)="getTopicByUserIdAndScheduleId(firstRecord?.scheduleFor.scheduleForId)">
-                <span>Topic</span>
+                <span>Record Topic</span>
             </div>
         </div>
     </div>

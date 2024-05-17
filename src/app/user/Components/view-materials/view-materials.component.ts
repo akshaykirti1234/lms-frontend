@@ -54,8 +54,8 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.onEnded();
     this.stopRecording();
+    this.onEnded();
   }
 
   public initUserInfoForm() {
@@ -652,6 +652,7 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
   @ViewChild('video') videoElementRef!: ElementRef;
 
   startRecording() {
+    this.deleteClicked = false;
     this.recordedBlobs = [];
     let options: any = { mimeType: 'video/webm' };
 
@@ -668,7 +669,9 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
   }
 
   stopRecording() {
-    this.mediaRecorder.stop();
+    this.startClicked = true;
+    this.toggleVideoVisibility();
+    this.mediaRecorder?.stop();
     this.isRecording = !this.isRecording;
     console.log('Recorded Blobs: ', this.recordedBlobs);
     this.stream.getTracks().forEach(track => track.stop()); // Stop all tracks
@@ -708,7 +711,12 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
     }
   }
 
+  // Add a new property to track if the delete button is clicked
+  deleteClicked: boolean = false;
+  startClicked: boolean = false;
+
   clearRecordedData() {
+    this.toggleVideoVisibility();
     console.log("clearRecordData()");
     this.recordedBlobs = [];
     this.recordVideoElement.src = ''; // or null
@@ -718,7 +726,8 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
     }
     this.videoRecorder(); // Reinitialize the stream
     this.mediaRecorder = null; // Reset the MediaRecorder object
-
+    this.deleteClicked = true;
+    this.startClicked = false;
   }
 
   async videoRecorder() {
@@ -736,6 +745,18 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
         this.stream = stream;
         this.videoElement.srcObject = this.stream;
       });
+  }
+
+  toggleVideoVisibility() {
+    if (this.recordedBlobs) {
+      if (this.recordedBlobs.length != 0) {
+        this.videoElement.style.display = 'block';
+        this.recordVideoElement.style.display = 'none';
+      } else {
+        this.videoElement.style.display = 'none';
+        this.recordVideoElement.style.display = 'block';
+      }
+    }
   }
 
   upload(): void {
