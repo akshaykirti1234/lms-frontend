@@ -31,6 +31,22 @@
 
                     </div>
                     <div class="form-group col-md-4">
+                        <label>Schedule Name <span class="text-danger">*</span></label>
+                        <select class="form-control" formControlName="scheduleForId" id="scheduleForId">
+                            <option value="">-Select-</option>
+                            <option *ngFor="let schedule of scheduleList" [value]="schedule['scheduleForId']">
+                                {{ schedule["scheduleForName"] }}
+                            </option>
+                        </select>
+                        <div class="text-danger" *ngIf="topicForm.get('scheduleForId')?.invalid &&(topicForm.get('scheduleForId')?.touched ||
+                                            topicForm.get('userId')?.dirty) ">
+                            <div *ngIf="topicForm.get('scheduleForId')?.hasError('required')">
+                                Please Select Schedule Name
+                            </div>
+                        </div>
+                    
+                    </div>
+                    <div class="form-group col-md-4">
                         <label>Topic Name <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" id="topicName" formControlName="topicName">
 
@@ -46,7 +62,7 @@
                         </div>
 
                     </div>
-                    <div class="form-group col-md-4">
+                    <div class="form-group col-md-4 mt-4">
                         <label>ReferTo <span class="text-danger">*</span></label>
                         <textarea formControlName="referTo" class="form-control" id="referTo"></textarea>
 
