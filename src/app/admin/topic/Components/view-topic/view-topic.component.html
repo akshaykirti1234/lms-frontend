@@ -11,6 +11,7 @@
                         <tr>
                             <th>Sl.No</th>
                             <th>User Name</th>
+                            <th>Schedule Name</th>
                             <th>Topic Name</th>
                             <th>ReferTo</th>
                             <th>Action</th>
@@ -25,6 +26,7 @@
                             <!-- <td>{{i+1}}</td> -->
                             <td>{{ (page - 1) * tableSize + i + 1 }}</td>
                             <td>{{topic.userMaster.fullName}}</td>
+                            <td>{{topic.scheduleForMaster.scheduleForName}}</td>
                             <td>{{topic.topicName}}</td>
                             <td>{{topic.referTo}}</td>
                             <td>
