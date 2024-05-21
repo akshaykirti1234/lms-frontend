@@ -184,33 +184,25 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
     }
   }
 
+
   downloadPDF(): void {
     let userName = sessionStorage.getItem('fullName');
-    const currentDate = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-
-    const doc = new jsPDF();
-
-    // Set border color and fill color
-    doc.setDrawColor(0); // Set border color to black
-    doc.setFillColor(255, 255, 255); // Set background color to white
-
-    // Add rectangle with border and filled with background color
-    doc.rect(5, 5, 200, 287, 'FD');
-
+    // const currentDate = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+    const doc = new jsPDF({ orientation: 'landscape' });
+    const img = new Image();
+    img.src = '/assets/images/certificatecsm.jpg';
+    doc.addImage(img, 'JPEG', 0, 0, doc.internal.pageSize.getWidth(), doc.internal.pageSize.getHeight());
+    doc.setFont('cursive');
+    // // Add subheadings and content
     doc.setFontSize(22);
-    doc.text("Certificate of Completion", 105, 50, { align: 'center' });
-
-    doc.setFontSize(16);
-    doc.text("This is to certify that", 105, 80, { align: 'center' });
-    doc.text(`${userName}`, 105, 90, { align: 'center' });
-
-    doc.text("has successfully completed the course", 105, 110, { align: 'center' });
-    doc.text(this.firstRecord?.scheduleFor.scheduleForName, 105, 120, { align: 'center' });
-
-    doc.text(`Date: ${currentDate}`, 20, 140);
-    // doc.text("Signature: <<Signature>>", 160, 140);
-
-    doc.save('Certificate.pdf');
+    // doc.text("This is to certify that", 148.5, 80, { align: 'center' });
+    doc.text(`${userName}`, 110, 123, { align: 'center' });
+    doc.setFontSize(18);
+    // doc.text("has successfully completed the course", 148.5, 110, { align: 'center' });
+    doc.text(this.firstRecord?.scheduleFor.scheduleForName, 110, 143, { align: 'center' });
+    // doc.text(`Date: ${currentDate}`, 20, 140);
+    // Save the PDF
+    doc.save(`${userName}_${this.firstRecord?.scheduleFor.scheduleForName}_Certificate.pdf`);
   }
 
 
