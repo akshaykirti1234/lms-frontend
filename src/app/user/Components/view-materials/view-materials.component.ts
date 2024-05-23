@@ -16,6 +16,8 @@ import { AudioRecordingServiceService } from 'src/app/commonService/audio-record
 
 export class ViewMaterialsComponent implements OnInit, OnDestroy {
 
+
+
   public firstRecord: any;
 
   public materialList: any[] = [];
@@ -29,9 +31,9 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
   public authorName: any;
   public sessionName: any;
   public description: any;
-
+  public scheduleForId: any;
   public currentRating: any;
-
+  public isFinalExamPassed : boolean = false;
   private startTime: any;
   private elapsedTime: any;
   private timer: any;
@@ -45,12 +47,23 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.activatedRout.paramMap.subscribe(params => {
-      const scheduleForId = params.get('scheduleForId');
-      this.getSessionByscheduleForId(scheduleForId);
+      this.scheduleForId = params.get('scheduleForId');
+      this.getSessionByscheduleForId(this.scheduleForId);
     });
 
     this.initUserInfoForm();
     this.initQuestionForm();
+    let userId = sessionStorage.getItem('userId');
+    this.dashboardService.checkIfPassedTheAssessment(this.scheduleForId , userId).subscribe((data : any)=>{
+      if(data == null){
+        this.isFinalExamPassed = false;
+      }else{
+        this.isFinalExamPassed = true;
+      }
+    },(error)=>{
+      console.log(error);
+      
+    })
   }
 
   ngOnDestroy(): void {
@@ -206,21 +219,33 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
   }
 
 
+  /**
+   * 
+   * =============================Qsn Part====================================================
+   * 
+   */
+
   showQuestion(question: any) {
+    let currentQuestionId = 0;
     console.log("showQuestion method called");
 
     // If there is a current question and an option is selected, add it to the givenQuestionAnswer array
     if (this.questionarList[this.currentQuestionIndex] && this.questionForm.get("option").value) {
-      const currentQuestionId = this.questionarList[this.currentQuestionIndex].sessionAssessmentMasterId;
+      if (this.questionarList[this.currentQuestionIndex].sessionAssessmentMasterId == undefined) {
+        currentQuestionId = this.questionarList[this.currentQuestionIndex].assessmentId;
+      } else {
+        currentQuestionId = this.questionarList[this.currentQuestionIndex].sessionAssessmentMasterId;
+      }
+
       const selectedOption = this.questionForm.get("option").value;
 
       const newAnswer = {
         userId: sessionStorage.getItem('userId'),
-        sessionAssessmentMasterId: currentQuestionId,
+        questionId: currentQuestionId,
         option: selectedOption
       };
 
-      const currentAnswerIndex = this.givenQuestionAnswer.findIndex(qa => qa.sessionAssessmentMasterId === currentQuestionId);
+      const currentAnswerIndex = this.givenQuestionAnswer.findIndex(qa => qa.questionId === currentQuestionId);
       if (currentAnswerIndex !== -1) {
         this.givenQuestionAnswer[currentAnswerIndex] = newAnswer;
       } else {
@@ -243,8 +268,8 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
       this.currentQuestionIndex = selectedQuestionIndex;
 
       // Retrieve the answer for the selected question, if it exists
-      const selectedQuestionId = this.questionarList[selectedQuestionIndex].sessionAssessmentMasterId;
-      const selectedAnswer = this.givenQuestionAnswer.find(qa => qa.sessionAssessmentMasterId === selectedQuestionId);
+      const selectedQuestionId = this.questionarList[selectedQuestionIndex].sessionAssessmentMasterId !== undefined ? this.questionarList[selectedQuestionIndex].sessionAssessmentMasterId : this.questionarList[selectedQuestionIndex].assessmentId;
+      const selectedAnswer = this.givenQuestionAnswer.find(qa => qa.questionId === selectedQuestionId);
 
       // Set the option value in the form to the selected question's answer, if available
       if (selectedAnswer) {
@@ -291,7 +316,7 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
 
   public initQuestionForm() {
     this.questionForm = this.fb.group({
-      sessionAssessmentMasterId: [''],
+      questionId: [''],
       option: ['']
     });
   }
@@ -299,9 +324,13 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
   previousQuestion() {
     console.log("Moving to previous question...");
     console.log(this.givenQuestionAnswer);
+    let currentQuestionId = 0;
+    if (this.questionarList[this.currentQuestionIndex].sessionAssessmentMasterId == undefined) {
+      currentQuestionId = this.questionarList[this.currentQuestionIndex].assessmentId;
+    } else {
+      currentQuestionId = this.questionarList[this.currentQuestionIndex].sessionAssessmentMasterId;
+    }
 
-    // Get the ID of the current question
-    const currentQuestionId = this.questionarList[this.currentQuestionIndex].sessionAssessmentMasterId;
 
     // Check if an option is selected for the current question
     if (this.questionForm.get("option").value) {
@@ -311,12 +340,12 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
       // Create a new answer object with the current question ID and selected option
       const newAnswer = {
         userId: sessionStorage.getItem('userId'),
-        sessionAssessmentMasterId: currentQuestionId,
+        questionId: currentQuestionId,
         option: this.questionForm.get("option").value
       };
 
       // Update or add the new answer to the givenQuestionAnswer array
-      const currentAnswerIndex = this.givenQuestionAnswer.findIndex(qa => qa.sessionAssessmentMasterId === currentQuestionId);
+      const currentAnswerIndex = this.givenQuestionAnswer.findIndex(qa => qa.questionId === currentQuestionId);
       if (currentAnswerIndex !== -1) {
         this.givenQuestionAnswer[currentAnswerIndex] = newAnswer;
       } else {
@@ -332,8 +361,8 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
       this.currentQuestionIndex--;
 
       // Retrieve the answer for the previous question, if available, and set its option value in the form
-      const previousQuestionId = this.questionarList[this.currentQuestionIndex].sessionAssessmentMasterId;
-      const previousAnswer = this.givenQuestionAnswer.find(qa => qa.sessionAssessmentMasterId === previousQuestionId);
+      const previousQuestionId = this.questionarList[this.currentQuestionIndex].sessionAssessmentMasterId !== undefined ? this.questionarList[this.currentQuestionIndex].sessionAssessmentMasterId : this.questionarList[this.currentQuestionIndex].assessmentId;
+      const previousAnswer = this.givenQuestionAnswer.find(qa => qa.questionId === previousQuestionId);
       if (previousAnswer) {
         setTimeout(() => {
           this.questionForm.get("option").setValue(previousAnswer.option);
@@ -355,9 +384,13 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
 
 
   nextQuestion() {
-    const currentQuestionId = this.questionarList[this.currentQuestionIndex].sessionAssessmentMasterId;
     console.log(this.givenQuestionAnswer);
-
+    let currentQuestionId = 0;
+    if (this.questionarList[this.currentQuestionIndex].sessionAssessmentMasterId == undefined) {
+      currentQuestionId = this.questionarList[this.currentQuestionIndex].assessmentId;
+    } else {
+      currentQuestionId = this.questionarList[this.currentQuestionIndex].sessionAssessmentMasterId;
+    }
     // Get the value of the selected option
     const selectedOption = this.questionForm.get("option").value;
 
@@ -369,12 +402,12 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
       // Create a new answer object with the current question ID and selected option
       const newAnswer = {
         userId: sessionStorage.getItem('userId'),
-        sessionAssessmentMasterId: currentQuestionId,
+        questionId: currentQuestionId,
         option: selectedOption
       };
 
       // Update or add the new answer to the givenQuestionAnswer array
-      const currentAnswerIndex = this.givenQuestionAnswer.findIndex(qa => qa.sessionAssessmentMasterId === currentQuestionId);
+      const currentAnswerIndex = this.givenQuestionAnswer.findIndex(qa => qa.questionId === currentQuestionId);
       if (currentAnswerIndex !== -1) {
         this.givenQuestionAnswer[currentAnswerIndex] = newAnswer;
       } else {
@@ -394,8 +427,8 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
 
       setTimeout(() => {
         // Retrieve the answer for the next question, if it exists
-        const nextQuestionId = this.questionarList[this.currentQuestionIndex].sessionAssessmentMasterId;
-        const nextAnswer = this.givenQuestionAnswer.find(qa => qa.sessionAssessmentMasterId === nextQuestionId);
+        const nextQuestionId = this.questionarList[this.currentQuestionIndex].sessionAssessmentMasterId !== undefined ? this.questionarList[this.currentQuestionIndex].sessionAssessmentMasterId : this.questionarList[this.currentQuestionIndex].assessmentId;
+        const nextAnswer = this.givenQuestionAnswer.find(qa => qa.questionId === nextQuestionId);
 
         // Set the option value in the form to the next question's answer, if available
         if (nextAnswer) {
@@ -417,13 +450,13 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
 
   submitAssessment() {
     // Push the answer for the last question into givenQuestionAnswer array
-    const lastQuestionId = this.questionarList[this.questionarList.length - 1].sessionAssessmentMasterId;
-    const lastAnswerIndex = this.givenQuestionAnswer.findIndex(qa => qa.sessionAssessmentMasterId === lastQuestionId);
+    const lastQuestionId = this.questionarList[this.questionarList.length - 1].sessionAssessmentMasterId !== undefined ? this.questionarList[this.questionarList.length - 1].sessionAssessmentMasterId : this.questionarList[this.questionarList.length - 1].assessmentId;
+    const lastAnswerIndex = this.givenQuestionAnswer.findIndex(qa => qa.questionId === lastQuestionId);
 
     // Create a new answer object for the last question
     const lastAnswer = {
       userId: sessionStorage.getItem('userId'),
-      sessionAssessmentMasterId: lastQuestionId,
+      questionId: lastQuestionId,
       option: this.questionForm.get("option").value
     };
 
@@ -437,39 +470,72 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
     // Perform any necessary actions to submit the assessment data, e.g., send data to a backend service
     console.log(this.givenQuestionAnswer);
 
+    if (this.questionarList[this.questionarList.length - 1].sessionAssessmentMasterId !== undefined) {
+      this.dashboardService.saveSessionResult(this.givenQuestionAnswer).subscribe({
+        next: (response) => {
+          console.log(response);
+          console.log(response.body);
+          this.givenQuestionAnswer = [];
+          this.questionStatusList = [];
+          const icon = response.body.percentage < response.body.passingPercentage ? 'warning' : 'success';
+          const title = response.body.percentage < response.body.passingPercentage ? `Failed` : `Passed`;
+          const text = `Your score is ${response.body.percentage}%`;
+          Swal.fire({
+            title: title,
+            icon: icon,
+            text: text,
+            confirmButtonText: 'OK'
+          });
 
-    this.dashboardService.saveSessionResult(this.givenQuestionAnswer).subscribe({
-      next: (response) => {
-        console.log(response);
-        console.log(response.body);
-        this.givenQuestionAnswer = [];
-        this.questionStatusList = [];
-
-        const icon = response.body.percentage < response.body.passingPercentage ? 'warning' : 'success';
-        const title = response.body.percentage < response.body.passingPercentage ? `Failed` : `Passed`;
-        const text = `Your score is ${response.body.percentage}%`;
-        Swal.fire({
-          title: title,
-          icon: icon,
-          text: text,
-          confirmButtonText: 'OK'
-        });
-
-        // window.location.reload();
-        this.ngOnInit();
-      },
-      error: (error) => {
-        console.log(error);
-      }
-    });
+          // window.location.reload();
+          this.ngOnInit();
+        },
+        error: (error) => {
+          console.log(error);
+        }
+      });
 
 
-    // Resetting the assessment state after submission
-    this.selectedQuestionar = false;
-    this.currentQuestionIndex = 0;
-    this.selectedOption = null;
-    this.questionForm.reset();
+      // Resetting the assessment state after submission
+      this.selectedQuestionar = false;
+      this.currentQuestionIndex = 0;
+      this.selectedOption = null;
+      this.questionForm.reset();
+    }
+    else {
+      this.dashboardService.saveScheduleResult(this.givenQuestionAnswer).subscribe({
+        next: (response: any) => {
+          console.log(response);
+          console.log(response.body);
+          this.givenQuestionAnswer = [];
+          this.questionStatusList = [];
+          const icon = response.body.percentage < response.body.passingPercentage ? 'warning' : 'success';
+          const title = response.body.percentage < response.body.passingPercentage ? `Failed` : `Passed`;
+          const text = `Your score is ${response.body.percentage}%`;
+          Swal.fire({
+            title: title,
+            icon: icon,
+            text: text,
+            confirmButtonText: 'OK'
+          });
+
+
+          // window.location.reload();
+          this.ngOnInit();
+        },
+        error: (error) => {
+          console.log(error);
+        }
+      });
+
+      this.selectedQuestionar = false;
+      this.currentQuestionIndex = 0;
+      this.selectedOption = null;
+      this.questionForm.reset();
+    }
   }
+
+  
 
 
   showAssessment(sId: any) {
@@ -798,6 +864,40 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
       });
     }
 
+  }
+
+
+  /**
+   * =======================================For Final Assessment=====================================================
+   */
+  getFinalQuestion(scheduleForId: any) {
+    this.selectedPdf = null;
+    this.selectedVideo = null;
+    this.selectedTopic = false;
+    this.selectedQuestionar = true;
+    this.questionarList = [];
+    this.dashboardService.getQsnByScheduleId(scheduleForId).subscribe((data: any) => {
+      console.table(data.body);
+      this.questionarList = data.body;
+      if (this.questionarList.length === 0) {
+        this.selectedQuestionar = false;
+      }
+    }, (error: any) => {
+      console.log(error);
+      this.questionarList = [];
+      this.currentQuestionIndex = 0;
+      this.selectedQuestionar = false;
+    });
+  }
+  finalResultStatus: any[] = [];
+  getFinalResultStatus(scheduleForId: any) {
+    let userId = sessionStorage.getItem('userId');
+    this.dashboardService.getFinalResultStatus(scheduleForId, userId).subscribe((data) => {
+      this.finalResultStatus = data as any[];
+      console.log(this.finalResultStatus);
+    },(error)=>{
+      console.log(error);
+    });
   }
 
 }

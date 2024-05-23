@@ -7,6 +7,8 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class DashboardService {
+  
+  
 
   private baseUrl = "http://localhost:8085/";
 
@@ -73,6 +75,24 @@ export class DashboardService {
   public saveRecordedTopic(formData: any): Observable<any> {
     console.log(formData);
     return this.http.post(`http://localhost:8085/api/topic/saveRecordedTopic/`, formData, { observe: 'response' });
+  }
+
+
+  //for final assessment
+  public getQsnByScheduleId(scheduleForId : any){
+    return this.http.get(`http://localhost:8085/getQuestionarByScheduleId/${scheduleForId}` , { observe: 'response' })
+  }
+
+  saveScheduleResult(givenQuestionAnswer: any) {
+    return this.http.post(`http://localhost:8085/api/result/saveScheduleResult`,givenQuestionAnswer,{ observe: 'response' });
+  }
+
+  getFinalResultStatus(scheduleForId: any, userId: any) {
+    return this.http.get(`http://localhost:8085/getFinalResult/${scheduleForId}/${userId}`);
+  }
+
+  checkIfPassedTheAssessment(scheduleForId: any, userId: any){
+    return this.http.get(`http://localhost:8085/getResultStatus/${scheduleForId}/${userId}`);
   }
 
 }

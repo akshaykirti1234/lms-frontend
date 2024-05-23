@@ -84,7 +84,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -227,6 +226,26 @@
                 </a>
             </div>
         </div>
+        <div>
+            <div *ngIf="isFinalExamPassed" class="text-bg-success px-1 border rounded d-flex justify-content-between">
+                <span>Final Assessment</span>
+                <div>
+                    <i class="fas fa-check-circle" *ngIf="isFinalExamPassed"
+                        title="You have already completed this questionnaire"></i>
+                </div>
+            </div>
+            <div class="text-bg-success px-1 border rounded text-center" *ngIf="!isFinalExamPassed" style="cursor: pointer;"
+                (click)="getFinalQuestion(scheduleForId)">
+                <span>Final Assessment</span>
+            </div>
+            <div style="cursor: pointer;"
+                class=" bg-light px-1 border rounded mt-2">
+                <a href="" class="dropdown-item profile-anchor" data-bs-toggle="modal"
+                    data-bs-target="#finalAssessmentDeatilsModal" (click)="getFinalResultStatus(scheduleForId)">
+                    <span>View Final Assessment Details</span>
+                </a>
+            </div>
+        </div>
         <!-- Conditionally display "Download PDF" section if all questionnaires have been passed -->
         <div *ngIf="allQuestionnairesPassed()">
             <div class="text-bg-danger px-1 border rounded text-center" style="cursor: pointer;"
@@ -272,6 +291,38 @@
                     </ng-container>
 
                     <ng-container *ngIf="resultStatus && resultStatus.length === 0">
+                        <li class="text-danger">No attempts</li>
+                    </ng-container>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Final Assessment Details -->
+<div class="modal fade" id="finalAssessmentDeatilsModal" tabindex="-1" aria-labelledby="assessmentDeatilsModal"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h3 class="modal-title" id="assessmentDetailsModal" class="text-success text-center">Assessment
+                    Details
+                </h3>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h6>{{ finalResultStatus[0]?.scheduleForMaster.scheduleForName }}</h6>
+                <ul>
+                    <ng-container *ngFor="let result of finalResultStatus; let i = index">
+                        <li
+                            [ngClass]="{'text-success': result.statusOfResult == 1, 'text-danger': result.statusOfResult == 0}">
+                            Attempt {{ i + 1 }} - {{ result.percentage }}%
+                            <span *ngIf="result.statusOfResult == 1">✓</span>
+                            <span *ngIf="result.statusOfResult == 0">✗</span>
+                        </li>
+                    </ng-container>
+
+                    <ng-container *ngIf="finalResultStatus && finalResultStatus.length === 0">
                         <li class="text-danger">No attempts</li>
                     </ng-container>
                 </ul>
