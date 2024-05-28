@@ -247,14 +247,14 @@
             </div>
         </div>
         <!-- Conditionally display "Download PDF" section if all questionnaires have been passed -->
-        <div *ngIf="allQuestionnairesPassed()">
+        <div *ngIf="allQuestionnairesPassed() && isFinalExamPassed">
             <div class="text-bg-danger px-1 border rounded text-center" style="cursor: pointer;"
                 (click)="downloadPDF()">
                 <span>Download Certificate</span>
             </div>
         </div>
         <!-- Conditionally display topic section if all questionnaires have been passed -->
-        <div *ngIf="allQuestionnairesPassed()">
+        <div *ngIf="allQuestionnairesPassed() && isFinalExamPassed">
             <div class="text-bg-danger fs-3 px-1 border rounded text-center" style="cursor: pointer;"
                 (click)="getTopicByUserIdAndScheduleId(firstRecord?.scheduleFor.scheduleForId)">
                 <span>Record Topic</span>
