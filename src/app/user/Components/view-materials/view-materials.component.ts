@@ -880,9 +880,11 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
       console.table(data.body);
       this.questionarList = data.body;
       if (this.questionarList.length === 0) {
+        Swal.fire('','No questions are set for this schedule.','info')
         this.selectedQuestionar = false;
       }
     }, (error: any) => {
+      Swal.fire('Error','Internal Server Error','error')
       console.log(error);
       this.questionarList = [];
       this.currentQuestionIndex = 0;
