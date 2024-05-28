@@ -226,7 +226,7 @@
                 </a>
             </div>
         </div>
-        <div>
+        <div *ngIf="allQuestionnairesPassed()">
             <div *ngIf="isFinalExamPassed" class="text-bg-success px-1 border rounded d-flex justify-content-between">
                 <span>Final Assessment</span>
                 <div>
@@ -234,12 +234,11 @@
                         title="You have already completed this questionnaire"></i>
                 </div>
             </div>
-            <div class="text-bg-success px-1 border rounded text-center" *ngIf="!isFinalExamPassed" style="cursor: pointer;"
-                (click)="getFinalQuestion(scheduleForId)">
+            <div class="text-bg-success px-1 border rounded text-center" *ngIf="!isFinalExamPassed"
+                style="cursor: pointer;" (click)="getFinalQuestion(scheduleForId)">
                 <span>Final Assessment</span>
             </div>
-            <div style="cursor: pointer;"
-                class=" bg-light px-1 border rounded mt-2">
+            <div style="cursor: pointer;" class=" bg-light px-1 border rounded mt-2">
                 <a href="" class="dropdown-item profile-anchor" data-bs-toggle="modal"
                     data-bs-target="#finalAssessmentDeatilsModal" (click)="getFinalResultStatus(scheduleForId)">
                     <span>View Final Assessment Details</span>
