@@ -62,7 +62,7 @@
                         </div>
 
                     </div>
-                    <div class="form-group col-md-4 mt-4">
+                    <!-- <div class="form-group col-md-4 mt-4">
                         <label>ReferTo <span class="text-danger">*</span></label>
                         <textarea formControlName="referTo" class="form-control" id="referTo"></textarea>
 
@@ -75,7 +75,17 @@
                             Please enter a valid email address.
                         </div>
                     </div>
-                    </div>
+                    </div> -->
+
+                    <div class="form-group col-md-4 mt-4">
+                        <label>ReferTo <span class="text-danger">*</span></label>
+                        <textarea formControlName="referTo" class="form-control" id="referTo"></textarea>
+                        <div *ngIf="topicForm.get('referTo').invalid && (topicForm.get('referTo').dirty || topicForm.get('referTo').touched)" class="text-danger">
+                          <div *ngIf="topicForm.get('referTo').errors.required">ReferTo is required.</div>
+                          <div *ngIf="topicForm.get('referTo').errors.invalidEmails">Invalid emails</div>
+                        </div>
+                      </div>
+                      
                 </div>
 
 
