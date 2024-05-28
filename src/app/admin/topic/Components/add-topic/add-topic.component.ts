@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, ValidatorFn, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TopicService } from '../../Services/topic.service';
 import Swal from 'sweetalert2';
@@ -25,7 +25,7 @@ export class AddTopicComponent {
       scheduleForId: ['', [Validators.required]],
       topicName: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9\s]+$/)]],
      //topicName:[''],
-     referTo: ['',[Validators.required, Validators.email]]
+     referTo: ['',[Validators.required, this.multipleEmailsValidator()]]
     });
   }
 
@@ -178,6 +178,25 @@ cancel() {
   });
 }
 
+
+
+// Custom validator function for multiple emails
+multipleEmailsValidator(): ValidatorFn {
+  return (control: AbstractControl): { [key: string]: any } | null => {
+    if (!control.value) {
+      return null; // No error if the control is empty
+    }
+
+    const emails = control.value.split(',').map((email: any) => email.trim());
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+    const invalidEmails = emails.filter((email: any) => !emailPattern.test(email));
+    if (invalidEmails.length > 0) {
+      return { invalidEmails: { value: invalidEmails.join(', ') } };
+    }
+    return null;
+  };
+}
 
 
 }
