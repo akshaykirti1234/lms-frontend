@@ -34,6 +34,7 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
   public scheduleForId: any;
   public currentRating: any;
   public isFinalExamPassed : boolean = false;
+  public isSessionAssesmentSet : boolean = false;
   private startTime: any;
   private elapsedTime: any;
   private timer: any;
@@ -63,6 +64,18 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
     },(error)=>{
       console.log(error);
       
+    });
+    this.dashboardService.checkIfSessionQsnPreparedForScheduleId(this.scheduleForId).subscribe((data : any)=>{
+      console.log(data.result);
+      if(data.result == "true"){
+        this.isSessionAssesmentSet = true;
+      }
+      else{
+        this.isSessionAssesmentSet = false;
+      }
+      
+    },(error)=>{
+      console.log(error);
     })
   }
 

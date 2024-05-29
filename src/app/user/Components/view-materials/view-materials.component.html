@@ -182,7 +182,7 @@
     </div>
     <!-- ************************************************************************************************** -->
 
-    <div class="col-lg-3 d-flex gap-4 flex-column overflow-y-auto">
+    <div *ngIf="isSessionAssesmentSet" class="col-lg-3 d-flex gap-4 flex-column overflow-y-auto">
         <span class="text-center text-bg-primary p-1 rounded" title="{{ firstRecord?.scheduleFor.scheduleForName }}">
             {{ (firstRecord?.scheduleFor.scheduleForName?.length > 25) ? (firstRecord?.scheduleFor.scheduleForName |
             slice: 0:25) + "..." : firstRecord?.scheduleFor.scheduleForName }}
@@ -254,6 +254,83 @@
         </div>
         <!-- Conditionally display topic section if all questionnaires have been passed -->
         <div *ngIf="allQuestionnairesPassed() && isFinalExamPassed">
+            <div class="text-bg-danger fs-3 px-1 border rounded text-center" style="cursor: pointer;"
+                (click)="getTopicByUserIdAndScheduleId(firstRecord?.scheduleFor.scheduleForId)">
+                <span>Record Topic</span>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="!isSessionAssesmentSet" class="col-lg-3 d-flex gap-4 flex-column overflow-y-auto">
+        <span class="text-center text-bg-primary p-1 rounded" title="{{ firstRecord?.scheduleFor.scheduleForName }}">
+            {{ (firstRecord?.scheduleFor.scheduleForName?.length > 25) ? (firstRecord?.scheduleFor.scheduleForName |
+            slice: 0:25) + "..." : firstRecord?.scheduleFor.scheduleForName }}
+        </span>
+        <div class="d-flex flex-column gap-1" *ngFor="let file of materialList" style="cursor: pointer;">
+            <div *ngIf="file.video" class="d-flex gap-1 border rounded" (click)="showMaterial(file.video, file)">
+                <div class="col-3">
+                    <img src="https://www.iconpacks.net/icons/1/free-video-icon-818-thumb.png" width="50" alt=""
+                        style="object-fit: cover; height: fit-content;" class="p-1">
+                </div>
+                <div class="col-9 p-1 d-flex align-items-center">
+                    <a [title]="file.sessionName">
+                        {{ (file.sessionName?.length > 25) ? (file.sessionName | slice: 0:25) + "..." :
+                        file.sessionName
+                        }}
+                    </a>
+                </div>
+            </div>
+
+            <div *ngIf="file.document" (click)="showMaterial(file.document, file)"
+                class="text-bg-secondary px-1 border rounded" style="cursor: pointer;">
+                <span>{{ file.document }}</span>
+            </div>
+
+            <!-- <div *ngIf="file.hasQuestions" (click)="showQuestionar(file.sessionId, file.resultStatus)"
+                [ngClass]="{'disabled': !file.accessStatus}"
+                class="text-bg-success px-1 border rounded d-flex justify-content-between" style="cursor: pointer;">
+                <span>Questionnaire</span>
+                <div>
+                    <i class="fas fa-check-circle" *ngIf="file.resultStatus"
+                        title="You have already completed this questionnaire"></i>
+                </div>
+            </div>
+            <div *ngIf="file.hasQuestions" [ngClass]="{'disabled': !file.accessStatus}" style="cursor: pointer;"
+                class=" bg-light px-1 border rounded">
+                <a href="" class="dropdown-item profile-anchor" data-bs-toggle="modal"
+                    data-bs-target="#assessmentDeatilsModal" (click)="getResultStatus(file.sessionId)">
+                    <span>View Assessment Details</span>
+                </a>
+            </div> -->
+        </div>
+        <div>
+            <div *ngIf="isFinalExamPassed" class="text-bg-success px-1 border rounded d-flex justify-content-between">
+                <span>Final Assessment</span>
+                <div>
+                    <i class="fas fa-check-circle" *ngIf="isFinalExamPassed"
+                        title="You have already completed this questionnaire"></i>
+                </div>
+            </div>
+            <div class="text-bg-success px-1 border rounded text-center" *ngIf="!isFinalExamPassed"
+                style="cursor: pointer;" (click)="getFinalQuestion(scheduleForId)">
+                <span>Final Assessment</span>
+            </div>
+            <div style="cursor: pointer;" class=" bg-light px-1 border rounded mt-2">
+                <a href="" class="dropdown-item profile-anchor" data-bs-toggle="modal"
+                    data-bs-target="#finalAssessmentDeatilsModal" (click)="getFinalResultStatus(scheduleForId)">
+                    <span>View Final Assessment Details</span>
+                </a>
+            </div>
+        </div>
+        <!-- Conditionally display "Download PDF" section if all questionnaires have been passed -->
+        <div *ngIf="isFinalExamPassed">
+            <div class="text-bg-danger px-1 border rounded text-center" style="cursor: pointer;"
+                (click)="downloadPDF()">
+                <span>Download Certificate</span>
+            </div>
+        </div>
+        <!-- Conditionally display topic section if all questionnaires have been passed -->
+        <div *ngIf="isFinalExamPassed">
             <div class="text-bg-danger fs-3 px-1 border rounded text-center" style="cursor: pointer;"
                 (click)="getTopicByUserIdAndScheduleId(firstRecord?.scheduleFor.scheduleForId)">
                 <span>Record Topic</span>

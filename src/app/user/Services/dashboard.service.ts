@@ -95,4 +95,7 @@ export class DashboardService {
     return this.http.get(`http://localhost:8085/getResultStatus/${scheduleForId}/${userId}`);
   }
 
+  checkIfSessionQsnPreparedForScheduleId(scheduleForId: any){
+    return this.http.get(`http://localhost:8085/api/sessionAssessment/check-session-questions/${scheduleForId}`);
+  }
 }
