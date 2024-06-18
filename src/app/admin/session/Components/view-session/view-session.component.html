@@ -34,16 +34,26 @@
                                 <td>{{ session.submodulename }}</td>
                                 <td>{{ session.schedulefor }}</td>
                                 <td>
+                                    <div *ngIf="session.vedio == null">
+                                        -NA-
+                                        </div>
+                                        <div *ngIf="session.vedio != null">
                                     <a target="_blank" href="{{viewFileUrl}}/{{session.vedio}}"
                                         class="btn btn-md btn-success">
                                         <i class="bi bi-arrow-down-square-fill"></i>
                                     </a>
+                                    </div>
                                 </td>
                                 <td>
+                                    <div *ngIf="session.document == null">
+                                    -NA-
+                                    </div>
+                                    <div *ngIf="session.document != null">
                                     <a target="_blank" href="{{viewFileUrl}}/{{session.document}}"
                                         class="btn btn-md btn-success">
                                         <i class="bi bi-arrow-down-square-fill"></i>
                                     </a>
+                                    </div>
                                 </td>
                                 <td>{{ session.sessiondescription }}</td>
                                 <td>
