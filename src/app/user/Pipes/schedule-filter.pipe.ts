@@ -6,9 +6,9 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class ScheduleFilterPipe implements PipeTransform {
 
   transform(value: any, args?: any): any {
-    console.log("In Pipe");
-    console.log(value);
-    console.log(args);
+    // console.log("In Pipe");
+    // console.log(value);
+    // console.log(args);
     if (!args) {
       return value;
     } else {

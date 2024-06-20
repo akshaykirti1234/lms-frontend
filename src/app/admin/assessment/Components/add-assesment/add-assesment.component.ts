@@ -60,17 +60,17 @@ export class AddAssesmentComponent {
 
     this.assessmentData.get('bulkUploadMode')!.valueChanges.subscribe((value: any) => {
       if (value) {
-        console.log(1); // Log 1 if checked
+        // console.log(1); // Log 1 if checked
         document.getElementById("bulkQsnMode")!.style.display = "block";
         document.getElementById("oneQsnMode")!.style.display = "none";
       } else {
-        console.log(0); // Log 0 if unchecked
+        // console.log(0); // Log 0 if unchecked
         document.getElementById("bulkQsnMode")!.style.display = "none";
         document.getElementById("oneQsnMode")!.style.display = "block";
       }
     });
-    
-  
+
+
 
     this.assessmentData.get('moduleId').valueChanges.subscribe((moduleId: any) => {
       if (moduleId === '') {
@@ -106,7 +106,7 @@ export class AddAssesmentComponent {
         this.assessmentData.get('sessionId').enable();
       }
     });
-  
+
 
 
 
@@ -120,7 +120,7 @@ export class AddAssesmentComponent {
   ngOnInit() {
     this.actRout.params.subscribe((params) => {
       this.assessmentId = params['id'];
-      console.log(this.assessmentId);
+      // console.log(this.assessmentId);
 
       // Determine which edit method to call based on the type of assessment
 
@@ -144,10 +144,10 @@ export class AddAssesmentComponent {
     setTimeout(() => {
       const bulkQsnModeElement = document.getElementById("bulkQsnMode");
       if (bulkQsnModeElement) {
-        console.log('inside display none');
+        // console.log('inside display none');
         bulkQsnModeElement.style.display = "none";
       } else {
-        console.log(bulkQsnModeElement);
+        // console.log(bulkQsnModeElement);
       }
     });
 
@@ -157,7 +157,7 @@ export class AddAssesmentComponent {
 
   editAssessment(assessmentId: any) {
     this.service.editAssessment(assessmentId).subscribe(response => {
-      console.log(response);
+      // console.log(response);
       this.assessmentData.patchValue({
         assessmentId: response.ASSESSMENTMASTERID,
         moduleId: response.MODULEID,
@@ -199,7 +199,7 @@ export class AddAssesmentComponent {
       this.assessmentData.get('radio').setValue('session');
     }
     this.service.editAssessmentSession(assessmentId).subscribe(response => {
-      console.log(response);
+      // console.log(response);
       this.assessmentData.patchValue({
         assessmentId: response.SESSIONASSESSMENTMASTERID, // Use SESSIONASSESSMENTMASTERID as primary key for sessions
         moduleId: response.MODULEID,
@@ -262,7 +262,7 @@ export class AddAssesmentComponent {
     this.subModuleService.getModuleList().subscribe((responseData: any) => {
       this.ModuleList = responseData;
 
-      console.log(responseData);
+      // console.log(responseData);
     });
   }
 
@@ -272,14 +272,14 @@ export class AddAssesmentComponent {
   public getSubModuleByModuleId(event: any) {
 
     this.assessmentData.patchValue({
-        scheduleForId :'',
-        sessionId: ''
-     });
+      scheduleForId: '',
+      sessionId: ''
+    });
     const moduleId = event.target.value;
     this.dashboardService.getSubModuleByModuleId(moduleId).subscribe({
       next: (response) => {
         this.subModuleList = response.body;
-        console.log(this.subModuleList);
+        // console.log(this.subModuleList);
 
       },
       error: (error) => {
@@ -294,7 +294,7 @@ export class AddAssesmentComponent {
   getSchList(event: any) {
     this.assessmentData.patchValue({
       sessionId: ''
-   });
+    });
     const submoduleId = parseInt(
       (event.target as HTMLSelectElement).value,
       10
@@ -302,7 +302,7 @@ export class AddAssesmentComponent {
     this.sessionService
       .getSchListById(submoduleId)
       .subscribe((data: any) => {
-        console.log(data);
+        // console.log(data);
 
         this.schedulelist = data;
       });
@@ -317,7 +317,7 @@ export class AddAssesmentComponent {
     this.dashboardService
       .getSessionByscheduleForId(scheduleForId)
       .subscribe((data: any) => {
-        console.log(data.body);
+        // console.log(data.body);
 
         this.sessionList = data.body;
       });
@@ -433,9 +433,9 @@ export class AddAssesmentComponent {
       });
       this.assessmentData.markAllAsTouched();
     }
-}
+  }
 
-private saveAssessment(): void {
+  private saveAssessment(): void {
     this.service.saveAssessment(this.assessmentData.value).subscribe({
       next: (response) => {
         const message = this.assessmentData.get('assessmentId').value === '' ? 'Assessment Schedule Saved Successfully' : 'Updated Successfully';
@@ -451,7 +451,7 @@ private saveAssessment(): void {
             //   'success'
             // );
             this.router.navigate(['/admin/assessment/viewAssessment']);
-          } 
+          }
           // else {
           //   Swal.fire(
           //     'Data Saved!',
@@ -469,9 +469,9 @@ private saveAssessment(): void {
         });
       }
     });
-}
+  }
 
-private saveAssessmentSession(): void {
+  private saveAssessmentSession(): void {
     this.service.saveAssessmentSession(this.assessmentData.value).subscribe({
       next: (response) => {
         const message = this.assessmentData.get('assessmentId').value === '' ? 'Session Assessment Saved Successfully' : 'Updated Successfully';
@@ -487,7 +487,7 @@ private saveAssessmentSession(): void {
             //   'success'
             // );
             this.router.navigate(['/admin/assessment/viewAssessment']);
-          } 
+          }
           // else {
           //   Swal.fire(
           //     'Data Saved!',
@@ -505,7 +505,7 @@ private saveAssessmentSession(): void {
         });
       }
     });
-}
+  }
 
 
 
@@ -532,7 +532,7 @@ private saveAssessmentSession(): void {
   onFileSelected(event: any) {
     this.selectedFile = event.target.files[0]; // Store the selected file
 
-    console.log('Selected file:', this.selectedFile);
+    // console.log('Selected file:', this.selectedFile);
 
     // Check if the selected file is not an Excel file
 
@@ -544,7 +544,7 @@ private saveAssessmentSession(): void {
 
       const fileInput: HTMLInputElement | null = document.querySelector('#fileInput');
 
-      console.log(fileInput);
+      // console.log(fileInput);
 
 
 
@@ -590,7 +590,7 @@ private saveAssessmentSession(): void {
     const scheduleId = this.assessmentData.value.scheduleForId;
     const radio = this.assessmentData.value.radio;
     const sessionId = this.assessmentData.value.sessionId;
-    console.log(`${moduleId},${subModuleId},${scheduleId},${sessionId}`);
+    // console.log(`${moduleId},${subModuleId},${scheduleId},${sessionId}`);
 
     if (moduleId == '') {
       this.showUploadValidationMessage = true; // Show validation message
@@ -667,13 +667,13 @@ private saveAssessmentSession(): void {
       }
       formData.append('file', this.selectedFile);
       formData.forEach((item: any) => {
-        console.log(`${item}`);
+        // console.log(`${item}`);
       });
 
 
       this.service.importScheduleSessionExcel(formData).subscribe(
         (data: any) => {
-          console.log('Importing file:', this.selectedFile);
+          // console.log('Importing file:', this.selectedFile);
           Swal.fire('Data Saved Succesfully', 'Session data saved Successfully', 'success');
         },
 
@@ -691,12 +691,12 @@ private saveAssessmentSession(): void {
     } else {
       // Handle case when no file is selected
 
-      console.log('No file selected.');
+      // console.log('No file selected.');
     }
 
     const fileInput: HTMLInputElement | null = document.querySelector('#fileInput');
 
-    console.log(fileInput);
+    // console.log(fileInput);
 
 
 
@@ -713,9 +713,9 @@ private saveAssessmentSession(): void {
   onToggleChange(event: any): void {
     this.isChecked = event.target.checked;
     if (this.isChecked) {
-      console.log(1); // Log 1 if checked
+      // console.log(1); // Log 1 if checked
     } else {
-      console.log(0); // Log 0 if unchecked
+      // console.log(0); // Log 0 if unchecked
     }
   }
 

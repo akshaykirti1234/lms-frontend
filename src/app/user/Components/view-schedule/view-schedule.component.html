@@ -31,13 +31,14 @@
     </div>
 </div> -->
 
-<div class="container-fluid" *ngIf="scheduleForId != 7">
+<div class="container-fluid">
     <div class="d-flex justify-content-end m-4">
         <input [(ngModel)]="searchFilter" type="text" class="form-control w-25" placeholder="Search">
     </div>
 
     <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4">
-        <div class="col mb-4" *ngFor="let schedule of newlist | scheduleFilter: searchFilter" style="cursor: pointer;">
+        <div class="col mb-4" *ngFor="let schedule of scheduleList | scheduleFilter: searchFilter"
+            style="cursor: pointer;">
             <div class="card custom-card" routerLink="/user/viewMaterials/{{ schedule.scheduleForId }}">
                 <div class="card-header text-center text-bg-danger">
                     <h5 class="card-title">{{ schedule.scheduleForName }}</h5>
@@ -51,7 +52,7 @@
     </div>
 </div>
 
-<div class="container p-3" *ngIf="scheduleForId == 7">
+<!-- <div class="container p-3" *ngIf="scheduleForId == 7">
     <div class="card ">
         <div class="card-header text-center text-bg-danger">
             <h3 class="">{{scheduleForName}}</h3>
@@ -98,4 +99,4 @@
         </div>
     </div>
 
-</div>
+</div> -->

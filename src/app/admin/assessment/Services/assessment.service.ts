@@ -1,63 +1,67 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AssessmentService {
 
-  private scheduleUrl="http://localhost:8085/";
+  private apiUrl = environment.apiUrl;
 
-  private scheduleSesUrl="http://localhost:8085/api/sessionAssessment/";
-  
+  private scheduleUrl = this.apiUrl;
 
-  constructor(private httpClient:HttpClient) { }
 
-  
+  private scheduleSesUrl = this.apiUrl + "api/sessionAssessment/";
+
+
+  constructor(private httpClient: HttpClient) { }
+
+
 
   getScheduleBySessionId(id: any) {
-    return this.httpClient.get('http://localhost:8085/session-master/',id);
+    return this.httpClient.get(this.apiUrl + 'session-master/', id);
   }
-  saveAssessment(assessment:any):Observable<any>{
-    return this.httpClient.post(this.scheduleUrl+"assessmentSave",assessment);
-  }
-
-  viewAssessment():Observable<any>{
-    return this.httpClient.get(this.scheduleUrl+"viewAssessment");
+  saveAssessment(assessment: any): Observable<any> {
+    return this.httpClient.post(this.scheduleUrl + "assessmentSave", assessment);
   }
 
-  editAssessment(id:any):Observable<any>{
-    return this.httpClient.get(this.scheduleUrl+`edit/${id}`);
+  viewAssessment(): Observable<any> {
+    return this.httpClient.get(this.scheduleUrl + "viewAssessment");
   }
 
-  deleteAssessment(id:any):Observable<any>{
-    console.log(id);
-    
-    return this.httpClient.delete(this.scheduleUrl+`delete/${id}`);
+  editAssessment(id: any): Observable<any> {
+    return this.httpClient.get(this.scheduleUrl + `edit/${id}`);
+  }
+
+  deleteAssessment(id: any): Observable<any> {
+    // console.log(id);
+
+    return this.httpClient.delete(this.scheduleUrl + `delete/${id}`);
   }
 
   // for session
 
-  saveAssessmentSession(assessment:any):Observable<any>{
-    return this.httpClient.post(this.scheduleSesUrl+"assessmentSessionSave",assessment);
+  saveAssessmentSession(assessment: any): Observable<any> {
+    return this.httpClient.post(this.scheduleSesUrl + "assessmentSessionSave", assessment);
   }
 
-  viewSessionAssessment():Observable<any>{
-    return this.httpClient.get(this.scheduleSesUrl+"viewAssessmentForSession");
+  viewSessionAssessment(): Observable<any> {
+    return this.httpClient.get(this.scheduleSesUrl + "viewAssessmentForSession");
   }
 
-  deleteAssSession(id:any):Observable<any>{
-    console.log(id);
-    
-    return this.httpClient.delete(this.scheduleSesUrl+`deleteAssSession/${id}`);
+  deleteAssSession(id: any): Observable<any> {
+    // console.log(id);
+
+    return this.httpClient.delete(this.scheduleSesUrl + `deleteAssSession/${id}`);
   }
-  editAssessmentSession(id:any):Observable<any>{
-    return this.httpClient.get(this.scheduleSesUrl+`editAssessmentSession/${id}`);
+  editAssessmentSession(id: any): Observable<any> {
+    return this.httpClient.get(this.scheduleSesUrl + `editAssessmentSession/${id}`);
   }
 
-// for session upload
-  
+  // for session upload
+
   // downloadSessionExcel() {
 
   //   return this.httpClient.get("http://localhost:8085/downloadExcelSessionQuestions", { responseType: 'blob' })
@@ -85,20 +89,20 @@ export class AssessmentService {
 
   // }
 
-  
-// Both Schdeule and Session excel Download
 
-    
+  // Both Schdeule and Session excel Download
+
+
   downloadScheduleSessionExcel() {
 
-    return this.httpClient.get("http://localhost:8085/generateSAssesmentExcel", { responseType: 'blob' })
+    return this.httpClient.get(this.apiUrl + "generateSAssesmentExcel", { responseType: 'blob' })
 
 
   }
 
   importScheduleSessionExcel(formData: any) {
 
-    return this.httpClient.post("http://localhost:8085/uploadExcelSessionExcel", formData, { responseType: 'text' })
+    return this.httpClient.post(this.apiUrl + "uploadExcelSessionExcel", formData, { responseType: 'text' })
 
   }
 

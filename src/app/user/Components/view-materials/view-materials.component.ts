@@ -33,8 +33,8 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
   public description: any;
   public scheduleForId: any;
   public currentRating: any;
-  public isFinalExamPassed : boolean = false;
-  public isSessionAssesmentSet : boolean = false;
+  public isFinalExamPassed: boolean = false;
+  public isSessionAssesmentSet: boolean = false;
   private startTime: any;
   private elapsedTime: any;
   private timer: any;
@@ -55,26 +55,26 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
     this.initUserInfoForm();
     this.initQuestionForm();
     let userId = sessionStorage.getItem('userId');
-    this.dashboardService.checkIfPassedTheAssessment(this.scheduleForId , userId).subscribe((data : any)=>{
-      if(data == null){
+    this.dashboardService.checkIfPassedTheAssessment(this.scheduleForId, userId).subscribe((data: any) => {
+      if (data == null) {
         this.isFinalExamPassed = false;
-      }else{
+      } else {
         this.isFinalExamPassed = true;
       }
-    },(error)=>{
+    }, (error) => {
       console.log(error);
-      
+
     });
-    this.dashboardService.checkIfSessionQsnPreparedForScheduleId(this.scheduleForId).subscribe((data : any)=>{
-      console.log(data.result);
-      if(data.result == "true"){
+    this.dashboardService.checkIfSessionQsnPreparedForScheduleId(this.scheduleForId).subscribe((data: any) => {
+      // console.log(data.result);
+      if (data.result == "true") {
         this.isSessionAssesmentSet = true;
       }
-      else{
+      else {
         this.isSessionAssesmentSet = false;
       }
-      
-    },(error)=>{
+
+    }, (error) => {
       console.log(error);
     })
   }
@@ -99,7 +99,7 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
     this.dashboardService.getSessionByscheduleForIdAndUserId(scheduleForId, userId).subscribe({
       next: (response) => {
         this.materialList = response.body as any[];
-        console.log(response.body);
+        // console.log(response.body);
         // Check if materialList is not empty and contains videos
         if (this.materialList) {
           const firstVideo = this.materialList.find((item: any) => item.video);
@@ -186,7 +186,7 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
       this.dashboardService.getQuestionarBySessionId(sessionId).subscribe({
         next: (response) => {
           this.questionarList = response.body;
-          console.log(this.questionarList);
+          // console.log(this.questionarList);
           // Show the questionnaire section only if there are questions available
           if (this.questionarList.length === 0) {
             this.selectedQuestionar = false;
@@ -240,7 +240,7 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
 
   showQuestion(question: any) {
     let currentQuestionId = 0;
-    console.log("showQuestion method called");
+    // console.log("showQuestion method called");
 
     // If there is a current question and an option is selected, add it to the givenQuestionAnswer array
     if (this.questionarList[this.currentQuestionIndex] && this.questionForm.get("option").value) {
@@ -297,10 +297,10 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
       }
 
       // Check if the selected question is skipped and update its status to 'skipped' if needed
-      console.log("Current question status:", this.questionStatusList[selectedQuestionIndex]);
+      // console.log("Current question status:", this.questionStatusList[selectedQuestionIndex]);
       if (this.questionStatusList[selectedQuestionIndex] === 'skipped') {
-        console.log("Updating question status to 'skipped'");
-        console.log(selectedQuestionIndex);
+        // console.log("Updating question status to 'skipped'");
+        // console.log(selectedQuestionIndex);
         this.updateQuestionStatus(selectedQuestionIndex, 'skipped');
       }
     }
@@ -310,11 +310,11 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
   questionStatusList: string[] = [];
 
   updateQuestionStatus(index: number, status: string) {
-    console.log("Updating question status for index:", index, "with status:", status);
+    // console.log("Updating question status for index:", index, "with status:", status);
     if (this.questionStatusList[index] !== 'answered') {
-      console.log("Previous status:", this.questionStatusList[index]);
+      // console.log("Previous status:", this.questionStatusList[index]);
       this.questionStatusList[index] = status;
-      console.log("Updated status:", this.questionStatusList[index]);
+      // console.log("Updated status:", this.questionStatusList[index]);
     }
   }
 
@@ -335,8 +335,8 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
   }
 
   previousQuestion() {
-    console.log("Moving to previous question...");
-    console.log(this.givenQuestionAnswer);
+    // console.log("Moving to previous question...");
+    // console.log(this.givenQuestionAnswer);
     let currentQuestionId = 0;
     if (this.questionarList[this.currentQuestionIndex].sessionAssessmentMasterId == undefined) {
       currentQuestionId = this.questionarList[this.currentQuestionIndex].assessmentId;
@@ -386,7 +386,7 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
         });
       }
     } else {
-      console.log("Already at the first question.");
+      // console.log("Already at the first question.");
     }
 
     // Update the status of the current question to 'not-visited'
@@ -397,7 +397,7 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
 
 
   nextQuestion() {
-    console.log(this.givenQuestionAnswer);
+    // console.log(this.givenQuestionAnswer);
     let currentQuestionId = 0;
     if (this.questionarList[this.currentQuestionIndex].sessionAssessmentMasterId == undefined) {
       currentQuestionId = this.questionarList[this.currentQuestionIndex].assessmentId;
@@ -407,11 +407,11 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
     // Get the value of the selected option
     const selectedOption = this.questionForm.get("option").value;
 
-    console.log(selectedOption);
+    // console.log(selectedOption);
 
     // Check if the selected option is not null or empty
     if (selectedOption) {
-      console.log("In side selected ");
+      // console.log("In side selected ");
       // Create a new answer object with the current question ID and selected option
       const newAnswer = {
         userId: sessionStorage.getItem('userId'),
@@ -452,7 +452,7 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
         }
       });
     } else {
-      console.log("Already at the last question.");
+      // console.log("Already at the last question.");
       // Clear the option value if already at the last question
       this.questionForm.get("option").setValue(null);
     }
@@ -481,13 +481,13 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
     }
 
     // Perform any necessary actions to submit the assessment data, e.g., send data to a backend service
-    console.log(this.givenQuestionAnswer);
+    // console.log(this.givenQuestionAnswer);
 
     if (this.questionarList[this.questionarList.length - 1].sessionAssessmentMasterId !== undefined) {
       this.dashboardService.saveSessionResult(this.givenQuestionAnswer).subscribe({
         next: (response) => {
-          console.log(response);
-          console.log(response.body);
+          // console.log(response);
+          // console.log(response.body);
           this.givenQuestionAnswer = [];
           this.questionStatusList = [];
           const icon = response.body.percentage < response.body.passingPercentage ? 'warning' : 'success';
@@ -518,8 +518,8 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
     else {
       this.dashboardService.saveScheduleResult(this.givenQuestionAnswer).subscribe({
         next: (response: any) => {
-          console.log(response);
-          console.log(response.body);
+          // console.log(response);
+          // console.log(response.body);
           this.givenQuestionAnswer = [];
           this.questionStatusList = [];
           const icon = response.body.percentage < response.body.passingPercentage ? 'warning' : 'success';
@@ -548,7 +548,7 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
     }
   }
 
-  
+
 
 
   showAssessment(sId: any) {
@@ -564,7 +564,7 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
   rateVideo(rating: number) {
     this.currentRating = rating;
     this.userInfoForm.get('rating').setValue(this.currentRating);
-    console.log("Rated video with", rating, "stars");
+    // console.log("Rated video with", rating, "stars");
     // Update star styling based on rating
     const stars = document.querySelectorAll('.star-rating i');
     for (let i = 0; i < stars.length; i++) {
@@ -589,7 +589,7 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
 
   onPlay() {
 
-    console.log('video started ' + new Date());
+    // console.log('video started ' + new Date());
     // this.startTimer();
     if (!this.userInfoForm.get('startTime').value) {
       this.userInfoForm.get('startTime').setValue(new Date());
@@ -597,7 +597,7 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
   }
 
   onPause() {
-    console.log('video paused');
+    // console.log('video paused');
     if (!this.elementRef.nativeElement.paused) {
       // this.stopTimer();
       // const totalTimeShown = this.elapsedTime;
@@ -614,7 +614,7 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
     this.userInfoForm.get('endTime').setValue(new Date());
     this.dashboardService.saveUserInfoForm(this.userInfoForm.value).subscribe({
       next: (response) => {
-        console.log(response);
+        // console.log(response);
       },
       error: (error) => {
         console.log(error);
@@ -663,7 +663,7 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
     //this.getSessionByscheduleForId(scheduleForId)
     this.dashboardService.getResultStatusBySessionIdUserId(sessionId, userId).subscribe(data => {
       this.resultStatus = data as any[];
-      console.log(this.resultStatus);
+      // console.log(this.resultStatus);
     })
   }
 
@@ -744,13 +744,13 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
     this.toggleVideoVisibility();
     this.mediaRecorder?.stop();
     this.isRecording = !this.isRecording;
-    console.log('Recorded Blobs: ', this.recordedBlobs);
+    // console.log('Recorded Blobs: ', this.recordedBlobs);
     this.stream.getTracks().forEach(track => track.stop()); // Stop all tracks
   }
 
   playRecording() {
     if (!this.recordedBlobs || !this.recordedBlobs.length) {
-      console.log('cannot play.');
+      // console.log('cannot play.');
       return;
     }
     this.recordVideoElement.play();
@@ -788,7 +788,7 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
 
   clearRecordedData() {
     this.toggleVideoVisibility();
-    console.log("clearRecordData()");
+    // console.log("clearRecordData()");
     this.recordedBlobs = [];
     this.recordVideoElement.src = ''; // or null
     // Reinitialize stream and MediaRecorder
@@ -893,12 +893,12 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
       console.table(data.body);
       this.questionarList = data.body;
       if (this.questionarList.length === 0) {
-        Swal.fire('','No questions are set for this schedule.','info')
+        Swal.fire('', 'No questions are set for this schedule.', 'info')
         this.selectedQuestionar = false;
       }
     }, (error: any) => {
-      Swal.fire('Error','Internal Server Error','error')
-      console.log(error);
+      Swal.fire('Error', 'Internal Server Error', 'error')
+      // console.log(error);
       this.questionarList = [];
       this.currentQuestionIndex = 0;
       this.selectedQuestionar = false;
@@ -909,8 +909,8 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
     let userId = sessionStorage.getItem('userId');
     this.dashboardService.getFinalResultStatus(scheduleForId, userId).subscribe((data) => {
       this.finalResultStatus = data as any[];
-      console.log(this.finalResultStatus);
-    },(error)=>{
+      // console.log(this.finalResultStatus);
+    }, (error) => {
       console.log(error);
     });
   }

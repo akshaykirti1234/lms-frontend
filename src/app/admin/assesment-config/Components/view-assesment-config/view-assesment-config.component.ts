@@ -40,14 +40,14 @@ export class ViewAssesmentConfigComponent {
   constructor(private fb: FormBuilder, private assessmentConfigService: AssesmentConfigService) {
     this.schConfigForm = this.fb.group({
 
-      "numberOfQuestions": ['',Validators.required],
-      "passingPercentage" : ['',Validators.required]
+      "numberOfQuestions": ['', Validators.required],
+      "passingPercentage": ['', Validators.required]
     });
 
     this.sessConfigForm = this.fb.group({
 
-      "numberOfQuestions": ['',Validators.required],
-      "passingPercentage" : ['',Validators.required]
+      "numberOfQuestions": ['', Validators.required],
+      "passingPercentage": ['', Validators.required]
     });
   }
   ngOnInit() {
@@ -98,43 +98,43 @@ export class ViewAssesmentConfigComponent {
 
   getSchConfig(itemData: any) {
     this.assessmentConfigService.getSchConfigById(itemData).subscribe((data: any) => {
-      console.log(data);
+      // console.log(data);
       this.scheduleConfigDetails.id = data.ASSESSMENTSETTINGID;
       this.scheduleConfigDetails.moduleName = data.MODULENAME;
       this.scheduleConfigDetails.subModuleName = data.SUBMODULENAME;
       this.scheduleConfigDetails.schdeuleFor = data.SCHEDULEFOR;
       this.schConfigForm.patchValue({
         "numberOfQuestions": data.NOOFQUESTION,
-        "passingPercentage" : data.PASSINGPERCENTAGE
+        "passingPercentage": data.PASSINGPERCENTAGE
       });
     });
   }
   //form submit for schedule config edit
   schFormSubmit(id: any) {
-    console.log(id);
+    // console.log(id);
 
-    console.log('schFormSubmit works');
+    // console.log('schFormSubmit works');
     let errorFlag = 0;
     const numberOfQuestions = this.schConfigForm.get('numberOfQuestions');
-    const  passingPercentage = this.schConfigForm.get('passingPercentage');
-    
-      if (numberOfQuestions?.invalid && errorFlag === 0) {
-        errorFlag = 1;
-        console.log('error happened');
-        numberOfQuestions.markAsTouched();
-      }
-      if(passingPercentage?.invalid && errorFlag === 0){
-        errorFlag = 1;
-        console.log('error happened');
-        passingPercentage.markAsTouched();
-      }
-      if(errorFlag == 0){
-    this.assessmentConfigService.updateSchConfig(id, this.schConfigForm.value).subscribe((data: any) => {
-      Swal.fire('Success', 'Successfully Updated!', 'success');
-      this.getAllScheduleConfigList();
+    const passingPercentage = this.schConfigForm.get('passingPercentage');
 
-    });
-  }
+    if (numberOfQuestions?.invalid && errorFlag === 0) {
+      errorFlag = 1;
+      // console.log('error happened');
+      numberOfQuestions.markAsTouched();
+    }
+    if (passingPercentage?.invalid && errorFlag === 0) {
+      errorFlag = 1;
+      // console.log('error happened');
+      passingPercentage.markAsTouched();
+    }
+    if (errorFlag == 0) {
+      this.assessmentConfigService.updateSchConfig(id, this.schConfigForm.value).subscribe((data: any) => {
+        Swal.fire('Success', 'Successfully Updated!', 'success');
+        this.getAllScheduleConfigList();
+
+      });
+    }
 
   }
 
@@ -178,7 +178,7 @@ export class ViewAssesmentConfigComponent {
 
   getSessConfig(itemData: any) {
     this.assessmentConfigService.getSessionConfigById(itemData).subscribe((data: any) => {
-      console.log(data);
+      // console.log(data);
       this.sessionConfigDetails.id = data.SESSIONASSESSMENTSETTINGID
       this.sessionConfigDetails.moduleName = data.MODULENAME;
       this.sessionConfigDetails.subModuleName = data.SUBMODULENAME;
@@ -186,7 +186,7 @@ export class ViewAssesmentConfigComponent {
       this.sessionConfigDetails.sessionName = data.SESSIONNAME;
       this.sessConfigForm.patchValue({
         "numberOfQuestions": data.NOOFQUESTION,
-        "passingPercentage" : data.PASSINGPERCENTAGE
+        "passingPercentage": data.PASSINGPERCENTAGE
       });
 
 
@@ -194,28 +194,28 @@ export class ViewAssesmentConfigComponent {
   }
   //form submit for  session config edit
   sessFormSubmit(id: any) {
-    console.log(id);
-    console.log('sessFormSubmit works');
+    // console.log(id);
+    // console.log('sessFormSubmit works');
     let errorFlag = 0;
     const numberOfQuestions = this.sessConfigForm.get('numberOfQuestions');
-    const  passingPercentage = this.sessConfigForm.get('passingPercentage');
-    
-      if (numberOfQuestions?.invalid && errorFlag === 0) {
-        errorFlag = 1;
-        console.log('error happened');
-        numberOfQuestions.markAsTouched();
-      }
-      if(passingPercentage?.invalid && errorFlag === 0){
-        errorFlag = 1;
-        console.log('error happened');
-        passingPercentage.markAsTouched();
-      }
-      if(errorFlag == 0){
-    this.assessmentConfigService.updateSessConfig(id, this.sessConfigForm.value).subscribe((data: any) => {
-      Swal.fire('Success', 'Successfully Updated!', 'success');
-      this.getAllSessionConfigList();
-    });
-  }
+    const passingPercentage = this.sessConfigForm.get('passingPercentage');
+
+    if (numberOfQuestions?.invalid && errorFlag === 0) {
+      errorFlag = 1;
+      // console.log('error happened');
+      numberOfQuestions.markAsTouched();
+    }
+    if (passingPercentage?.invalid && errorFlag === 0) {
+      errorFlag = 1;
+      console.log('error happened');
+      passingPercentage.markAsTouched();
+    }
+    if (errorFlag == 0) {
+      this.assessmentConfigService.updateSessConfig(id, this.sessConfigForm.value).subscribe((data: any) => {
+        Swal.fire('Success', 'Successfully Updated!', 'success');
+        this.getAllSessionConfigList();
+      });
+    }
   }
 
   deleteSessConfig(id: any) {
@@ -235,7 +235,7 @@ export class ViewAssesmentConfigComponent {
               'The data has been successfully deleted.',
               'success'
             );
-          this.getAllSessionConfigList();
+            this.getAllSessionConfigList();
           },
           (error) => {
             Swal.fire(

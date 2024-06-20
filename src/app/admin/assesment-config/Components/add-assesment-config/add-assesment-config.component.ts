@@ -21,13 +21,13 @@ export class AddAssesmentConfigComponent {
   scheduleDropdown: any[] = [];
   scheduleWiseList: any = [];
   sessionWiseList: any = [];
-  isScheduleDropdownSelected : boolean = false;
+  isScheduleDropdownSelected: boolean = false;
 
   constructor(private fb: FormBuilder,
     private moduleService: ModuleserviceService,
     private dashboardService: DashboardService,
     private assessmentConfigService: AssesmentConfigService,
-  private router : Router) {
+    private router: Router) {
     this.configForm = this.fb.group({
       module: ['', Validators.required],
       subModule: ['', Validators.required],
@@ -94,34 +94,34 @@ export class AddAssesmentConfigComponent {
   onSubModuleChange(event: any) {
     const subModuleId = event.target.value;
     if (this.configForm.get('radio')!.value === 'schedule') {
-      this.assessmentConfigService.getScheduleForSchConfig(subModuleId).subscribe((data : any)=>{
-        console.log(data.length);
+      this.assessmentConfigService.getScheduleForSchConfig(subModuleId).subscribe((data: any) => {
+        // console.log(data.length);
         this.schedules = data;
-      },(error : any)=> {
+      }, (error: any) => {
         console.log(error);
-        
+
       })
-  }
-  else if(this.configForm.get('radio')!.value === 'session'){
+    }
+    else if (this.configForm.get('radio')!.value === 'session') {
 
-    this.dashboardService.getScheduleBySubModuleId(subModuleId).subscribe((data: any) => {
-      this.schedules = data.body;
-    },(error : any)=> {
-      console.log(error);
-      this.schedules = [];
-      
-    })
-    
-  }
+      this.dashboardService.getScheduleBySubModuleId(subModuleId).subscribe((data: any) => {
+        this.schedules = data.body;
+      }, (error: any) => {
+        console.log(error);
+        this.schedules = [];
 
-  
+      })
+
+    }
+
+
 
   }
 
   onScheduleChange(event: any) {
     const scheduleId = event.target.value;
     this.isScheduleDropdownSelected = true;
-    this.assessmentConfigService.getSessionForSessionConfig(scheduleId).subscribe((data : any)=>{
+    this.assessmentConfigService.getSessionForSessionConfig(scheduleId).subscribe((data: any) => {
       this.sessions = data;
     });
     // this.dashboardService.getSessionByscheduleForId(scheduleId).subscribe((data: any) => {
@@ -145,15 +145,15 @@ export class AddAssesmentConfigComponent {
     } else {
       this.configForm.value.sessionWiseList = '';
       const selectedSubmoduleId = this.configForm.get('subModule')!.value;
-      
-        this.assessmentConfigService.getScheduleForSchConfig(selectedSubmoduleId).subscribe((data : any)=>{
-          console.log(data.length);
-          this.schedules = data;
-        },(error : any)=> {
-          console.log(error);
-          
-        })
-      
+
+      this.assessmentConfigService.getScheduleForSchConfig(selectedSubmoduleId).subscribe((data: any) => {
+        // console.log(data.length);
+        this.schedules = data;
+      }, (error: any) => {
+        console.log(error);
+
+      })
+
       this.sessionWiseList = [];
       // Reset schedule dropdown list when radio changes
       this.scheduleDropdown = [];
@@ -167,47 +167,47 @@ export class AddAssesmentConfigComponent {
 
   setScheduleList(event: any, scheduleForId: any) {
     const noOfQuestions: string = event.target.value;
-    if(Number.parseInt(noOfQuestions) <= 0){
+    if (Number.parseInt(noOfQuestions) <= 0) {
       Swal.fire('You can not enter negative number or zero');
       event.target.value = '';
-    }else{
-    if (noOfQuestions.length > 0) {
+    } else {
+      if (noOfQuestions.length > 0) {
 
-      const existingIndex = this.scheduleWiseList.findIndex((item :any) => item.scheduleForId === scheduleForId);
-      if (existingIndex !== -1) {
-        this.scheduleWiseList[existingIndex].numberOfQuestions = noOfQuestions;
-      } else {
-        this.scheduleWiseList.push({
-          "scheduleForId": scheduleForId,
-          "numberOfQuestions": noOfQuestions,
-          "passingPercentage": ''
-        });
+        const existingIndex = this.scheduleWiseList.findIndex((item: any) => item.scheduleForId === scheduleForId);
+        if (existingIndex !== -1) {
+          this.scheduleWiseList[existingIndex].numberOfQuestions = noOfQuestions;
+        } else {
+          this.scheduleWiseList.push({
+            "scheduleForId": scheduleForId,
+            "numberOfQuestions": noOfQuestions,
+            "passingPercentage": ''
+          });
+        }
+        this.configForm.value.scheduleWiseList = this.scheduleWiseList;
       }
-      this.configForm.value.scheduleWiseList = this.scheduleWiseList;
     }
-  }
   }
 
   setSessionList(event: any, sessionId: any) {
     const noOfQuestions = event.target.value;
-    if(Number.parseInt(noOfQuestions) <= 0){
+    if (Number.parseInt(noOfQuestions) <= 0) {
       Swal.fire('You can not enter negative number or zero');
       event.target.value = '';
-    }else{
-    if (noOfQuestions.length > 0) { 
-      const existingIndex = this.sessionWiseList.findIndex((item :any) => item.sessionId === sessionId);
-      if (existingIndex !== -1) {
-        this.sessionWiseList[existingIndex].numberOfQuestions = noOfQuestions;
-      } else {
-        this.sessionWiseList.push({
-          "sessionId": sessionId,
-          "numberOfQuestions": noOfQuestions,
-          "passingPercentage": ''
-        });
+    } else {
+      if (noOfQuestions.length > 0) {
+        const existingIndex = this.sessionWiseList.findIndex((item: any) => item.sessionId === sessionId);
+        if (existingIndex !== -1) {
+          this.sessionWiseList[existingIndex].numberOfQuestions = noOfQuestions;
+        } else {
+          this.sessionWiseList.push({
+            "sessionId": sessionId,
+            "numberOfQuestions": noOfQuestions,
+            "passingPercentage": ''
+          });
+        }
+        this.configForm.value.sessionWiseList = this.sessionWiseList;
       }
-      this.configForm.value.sessionWiseList = this.sessionWiseList;
     }
-  }
   }
 
   setPassPercentScheduleList(event: any, scheduleForId: any) {
@@ -217,9 +217,9 @@ export class AddAssesmentConfigComponent {
       event.target.value = '';
       return;
     }
-  
+
     if (passingPercentage.length > 0) {
-      const existingIndex = this.scheduleWiseList.findIndex((item :any) => item.scheduleForId === scheduleForId);
+      const existingIndex = this.scheduleWiseList.findIndex((item: any) => item.scheduleForId === scheduleForId);
       if (existingIndex !== -1) {
         this.scheduleWiseList[existingIndex].passingPercentage = passingPercentage;
       } else {
@@ -232,7 +232,7 @@ export class AddAssesmentConfigComponent {
       this.configForm.value.scheduleWiseList = this.scheduleWiseList;
     }
   }
-  
+
   setPassPercentSessionList(event: any, sessionId: any) {
     const passingPercentage: string = event.target.value;
     if (Number.parseInt(passingPercentage) < 0 || Number.parseInt(passingPercentage) > 100) {
@@ -240,9 +240,9 @@ export class AddAssesmentConfigComponent {
       event.target.value = '';
       return;
     }
-  
+
     if (passingPercentage.length > 0) {
-      const existingIndex = this.sessionWiseList.findIndex((item :any) => item.sessionId === sessionId);
+      const existingIndex = this.sessionWiseList.findIndex((item: any) => item.sessionId === sessionId);
       if (existingIndex !== -1) {
         this.sessionWiseList[existingIndex].passingPercentage = passingPercentage;
       } else {
@@ -255,10 +255,10 @@ export class AddAssesmentConfigComponent {
       this.configForm.value.sessionWiseList = this.sessionWiseList;
     }
   }
-  
-  
-  
-  
+
+
+
+
 
   onSubmit() {
     let errorFlag = 0;
@@ -268,90 +268,90 @@ export class AddAssesmentConfigComponent {
     const schedule = this.configForm.get('schedule');
     if (module?.invalid && errorFlag === 0) {
       errorFlag = 1;
-      console.log('error happened');
+      // console.log('error happened');
       module.markAsTouched();
     }
     if (subModule?.invalid && errorFlag === 0) {
       errorFlag = 1;
-      console.log('error happened');
+      // console.log('error happened');
       subModule.markAsTouched();
     }
     if (radio?.invalid && errorFlag === 0) {
       errorFlag = 1;
-      console.log('error happened');
+      // console.log('error happened');
       radio.markAsTouched();
     }
     if (schedule?.invalid && errorFlag === 0) {
       errorFlag = 1;
-      console.log('error happened');
+      // console.log('error happened');
       schedule.markAsTouched();
     }
 
-    if(this.configForm.value.radio == 'schedule' && this.scheduleWiseList == "" ){
+    if (this.configForm.value.radio == 'schedule' && this.scheduleWiseList == "") {
       errorFlag = 1;
       Swal.fire('Please enter at least one no. of question for scheduling', '', 'warning')
     }
 
-    if(this.configForm.value.radio == 'session' && this.sessionWiseList == "" ){
+    if (this.configForm.value.radio == 'session' && this.sessionWiseList == "") {
       errorFlag = 1;
       Swal.fire('Please enter at least one no. of question for scheduling', '', 'warning')
     }
 
     if (errorFlag === 0) {
-    Swal.fire({
-      title: 'Save Data',
-      text: 'Are you sure you want to save this data?',
-      icon: 'question',
-      showCancelButton: true,
-      confirmButtonText: 'Yes, save it',
-      cancelButtonText: 'No, cancel',
-    }).then((result) => {
-      if (result.isConfirmed) {
-        if(this.configForm.value.radio == 'schedule'){
-        this.assessmentConfigService.saveAssesmentSetting(this.configForm.value).subscribe(
-          (data: any) => {
-            Swal.fire(
-              'Data Saved!',
-              'Your data has been saved successfully.',
-              'success'
+      Swal.fire({
+        title: 'Save Data',
+        text: 'Are you sure you want to save this data?',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, save it',
+        cancelButtonText: 'No, cancel',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          if (this.configForm.value.radio == 'schedule') {
+            this.assessmentConfigService.saveAssesmentSetting(this.configForm.value).subscribe(
+              (data: any) => {
+                Swal.fire(
+                  'Data Saved!',
+                  'Your data has been saved successfully.',
+                  'success'
+                );
+                this.router.navigateByUrl('/admin/assessment-config/view');
+              },
+              (error: any) => {
+                Swal.fire(
+                  'Error!',
+                  'There is some internal server error',
+                  'warning'
+                );
+                // console.log(error);
+
+              }
             );
-          this.router.navigateByUrl('/admin/assessment-config/view');
-          },
-          (error: any) => {
-            Swal.fire(
-              'Error!',
-              'There is some internal server error',
-              'warning'
+          } else {
+            this.assessmentConfigService.saveAssessmentSessionSetting(this.configForm.value).subscribe(
+              (data: any) => {
+                Swal.fire(
+                  'Data Saved!',
+                  'Your data has been saved successfully.',
+                  'success'
+                );
+                this.router.navigateByUrl('/admin/assessment-config/view');
+              },
+              (error: any) => {
+                Swal.fire(
+                  'Error!',
+                  'There is some internal server error',
+                  'warning'
+                );
+                // console.log(error);
+
+              }
             );
-            console.log(error);
-            
           }
-        );
-      }else{
-        this.assessmentConfigService.saveAssessmentSessionSetting(this.configForm.value).subscribe(
-          (data: any) => {
-            Swal.fire(
-              'Data Saved!',
-              'Your data has been saved successfully.',
-              'success'
-            );
-          this.router.navigateByUrl('/admin/assessment-config/view');
-          },
-          (error: any) => {
-            Swal.fire(
-              'Error!',
-              'There is some internal server error',
-              'warning'
-            );
-            console.log(error);
-            
-          }
-        );
-      }
-      } else if (result.dismiss === Swal.DismissReason.cancel) {
-        Swal.fire('Cancelled', 'Your data was not saved.', 'info');
-      }
-    });
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+          Swal.fire('Cancelled', 'Your data was not saved.', 'info');
+        }
+      });
+    }
   }
-}
 }

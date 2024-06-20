@@ -11,7 +11,7 @@ import { AssessmentService } from '../../Services/assessment.service';
 export class ViewAssessmentComponent {
 
   assessmentList: any;
-  sessionList:any;
+  sessionList: any;
   selectedType: string = 'schedule'; // Default to 'Schedule for'
 
   // for pagination
@@ -38,17 +38,17 @@ export class ViewAssessmentComponent {
     } else {
       // Fetch session assessment list
       this.service.viewSessionAssessment().subscribe(response => {
-      
+
         this.assessmentList = response;
-        console.log(this.sessionList);
-        
+        // console.log(this.sessionList);
+
       });
     }
   }
 
 
 
-  
+
 
 
   delete(id: any): void {
@@ -110,7 +110,7 @@ export class ViewAssessmentComponent {
   edit(id: any, selectType: string) {
     this.router.navigate(["/admin/assessment/editAssessment/" + id], { queryParams: { selectType: selectType } });
   }
-  
+
 
   //pagination functionality
   getTableDataChange(event: any) {

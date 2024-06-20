@@ -24,10 +24,10 @@ export class AddAuthorComponent {
   ngOnInit() {
     this.actRout.params.subscribe((params) => {
       this.authId = params['id'];
-      console.log(this.authId)
+      // console.log(this.authId)
       if (this.authId) {
         this.authorService.editAuthor(this.authId).subscribe(response => {
-          console.log(response);
+          // console.log(response);
 
           this.authorForm.patchValue({
             authId: response.authId,

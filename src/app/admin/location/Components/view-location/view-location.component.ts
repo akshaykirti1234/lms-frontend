@@ -43,7 +43,7 @@ export class ViewLocationComponent {
     this.service.viewLocationDetails().subscribe((responseData: any) => {
       this.locationList = responseData;
 
-      console.log(this.locationList);
+      // console.log(this.locationList);
     });
   }
 

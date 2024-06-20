@@ -1,18 +1,22 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LocationService {
-  private SaveLocationUrl = 'http://localhost:8085/saveLocation';
 
-  private viewLocationUrl = 'http://localhost:8085/viewLocation';
+  private apiUrl = environment.apiUrl;
 
-  private deleteLocationUrl = 'http://localhost:8085/deleteLocation/';
+  private SaveLocationUrl = this.apiUrl + 'saveLocation';
 
-  private editLocationUrl = 'http://localhost:8085/editLocation/';
+  private viewLocationUrl = this.apiUrl + 'viewLocation';
+
+  private deleteLocationUrl = this.apiUrl + 'deleteLocation/';
+
+  private editLocationUrl = this.apiUrl + 'editLocation/';
 
   constructor(private httpClient: HttpClient) { }
 

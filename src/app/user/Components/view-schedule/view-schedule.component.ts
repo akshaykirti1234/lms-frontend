@@ -39,16 +39,16 @@ export class ViewScheduleComponent implements OnInit {
 
     this.dahboardService.getScheduleBySubModuleId(subModuleId).subscribe({
       next: (response) => {
-        console.log(response.body);
+        // console.log(response.body);
         this.scheduleList = response.body;
-        this.scheduleList.forEach((element: any) => {
-          if (element.scheduleForId == 7) {
-            this.scheduleForId = element.scheduleForId;
-            this.scheduleForName = element.scheduleForName;
-          } else {
-            this.newlist.push(element);
-          }
-        });
+        // this.scheduleList.forEach((element: any) => {
+        //   if (element.scheduleForId == 7) {
+        //     this.scheduleForId = element.scheduleForId;
+        //     this.scheduleForName = element.scheduleForName;
+        //   } else {
+        //     this.newlist.push(element);
+        //   }
+        // });
       },
       error: (error) => {
         console.log(error);
