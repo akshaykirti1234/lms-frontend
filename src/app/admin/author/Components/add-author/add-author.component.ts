@@ -25,17 +25,19 @@ export class AddAuthorComponent {
     this.actRout.params.subscribe((params) => {
       this.authId = params['id'];
       console.log(this.authId)
-      this.authorService.editAuthor(this.authId).subscribe(response => {
-        console.log(response);
+      if (this.authId) {
+        this.authorService.editAuthor(this.authId).subscribe(response => {
+          console.log(response);
 
-        this.authorForm.patchValue({
-          authId: response.authId,
-          authName: response.authName,
-          email: response.email,
-          phone: response.phone
+          this.authorForm.patchValue({
+            authId: response.authId,
+            authName: response.authName,
+            email: response.email,
+            phone: response.phone
+          });
+
         });
-
-      });
+      }
 
     }
     )
