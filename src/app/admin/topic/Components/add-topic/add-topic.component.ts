@@ -35,7 +35,7 @@ export class AddTopicComponent {
 
     this.actRout.params.subscribe((params) => {
       this.topicId = params['id'];
-      console.log(this.topicId)
+      if(this.topicId != undefined){
       this.topicService.getTopicById(this.topicId).subscribe((response:any) => {
         console.log(response);
 
@@ -48,6 +48,7 @@ export class AddTopicComponent {
         });
 
       });
+    }
 
     }
     )
@@ -57,7 +58,6 @@ export class AddTopicComponent {
     this.scheduleService.getAllScheduleForm().subscribe({
       next: (response) => {
         this.scheduleList = response.body;
-        console.log(this.scheduleList);
       },
       error: (error) => {
         console.log("Unable to get Schedule List");
@@ -70,8 +70,6 @@ export class AddTopicComponent {
       
     getUsersList() {
     this.service.getUsersList().subscribe((data: any) => {
-      console.log(data);
-
       this.userList = data;
     });
   }

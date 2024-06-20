@@ -106,7 +106,6 @@ export class AddSessionComponent {
       );
       this.sessionService.checkIsLastSession(selectedscheduleForId).subscribe(
         (data: any) => {
-          console.log(data);
           if (data.isLastSession) {
             Swal.fire({
               icon: 'error',
@@ -139,7 +138,6 @@ export class AddSessionComponent {
 
   getSessionById(id: any) {
     this.sessionService.getSessionById(id).subscribe((data: any) => {
-      console.log(data);
       this.sessionForm.patchValue({
         sessionName: data.sessionName,
         isLastSession: data.isLastSession,
@@ -265,17 +263,14 @@ export class AddSessionComponent {
     const description = this.sessionForm.get('description');
     if (subModuleId?.invalid && errorFlag === 0) {
       errorFlag = 1;
-      console.log('error happened');
       subModuleId.markAsTouched();
     }
     if (scheduleForId?.invalid && errorFlag === 0) {
       errorFlag = 1;
-      console.log('error happened');
       scheduleForId.markAsTouched();
     }
     if (sessionName?.invalid && errorFlag === 0) {
       errorFlag = 1;
-      console.log('error happened');
       sessionName.markAsTouched();
     }
     if (video?.invalid && documentId?.invalid && errorFlag === 0) {
@@ -291,7 +286,6 @@ export class AddSessionComponent {
     // }
     if (description?.invalid && errorFlag === 0) {
       errorFlag = 1;
-      console.log('error happened');
       description.markAsTouched();
     }
 

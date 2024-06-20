@@ -25,7 +25,7 @@ export class ViewTechnologyComponent {
   }
   getAllTechnology() {
     this.techService.viewTechnology().subscribe((response) => {
-      console.log(response);
+      
       this.technologyList = response;
 
     }

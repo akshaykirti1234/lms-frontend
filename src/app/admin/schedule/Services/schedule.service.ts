@@ -1,12 +1,13 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ScheduleService {
-  private baseUrl = "http://localhost:8085/api/schedule/"
+  private baseUrl = environment.apiUrl+"api/schedule/"
 
   constructor(private http: HttpClient) { }
 

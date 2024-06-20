@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError } from 'rxjs';
 import { Captcha } from 'src/app/captcha';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -44,7 +45,7 @@ export class LoginService {
 
   //generate Tokan
   generateTookan(encryptedPayload: string): Observable<any> {
-    return this.httpclient.post('http://localhost:8085/' + `auth/generate-token`, encryptedPayload, {
+    return this.httpclient.post(environment.apiUrl + `auth/generate-token`, encryptedPayload, {
       responseType: 'text' as 'json',
       headers: this.headers
     });
@@ -80,7 +81,7 @@ export class LoginService {
   //   return this.httpclient.get<Captcha>(environment.serviceURL+`landAppregistratation/generate`);
   // }
   generateCaptcha(): Observable<any> {
-    const url = 'http://localhost:8085/commonCaptchaGenerator/generate';
+    const url = environment.apiUrl+'commonCaptchaGenerator/generate';
 
     return this.httpclient.get<Captcha>(url).pipe(
       //retry(3),
@@ -110,15 +111,15 @@ export class LoginService {
   // }
 
   checkEmail(email : any){
-    return this.httpclient.get('http://localhost:8085/auth/checkEmail/'+email);
+    return this.httpclient.get(environment.apiUrl+'auth/checkEmail/'+email);
   }
 
   verifyOtp(formData :any) {
-    return this.httpclient.post('http://localhost:8085/auth/verify-otp' , formData);
+    return this.httpclient.post(environment.apiUrl+'auth/verify-otp' , formData);
   }
 
   changePassword(formData :any){
-    return this.httpclient.post('http://localhost:8085/auth/change-password' , formData);
+    return this.httpclient.post(environment.apiUrl+'auth/change-password' , formData);
   }
 
 

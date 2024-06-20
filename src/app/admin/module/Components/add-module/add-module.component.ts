@@ -96,7 +96,6 @@ export class AddModuleComponent {
           this.moduleMasterForm.value.moduleId = this.moduleId;
           this.service.saveModuleDetails(this.moduleMasterForm.value).subscribe(
             (data: any) => {
-              console.log(data);
               // Display success message after submission
               if (this.moduleId == 0) {
                 Swal.fire(
@@ -114,7 +113,6 @@ export class AddModuleComponent {
               this.router.navigate(['/admin/module/viewModule']);
             },
             (error: any) => {
-              console.log(error);
               // Display error message if submission fails
               Swal.fire('Error!', 'Failed to save module', 'error');
             }
@@ -128,7 +126,6 @@ export class AddModuleComponent {
   onFileSelected(event: any) {
     if (event.target != null) {
       let file = event.target.files[0];
-      console.log(file);
       if (!file.name.endsWith('.jpg') && !file.name.endsWith('.jpeg') && !file.name.endsWith('.png') && !file.name.endsWith('.gif') && !file.name.endsWith('.svg') && !file.name.endsWith('.webp') && !file.name.endsWith('.bmp') && !file.name.endsWith('.tiff')) {
         // Invalid image file extension
         this.showUploadValidationMessage = true; // Show validation message
@@ -137,7 +134,6 @@ export class AddModuleComponent {
 
         const fileInput: HTMLInputElement | null = document.querySelector('#logo');
 
-        console.log(fileInput);
 
         if (fileInput) {
           // Reset the file input by setting its value to an empty string
@@ -171,7 +167,6 @@ export class AddModuleComponent {
   getModuleById(moduleId: any) {
     this.service.getModuleById(moduleId).subscribe(
       (data: any) => {
-        console.log(data);
         this.moduleMasterForm.patchValue({
           moduleName: data.moduleName,
           moduleDescription: data.moduleDescription,

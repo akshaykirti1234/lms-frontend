@@ -91,7 +91,6 @@ export class AddUserComponent {
   fetchEmailList() {
     this.userService.getEmailList().subscribe(
       (data: any) => {
-        console.log(data);
         this.emailList = data;
       },
       (error: any) => {
@@ -115,15 +114,12 @@ export class AddUserComponent {
 
         if (this.userDetailsById.EMAILID !== email) {
           const emailExists = this.emailList.some((item: any) => item.EMAILID === email);
-
-          console.log('emailExists:', emailExists);
           resolve(emailExists ? { emailExists: true } : null);
         }
 
       }
       else {
         const emailExists = this.emailList.some((item: any) => item.EMAILID === email);
-        console.log('emailExists:', emailExists);
         resolve(emailExists ? { emailExists: true } : null);
       }
 
@@ -239,7 +235,6 @@ export class AddUserComponent {
           this.userService
             .saveUserMaster(this.UserMasterForm.value)
             .subscribe((responseData: any) => {
-              console.log(responseData);
               // Display success message after submission
               if (this.userId == 0) {
                 Swal.fire('Success!', 'User saved successfully', 'success');
@@ -255,7 +250,6 @@ export class AddUserComponent {
   //for patch the value to UserMasterForm
   editUser() {
     this.userService.getUserById(this.userId).subscribe((data: any) => {
-      console.log(data);
       this.userDetailsById = data;
 
       this.UserMasterForm.patchValue({
@@ -292,9 +286,6 @@ export class AddUserComponent {
 
   onFileSelected(event: any) {
     this.selectedFile = event.target.files[0]; // Store the selected file
-
-    console.log('Selected file:', this.selectedFile);
-
     // Check if the selected file is not an Excel file
 
     if (!this.selectedFile?.name.endsWith('.xlsx')) {
@@ -304,12 +295,6 @@ export class AddUserComponent {
         'Please select an only Excel file (.xlsx) only.';
 
       const fileInput: HTMLInputElement | null = document.querySelector('#fileInput');
-
-      console.log(fileInput);
-
-
-
-
       if (fileInput) {
         // Reset the file input by setting its value to an empty string
         fileInput.value = '';
@@ -379,7 +364,6 @@ export class AddUserComponent {
 
       this.userService.importExcel(formData).subscribe(
         (data: any) => {
-          console.log('Importing file:', this.selectedFile);
           Swal.fire('Data Saved Succesfully', 'User data saved Successfully', 'success');
         },
 
@@ -394,17 +378,9 @@ export class AddUserComponent {
       this.selectedFile = null;
     } else {
       // Handle case when no file is selected
-
-      console.log('No file selected.');
+      Swal.fire('No File Selected.')
     }
-
     const fileInput: HTMLInputElement | null = document.querySelector('#fileInput');
-
-    console.log(fileInput);
-
-
-
-
     if (fileInput) {
       // Reset the file input by setting its value to an empty string
       fileInput.value = '';

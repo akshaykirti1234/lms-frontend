@@ -41,7 +41,6 @@ export class ViewScheduleComponent implements OnInit {
     this.scheduleService.getAllScheduleForm().subscribe({
       next: (response) => {
         this.scheduleList = response.body;
-        console.log(this.scheduleList);
       },
       error: (error) => {
         console.log("Unable to get Schedule List");
