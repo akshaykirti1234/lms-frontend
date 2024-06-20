@@ -216,7 +216,7 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
     // const currentDate = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
     const doc = new jsPDF({ orientation: 'landscape' });
     const img = new Image();
-    img.src = '/assets/images/certificatecsm.jpg';
+    img.src = '/assets/images/certificatecsm.png';
     doc.addImage(img, 'JPEG', 0, 0, doc.internal.pageSize.getWidth(), doc.internal.pageSize.getHeight());
     doc.setFont('cursive');
     // // Add subheadings and content
