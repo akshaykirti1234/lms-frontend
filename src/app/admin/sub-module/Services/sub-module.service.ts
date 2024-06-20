@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -8,15 +9,15 @@ import { Observable } from 'rxjs';
 export class SubModuleService {
   induction: any;
 
-  private ModuleListUrl = 'http://localhost:8085/moduleList';
+  private ModuleListUrl = environment.apiUrl+'moduleList';
 
-  private SaveSubModuleUrl = 'http://localhost:8085/saveSubModule';
+  private SaveSubModuleUrl = environment.apiUrl+'saveSubModule';
 
-  private viewSubModuleUrl = 'http://localhost:8085/viewSubModule';
+  private viewSubModuleUrl = environment.apiUrl+'viewSubModule';
 
-  private deleteSubModuleUrl = 'http://localhost:8085/delete/';
+  private deleteSubModuleUrl = environment.apiUrl+'delete/';
 
-  private editSubmoduleUrl = 'http://localhost:8085/editSubModule/';
+  private editSubmoduleUrl = environment.apiUrl+'editSubModule/';
 
   constructor(private httpClient: HttpClient) { }
 

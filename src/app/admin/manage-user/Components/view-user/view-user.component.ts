@@ -29,8 +29,6 @@ export class ViewUserComponent {
   }
   getUsersList() {
     this.service.getUsersList().subscribe((data: any) => {
-      console.log(data);
-
       this.usersList = data;
     });
   }

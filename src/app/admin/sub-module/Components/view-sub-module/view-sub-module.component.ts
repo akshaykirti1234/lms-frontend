@@ -39,8 +39,6 @@ export class ViewSubModuleComponent implements OnInit {
   getSubModuleList() {
     this.service.viewSubModuleDetails().subscribe((responseData: any) => {
       this.inductionList = responseData;
-
-      console.log(this.inductionList);
     });
   }
 

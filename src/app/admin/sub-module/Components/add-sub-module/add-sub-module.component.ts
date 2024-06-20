@@ -58,8 +58,6 @@ export class AddSubModuleComponent implements OnInit {
   getModuleList() {
     this.service.getModuleList().subscribe((responseData: any) => {
       this.ModuleList = responseData;
-
-      console.log(responseData);
     });
   }
 

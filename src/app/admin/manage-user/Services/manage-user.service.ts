@@ -1,13 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ManageUserService {
 
-  private baseUrl = "http://localhost:8085/api/notify/"
+  private baseUrl = environment.apiUrl+"api/notify/"
 
   constructor(private http: HttpClient) { }
 
@@ -23,33 +24,33 @@ export class ManageUserService {
   // ====================================================
 
   getEmailList() {
-    return this.http.get("http://localhost:8085/emailId");
+    return this.http.get(environment.apiUrl+"emailId");
   }
 
   saveUserMaster(usermaster: any) {
-    return this.http.post("http://localhost:8085/userMaster", usermaster);
+    return this.http.post(environment.apiUrl+"userMaster", usermaster);
   }
 
   getlocationList() {
-    return this.http.get("http://localhost:8085/viewLocation");
+    return this.http.get(environment.apiUrl+"viewLocation");
   }
 
   getUsersList() {
-    return this.http.get("http://localhost:8085/userMaster");
+    return this.http.get(environment.apiUrl+"userMaster");
   }
 
   deleteUserById(id: any) {
-    return this.http.delete(`http://localhost:8085/userMaster/${id}`);
+    return this.http.delete(`${environment.apiUrl}userMaster/${id}`);
   }
 
   getUserById(id: any) {
-    return this.http.get(`http://localhost:8085/userMaster/${id}`);
+    return this.http.get(`${environment.apiUrl}userMaster/${id}`);
   }
 
 
   downloadExcel() {
 
-    return this.http.get("http://localhost:8085/generate-excel", { responseType: 'blob' })
+    return this.http.get(environment.apiUrl+"generate-excel", { responseType: 'blob' })
 
     // .pipe(
 
@@ -70,7 +71,7 @@ export class ManageUserService {
 
   importExcel(formData: any) {
 
-    return this.http.post("http://localhost:8085/upload", formData, { responseType: 'text' })
+    return this.http.post(environment.apiUrl+"upload", formData, { responseType: 'text' })
 
   }
 

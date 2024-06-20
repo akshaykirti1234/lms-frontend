@@ -172,6 +172,7 @@ export class AddTechnologyComponent {
   editTechnology(): void {
     this.actRout.params.subscribe((paramData) => {
       this.techId = paramData['id'];
+      if(this.techId != undefined){
       this.techService.editTechnology(this.techId).subscribe((response) => {
         this.technologyForm.patchValue({
           techId: response.techId,
@@ -180,7 +181,7 @@ export class AddTechnologyComponent {
         })
 
       });
-
+    }
     }
     )
   }
