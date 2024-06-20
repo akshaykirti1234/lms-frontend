@@ -745,7 +745,8 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
     this.mediaRecorder?.stop();
     this.isRecording = !this.isRecording;
     // console.log('Recorded Blobs: ', this.recordedBlobs);
-    this.stream.getTracks().forEach(track => track.stop()); // Stop all tracks
+    if (this.recordedBlobs)
+      this.stream.getTracks().forEach(track => track.stop()); // Stop all tracks
   }
 
   playRecording() {
@@ -890,7 +891,7 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
     this.selectedQuestionar = true;
     this.questionarList = [];
     this.dashboardService.getQsnByScheduleId(scheduleForId).subscribe((data: any) => {
-      console.table(data.body);
+      // console.table(data.body);
       this.questionarList = data.body;
       if (this.questionarList.length === 0) {
         Swal.fire('', 'No questions are set for this schedule.', 'info')
