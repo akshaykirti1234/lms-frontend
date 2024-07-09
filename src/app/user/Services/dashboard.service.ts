@@ -95,7 +95,7 @@ export class DashboardService {
     return this.http.get(this.apiUrl + `getResultStatus/${scheduleForId}/${userId}`);
   }
 
-  checkIfSessionQsnPreparedForScheduleId(scheduleForId: any) {
+  checkIfSessionQsnPreparedForScheduleId(scheduleForId: any): Observable<any> {
     return this.http.get(this.apiUrl + `api/sessionAssessment/check-session-questions/${scheduleForId}`);
   }
 }

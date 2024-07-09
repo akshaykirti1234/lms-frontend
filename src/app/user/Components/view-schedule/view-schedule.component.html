@@ -30,13 +30,24 @@
         </div>
     </div>
 </div> -->
-
 <div class="container-fluid">
     <div class="d-flex justify-content-end m-4">
         <input [(ngModel)]="searchFilter" type="text" class="form-control w-25" placeholder="Search">
     </div>
 
+    <!-- Show message if scheduleList is empty -->
+    <div *ngIf="scheduleList?.length === 0 || scheduleList == null" class="col-12">
+        <p class="text-center fs-2 text-secondary">No schedules available</p>
+    </div>
+
+    <!-- Show message if no schedules match the search filter -->
+    <div *ngIf="scheduleList?.length > 0 && (scheduleList | scheduleFilter: searchFilter)?.length === 0" class="col-12">
+        <p class="text-center fs-2 text-secondary">No schedules match your search criteria</p>
+    </div>
+
     <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4">
+
+        <!-- Loop through schedules and display them -->
         <div class="col mb-4" *ngFor="let schedule of scheduleList | scheduleFilter: searchFilter"
             style="cursor: pointer;">
             <div class="card custom-card" routerLink="/user/viewMaterials/{{ schedule.scheduleForId }}">
@@ -51,6 +62,7 @@
         </div>
     </div>
 </div>
+
 
 <!-- <div class="container p-3" *ngIf="scheduleForId == 7">
     <div class="card ">

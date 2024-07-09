@@ -1,4 +1,10 @@
 <div class="row m-2">
+
+    <div class="p-2 col-lg-9 vh-100 text-secondary d-flex justify-content-center fs-2"
+        *ngIf="selectedTopic == null && selectedQuestionar==null && selectedVideo==null && selectedPdf==null">
+        Nothing Found
+    </div>
+
     <div class="p-2 col-lg-9 vh-100" *ngIf="selectedPdf">
         <ngx-extended-pdf-viewer [showDownloadButton]="false" [showDrawEditor]="false" [showOpenFileButton]="false"
             [showPrintButton]="false" [src]="selectedPdf" [showSecondaryToolbarButton]="false" [showTextEditor]="false">
@@ -303,7 +309,7 @@
                 </a>
             </div> -->
         </div>
-        <div>
+        <div *ngIf="materialList.length != 0">
             <div *ngIf="isFinalExamPassed" class="text-bg-success px-1 border rounded d-flex justify-content-between">
                 <span>Final Assessment</span>
                 <div>

@@ -65,18 +65,33 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
       console.log(error);
 
     });
-    this.dashboardService.checkIfSessionQsnPreparedForScheduleId(this.scheduleForId).subscribe((data: any) => {
-      // console.log(data.result);
-      if (data.result == "true") {
-        this.isSessionAssesmentSet = true;
-      }
-      else {
-        this.isSessionAssesmentSet = false;
-      }
+    // this.dashboardService.checkIfSessionQsnPreparedForScheduleId(this.scheduleForId).subscribe((data: any) => {
+    //   console.log(data.result);
+    //   if (data.result == "false") {
+    //     this.isSessionAssesmentSet = true;
+    //   }
+    //   else {
+    //     this.isSessionAssesmentSet = false;
+    //   }
 
-    }, (error) => {
-      console.log(error);
-    })
+    // }, (error) => {
+    //   console.log(error);
+    // })
+    this.dashboardService.checkIfSessionQsnPreparedForScheduleId(this.scheduleForId).subscribe({
+      next: (response) => {
+        console.log(response)
+        if (response == 0) {
+          this.isSessionAssesmentSet = false;
+        } else {
+          this.isSessionAssesmentSet = true;
+        }
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    });
+
+
   }
 
   ngOnDestroy(): void {
@@ -186,6 +201,7 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
       this.dashboardService.getQuestionarBySessionId(sessionId).subscribe({
         next: (response) => {
           this.questionarList = response.body;
+          console.table(response.body);
           // console.log(this.questionarList);
           // Show the questionnaire section only if there are questions available
           if (this.questionarList.length === 0) {
@@ -891,18 +907,23 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
     this.selectedQuestionar = true;
     this.questionarList = [];
     this.dashboardService.getQsnByScheduleId(scheduleForId).subscribe((data: any) => {
-      // console.table(data.body);
+      console.table(data.body);
       this.questionarList = data.body;
       if (this.questionarList.length === 0) {
         Swal.fire('', 'No questions are set for this schedule.', 'info')
         this.selectedQuestionar = false;
       }
     }, (error: any) => {
-      Swal.fire('Error', 'Internal Server Error', 'error')
-      // console.log(error);
-      this.questionarList = [];
-      this.currentQuestionIndex = 0;
-      this.selectedQuestionar = false;
+      if (error.status == 404) {
+        Swal.fire('', 'No questions are set for this schedule.', 'info')
+        this.selectedQuestionar = false;
+      } else {
+        Swal.fire('Error', 'Internal Server Error', 'error')
+        // console.log(error);
+        this.questionarList = [];
+        this.currentQuestionIndex = 0;
+        this.selectedQuestionar = false;
+      }
     });
   }
   finalResultStatus: any[] = [];
