@@ -11,12 +11,14 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { MyInterceptor } from './my-interceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxUiLoaderHttpModule, NgxUiLoaderModule } from 'ngx-ui-loader';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    ErrorPageComponent
+    ErrorPageComponent,
   ],
   imports: [
     BrowserModule,
@@ -31,7 +33,7 @@ import { NgxUiLoaderHttpModule, NgxUiLoaderModule } from 'ngx-ui-loader';
       showForeground: true,
     }),
   ],
-  providers: [{ provide: HTTP_INTERCEPTORS, useClass: MyInterceptor, multi: true }],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: MyInterceptor, multi: true }, { provide: LocationStrategy, useClass: HashLocationStrategy }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
