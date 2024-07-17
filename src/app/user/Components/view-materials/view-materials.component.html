@@ -97,8 +97,8 @@
 
 
     <div class="p-2 col-lg-9 vh-100" *ngIf="selectedVideo">
-        <video class="w-100" height="360" poster="../../../../assets/images/csm logo.jpg" (play)="onPlay()"
-            (pause)="onPause()" (ended)="onEnded()" controls controlsList="nodownload" disablePictureInPicture>
+        <video class="w-100" height="360" poster="./assets/images/csm logo.jpg" (play)="onPlay()" (pause)="onPause()"
+            (ended)="onEnded()" controls controlsList="nodownload" disablePictureInPicture>
             <source [src]="selectedVideo" type="video/mp4">
         </video>
         <div class="video-title mb-3">

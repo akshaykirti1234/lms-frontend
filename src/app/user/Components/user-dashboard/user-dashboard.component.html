@@ -2,7 +2,7 @@
     <div class="container-fluid p-0 d-flex min-vh-100">
         <div id="bdSidebar" class="d-flex flex-column flex-shrink-0 p-3 text-white offcanvas-md offcanvas-start">
             <div class="sidebar-header text-center">
-                <span class="fs-5 d-sm-inline"><img src="/assets/images/CSMLOGO.jpg" style="object-fit: cover"
+                <span class="fs-5 d-sm-inline"><img src="./assets/images/CSMLOGO.jpg" style="object-fit: cover"
                         height="70px" class="card-img-top rounded rounded-pill" /></span>
             </div>
             <hr />
@@ -11,7 +11,7 @@
                     <a href="#{{ module.moduleId }}" data-bs-toggle="collapse"
                         class="nav-link dropdown align-middle dropdown-toggle sidebar-navlink"
                         (click)="getSubModuleByModuleId(module.moduleId)">
-                        <img src="../../../../assets/images/{{module.logo}}" class="rounded-circle"
+                        <img src="./assets/images/{{module.logo}}" class="rounded-circle"
                             style="width: 35px; height: 35px;" alt="">
                         <span class="ms-1 d-sm-inline">{{
                             module.moduleName | titlecase
