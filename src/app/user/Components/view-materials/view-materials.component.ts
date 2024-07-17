@@ -7,6 +7,7 @@ import jsPDF from 'jspdf';
 import Swal from 'sweetalert2';
 import { DomSanitizer } from '@angular/platform-browser';
 import { AudioRecordingServiceService } from 'src/app/commonService/audio-recording-service.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-view-materials',
@@ -155,6 +156,9 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
   //  Video and PDF
   // ***********************************************************************
 
+  viewFileUrl: any = environment.apiUrl + 'viewFile';
+
+
   public showMaterial(materialPath: string, file: any): void {
 
 
@@ -178,9 +182,11 @@ export class ViewMaterialsComponent implements OnInit, OnDestroy {
     const fileExtension = materialPath.substr(materialPath.lastIndexOf('.') + 1).toLowerCase();
 
     if (fileExtension === 'pdf') {
-      this.selectedPdf = '../../../assets/documents/' + materialPath;
+      // this.selectedPdf = '../../../assets/documents/' + materialPath;
+      this.selectedPdf = this.viewFileUrl + '/' + materialPath;
     } else if (['mp4', 'avi', 'mkv'].includes(fileExtension as string)) {
-      this.selectedVideo = '../../../assets/videos/' + materialPath;
+      // this.selectedVideo = '../../../assets/videos/' + materialPath;
+      this.selectedVideo = this.viewFileUrl + '/' + materialPath;
     } else {
       console.log('Unsupported file type or unknown extension.');
     }

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 import { ModuleserviceService } from '../../Services/moduleservice.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-view-module',
@@ -10,7 +11,8 @@ import { ModuleserviceService } from '../../Services/moduleservice.service';
 })
 export class ViewModuleComponent {
   moduleList: any;
-  viewModuleLogoUrl: string = 'http://localhost:8080/viewLogo';
+  // viewModuleLogoUrl: string = 'http://localhost:8080/viewLogo';
+  viewModuleLogoUrl: any = environment.apiUrl + 'viewFile';
   indexNumber: number = 0;
   page: number = 1;
   tableSize: number = 10;
@@ -24,7 +26,6 @@ export class ViewModuleComponent {
   }
 
   getTableDataChange(event: any) {
-    alert("sima");
     this.page = event;
     this.indexNumber = (this.page - 1) * this.tableSize;
     this.getModuleDetails();

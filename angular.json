@@ -27,16 +27,6 @@
                 "glob": "**/*",
                 "input": "node_modules/ngx-extended-pdf-viewer/assets/",
                 "output": "/assets/"
-              },
-              {
-                "glob": "**/*",
-                "input": "D:\\LMS_ACTUAL_FILE\\DOCUMENT",
-                "output": "/assets/documents/"
-              },
-              {
-                "glob": "**/*",
-                "input": "D:\\LMS_ACTUAL_FILE\\VIDEO",
-                "output": "/assets/videos/"
               }
             ],
             "styles": [

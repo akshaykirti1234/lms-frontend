@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 import { SessionMasterService } from '../../Services/session-master.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-view-session',
@@ -9,7 +10,8 @@ import { SessionMasterService } from '../../Services/session-master.service';
   styleUrls: ['./view-session.component.css'],
 })
 export class ViewSessionComponent {
-  viewFileUrl: string = 'http://localhost:8085/viewFile';
+  // viewFileUrl: string = 'http://localhost:8085/viewFile';
+  viewFileUrl: any = environment.apiUrl + 'viewFile';
   sessionList: any;
   indexNumber: number = 0;
   page: number = 1;
