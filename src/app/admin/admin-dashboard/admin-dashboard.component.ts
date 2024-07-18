@@ -12,7 +12,6 @@ import Swal from 'sweetalert2';
 export class AdminDashboardComponent implements OnInit {
 
   public userName = sessionStorage.getItem('fullName');
-  public weatherData: any;
   // Property to hold the current time
   currentTime: any;
 
@@ -28,8 +27,8 @@ export class AdminDashboardComponent implements OnInit {
 
   public logout(): void {
     Swal.fire({
-      title: 'Are you sure to Exit ?',
-      icon: 'warning',
+      title: 'Confirm Logout?',
+      icon: 'question',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',

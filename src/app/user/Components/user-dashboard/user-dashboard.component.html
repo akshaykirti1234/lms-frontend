@@ -6,12 +6,13 @@
                         height="70px" class="card-img-top rounded rounded-pill" /></span>
             </div>
             <hr />
+
             <ul class="mynav nav nav-pills flex-column mb-auto" id="menu">
                 <li *ngFor="let module of moduleList" class="">
                     <a href="#{{ module.moduleId }}" data-bs-toggle="collapse"
                         class="nav-link dropdown align-middle dropdown-toggle sidebar-navlink"
                         (click)="getSubModuleByModuleId(module.moduleId)">
-                        <img src="./assets/images/{{module.logo}}" class="rounded-circle"
+                        <img src="{{viewModuleLogoUrl}}/{{module.logo}}" class="rounded-circle"
                             style="width: 35px; height: 35px;" alt="">
                         <span class="ms-1 d-sm-inline">{{
                             module.moduleName | titlecase

@@ -4,6 +4,7 @@ import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { DashboardService } from '../../Services/dashboard.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-user-dashboard',
@@ -11,6 +12,8 @@ import { DashboardService } from '../../Services/dashboard.service';
   styleUrls: ['./user-dashboard.component.css']
 })
 export class UserDashboardComponent implements OnInit {
+
+  viewModuleLogoUrl: string = environment.apiUrl + 'viewLogo';
 
 
   public userName = sessionStorage.getItem('fullName');
@@ -109,8 +112,8 @@ export class UserDashboardComponent implements OnInit {
   //log out
   public logout(): void {
     Swal.fire({
-      title: 'Are you sure to Exit ?',
-      icon: 'warning',
+      title: 'Confirm Logout?',
+      icon: 'question',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',

@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ModuleserviceService } from '../../Services/moduleservice.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-add-module',
@@ -12,7 +13,8 @@ import { ModuleserviceService } from '../../Services/moduleservice.service';
 export class AddModuleComponent {
   moduleMasterForm: any;
   moduleId: any;
-  viewModuleLogoUrl: string = 'http://localhost:8085/viewLogo';
+  // viewModuleLogoUrl: string = 'http://localhost:8085/viewLogo';
+  viewModuleLogoUrl: string = environment.apiUrl + 'viewLogo';
   showUploadValidationMessage = false;
   uploadValidationMessage: any;
   constructor(
